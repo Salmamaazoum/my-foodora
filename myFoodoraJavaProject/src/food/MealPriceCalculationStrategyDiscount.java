@@ -1,4 +1,4 @@
-package myFoodoraJavaProject;
+package food;
 
 public class MealPriceCalculationStrategyDiscount implements MealPriceCalculationStrategy {
 

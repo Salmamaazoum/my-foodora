@@ -1,4 +1,4 @@
-package myFoodoraJavaProject;
+package food;
 import java.util.*;
 
 public class Meal {

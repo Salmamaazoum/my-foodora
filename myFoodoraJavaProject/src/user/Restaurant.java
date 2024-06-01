@@ -1,5 +1,7 @@
-package myFoodoraJavaProject;
+package user;
 import java.util.*;
+
+import food.Menu;
 
 public class Restaurant {
 	

@@ -1,4 +1,4 @@
-package myFoodoraJavaProject;
+package food;
 
 public class BadMealCompositionCreationException extends Exception{
 	public BadMealCompositionCreationException() {
