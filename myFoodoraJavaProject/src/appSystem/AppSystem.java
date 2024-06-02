@@ -3,6 +3,9 @@ package appSystem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.naming.NoPermissionException;
+
 import user.Courier;
 import user.Customer;
 import user.Manager;
@@ -80,32 +83,28 @@ public class AppSystem {
         currentUserType = Optional.empty();
     }
 
-    public boolean register(User newUser) {
-        if (newUser instanceof Manager) {
-            return addManager((Manager) newUser);
-
-        } else if (newUser instanceof Customer) {
-            return addCustomer((Customer) newUser);
-
-        } else if (newUser instanceof Courier) {
-            return addCourier((Courier) newUser);
-        }
-        return false; // If user is of an unknown type
+    public void registerCustomer(Customer customer) throws NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		customers.add(customer);
+    	} else {
+    	throw new NoPermissionException("Only managers can perform this action.");
+    	}
     }
 
-    public boolean addCustomer(Customer customer) {
-        customers.add(customer);
-        return true;
+    public void registerRestaurant(Restaurant restaurant) throws NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		restaurants.add(restaurant);
+    	} else {
+    		throw new NoPermissionException("Only managers can perform this action.");
+    	}
     }
 
-    public boolean addManager(Manager manager) {
-        managers.add(manager);
-        return true;
-    }
-
-    public boolean addCourier(Courier courier) {
-        couriers.add(courier);
-        return true;
+    public void registerCourier(Courier courier) throws NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		couriers.add(courier);
+    	} else {
+    	throw new NoPermissionException("Only managers can perform this action.");
+    	}
     }
 
     private <T extends User> boolean tryLogin(List<T> users, String username, String password, UserType typeofUser) {
@@ -118,4 +117,6 @@ public class AppSystem {
         }
         return false;
     }
+
+
 }

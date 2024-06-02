@@ -1,9 +1,13 @@
 package cli;
 
+import java.util.Optional;
 import java.util.Scanner;
 import appSystem.AppSystem;
 import user.Coordinate;
+import user.Courier;
 import user.Customer;
+import user.Restaurant;
+import user.User;
 
 public class AppSystemCLI {
     private static AppSystem appSystem;
@@ -31,7 +35,8 @@ public class AppSystemCLI {
         String[] parts = input.split(" ");
         String command = parts[0];
         
-        switch (command.toLowerCase()) {
+        switch (command) {
+        
             case "login":
                 if (parts.length == 3) {
                     String username = parts[1];
@@ -61,15 +66,57 @@ public class AppSystemCLI {
                     
                     Customer customer = new Customer(firstName, username, password, lastName, new Coordinate());
                     
-                    if (appSystem.login(username, password)) {
-                        System.out.println("Login successful!");
-                    } else {
-                        System.out.println("Registering failed.");
+                    try {
+                    	appSystem.registerCustomer(customer);
+                        System.out.println("Registering successful!");
+                    } catch (Exception e) {
+                        System.out.println("Registering failed! " + e.getMessage());
                     }
                 } else {
                     System.out.println("Usage: registerCustomer <firstName> <lastName> <username> <address> <password>");
                 }
                 break;            	
+                
+            case "registerRestaurant":
+                if (parts.length == 4) {
+                	
+                    String name = parts[1];
+                    String username = parts[2];
+                    String password = parts[3];
+                    
+                    Restaurant restaurant = new Restaurant(name, username, password);
+                    
+                    try {
+                    	appSystem.registerRestaurant(restaurant);
+                        System.out.println("Registering successful!");
+                    } catch (Exception e) {
+                        System.out.println("Registering failed! " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("Usage: registerRestaurant <name> <username> <password>");
+                }
+                break; 
+                
+            case "registerCourier":
+                if (parts.length == 5) {
+                	
+                    String firstName = parts[1];
+                    String lastName = parts[2];
+                    String username = parts[3];
+                    String password = parts[4];
+                    
+                    Courier courier = new Courier(firstName, username, password, lastName);
+                    
+                    try {
+                    	appSystem.registerCourier(courier);
+                        System.out.println("Registering successful!");
+                    } catch (Exception e) {
+                        System.out.println("Registering failed! " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("Usage: registerRestaurant <name> <username> <password>");
+                }
+                break;
                 
             default:
                 System.out.println("Unknown command: " + command);
