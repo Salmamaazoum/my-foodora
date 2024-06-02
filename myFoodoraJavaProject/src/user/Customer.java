@@ -1,4 +1,5 @@
 package user;
+import java.util.*;
 
 public class Customer extends User  {
 	
@@ -6,6 +7,7 @@ public class Customer extends User  {
 	private Coordinate address;
     private String email;
     private String phone;
+    private List<Order> orderHistory = new ArrayList<Order>();
 
 	public Customer( String name, String username, String password, String surname, Coordinate address, String email, String phone) {
         super( name, username, password);
@@ -15,11 +17,14 @@ public class Customer extends User  {
         this.phone = phone;
     }
 	
+<<<<<<< HEAD
 	public Customer( String name, String username, String password, String surname, Coordinate address) {
         super( name, username, password);
         this.surname = surname;
         this.address = address;
     }
+=======
+>>>>>>> main
 	
 	public String getSurname() {
 		return surname;
@@ -52,6 +57,13 @@ public class Customer extends User  {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
+	
+
+	public List<Order> getOrderHistory() {
+		return orderHistory;
+	}
+
 
 	@Override
 	public String toString() {

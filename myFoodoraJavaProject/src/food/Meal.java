@@ -129,10 +129,20 @@ public class Meal {
 		this.price = price;
 	}
 
+	@Override
+	public String toString() {
+		String s = "The meal '" + name + "' is composed of : ";
+		for (int i=0;i<mealComposition.size()-1;i++) {
+			s += mealComposition.get(i).getName() +", ";
+		}
+		if (!mealComposition.isEmpty())
+			s+=mealComposition.get(mealComposition.size()-1).getName()+".";
+		return s ;
+	}
 	
 	
-	
-	
+
+
 }
 	
 		

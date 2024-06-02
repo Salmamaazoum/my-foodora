@@ -7,19 +7,17 @@ import appSystem.AppSystem;
 
 public class Restaurant extends User {
 
-	private String restaurantName;
-	private Coordinate adress;
+	private Coordinate address;
 	private Menu menu;
 	private ArrayList<Meal> meals;
 	private double genericDiscount;
 	private double specialDiscount;
 	private MealPriceCalculationStrategy mealPriceStrategy;
 
-	public Restaurant(String name, String username, String password, String restaurantName, Coordinate adress,
+	public Restaurant(String name, String username, String password, Coordinate address,
 			double genericDiscount, double specialDiscount) {
 		super(name, username, password);
-		this.restaurantName = restaurantName;
-		this.adress = adress;
+		this.address = address;
 		this.meals = new ArrayList<Meal>();
 		this.menu = new Menu();
 		this.genericDiscount = genericDiscount;
@@ -37,11 +35,11 @@ public class Restaurant extends User {
 	// Getters and Setters
 
 	public Coordinate getLocation() {
-		return adress;
+		return address;
 	}
 
 	public void setLocation(Coordinate adress) {
-		this.adress = adress;
+		this.address = adress;
 	}
 
 	public Menu getMenu() {
@@ -83,6 +81,13 @@ public class Restaurant extends User {
 	// Add and Remove Meals
 
 	public void addMeal(Meal meal) {
+		if (meal.isMealOfTheWeek()) {
+			NotificationService.getInstance().setOffer(meal,this);
+			meal.setPrice(this.mealPriceStrategy.calculatePrice(meal, this.specialDiscount));
+		}
+		else {
+			meal.setPrice(this.mealPriceStrategy.calculatePrice(meal, this.genericDiscount));
+		}
 		this.meals.add(meal);
 	}
 
@@ -121,5 +126,22 @@ public class Restaurant extends User {
 			meal.setPrice(this.mealPriceStrategy.calculatePrice(meal, this.genericDiscount));
 		}
 
+		
+	}
+	
+	public void setSpecialOffer(Meal meal) {
+		if (!meal.isMealOfTheWeek()) {
+			meal.setMealOfTheWeek(true);
+			this.setMealPrice(meal);
+			NotificationService.getInstance().setOffer(meal,this);
+		}
+		
+	}
+	
+	public void removeFromSpecialOffer(Meal meal) {
+		if (meal.isMealOfTheWeek()) {
+			meal.setMealOfTheWeek(false);
+			this.setMealPrice(meal);
+		}
 	}
 }
