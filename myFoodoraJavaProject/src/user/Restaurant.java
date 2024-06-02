@@ -109,13 +109,13 @@ public class Restaurant extends User{
 	
 	// Compute a meal's price depending on whether it is special or not
 	
-	public double getMealPrice(Meal meal) {
+	public void setMealPrice(Meal meal) {
 		if (meal.isMealOfTheWeek()){
-			return this.mealPriceStrategy.calculatePrice(meal, this.specialDiscount);
+			meal.setPrice(this.mealPriceStrategy.calculatePrice(meal, this.specialDiscount));
 		}
 	
 		else {
-			return this.mealPriceStrategy.calculatePrice(meal, this.genericDiscount);
+			meal.setPrice(this.mealPriceStrategy.calculatePrice(meal, this.genericDiscount));
 		}
 	
 	}
@@ -127,6 +127,9 @@ public class Restaurant extends User{
 		AppSystem appSystem = AppSystem.getInstance();
 		return appSystem.addRestaurant(this);
 	}
+	
+	
+	// =================================================
 	
 	public static void main(String[] args) {
         // Create a restaurant
@@ -158,8 +161,8 @@ public class Restaurant extends User{
         restaurant.addMeal(meal);
 
         // Get the price of the meal
-        double price = restaurant.getMealPrice(meal);
-        System.out.println("Price of " + meal.getName() + ": $" + price);
+        restaurant.setMealPrice(meal);
+        System.out.println("Price of " + meal.getName() + ": $" + meal.getPrice());
     }
 	
 }

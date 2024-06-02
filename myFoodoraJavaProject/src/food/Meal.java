@@ -14,6 +14,8 @@ public class Meal {
 	
 	private ArrayList<FoodItem> mealComposition;
 	
+	private double price;
+	
 	public Meal (String name, boolean isHalfMeal, boolean isVegetarian, boolean isGlutenFree, boolean mealOfTheWeek){
 		
 		this.name=name;
@@ -119,6 +121,16 @@ public class Meal {
 		this.mealComposition = mealComposition;
 	}
 
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	
+	
 	
 	
 }
