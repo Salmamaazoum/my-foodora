@@ -1,6 +1,5 @@
 package cli;
 
-<<<<<<< HEAD
 import java.util.Optional;
 import java.util.Scanner;
 import appSystem.AppSystem;
@@ -125,12 +124,3 @@ public class AppSystemCLI {
         }
     }
 }
-=======
-import java.util.Scanner;
-import appSystem.AppSystem;
-import user.Coordinate;
-import user.Customer;
-
-public class AppSystemCLI {
-}
->>>>>>> main
