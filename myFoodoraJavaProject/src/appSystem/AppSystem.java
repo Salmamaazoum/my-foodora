@@ -1,19 +1,17 @@
 package appSystem;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import user.Courier;
 import user.Customer;
 import user.Manager;
 import user.User;
+import user.UserType;
 
 public class AppSystem {
     /**
      * Singleton instance of the Application
       */
-	
 	private static AppSystem instance = null;
 	private static List<Manager> managers;
 	private static List<Customer> customers;
@@ -21,11 +19,6 @@ public class AppSystem {
 	private static Optional<User> currentUser;
     private static Optional<UserType> currentUserType;
 
-    public enum UserType {
-        MANAGER,
-        CUSTOMER,
-        COURIER
-    }
 	
 	public List<Manager> getManagers() {
 		return managers;
@@ -34,6 +27,10 @@ public class AppSystem {
 	public List<Customer> getCustomers() {
 		return customers;
 	}
+	
+	public List<Courier> getCouriers() {
+		return couriers;
+	}
 
 	public Optional<User> getCurrentUser() {
 		return currentUser;
@@ -41,18 +38,18 @@ public class AppSystem {
 	
 	private AppSystem() {
 		
-		AppSystem.managers = new ArrayList<>();
-		AppSystem.customers = new ArrayList<>();
-		AppSystem.couriers = new ArrayList<>();
+		managers = new ArrayList<>();
+		customers = new ArrayList<>();
+		couriers = new ArrayList<>();
 		
         // Add default managers
         Manager salma = new Manager("Salma", "Salma", "1234", "Salma");
         Manager hala = new Manager("Hala", "Hala", "1234", "Salma");
         
-        AppSystem.managers.add(salma);
-        AppSystem.managers.add(hala);
-        AppSystem.currentUser = Optional.empty();
-        AppSystem.currentUserType = Optional.empty();
+        managers.add(salma);
+        managers.add(hala);
+        currentUser = Optional.empty();
+        currentUserType = Optional.empty();
         
 	}
 
@@ -72,34 +69,48 @@ public class AppSystem {
         }
         return false; // Login failed
     }
-
-    private <T extends User> boolean tryLogin(List<T> users, String username, String password, UserType typeofUser) {
-        for (T user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                AppSystem.currentUser = Optional.of(user);
-                AppSystem.currentUserType = Optional.of(typeofUser);
-                return true;
-            }
-        }
-        return false;
-    }
     
     public void logout() {
-    	AppSystem.currentUser = null;
+    	currentUserType = Optional.empty();
+    	currentUserType = Optional.empty();
+    }
+    
+    public boolean register(User newUser) {
+        if (newUser instanceof Manager) {
+            return addManager((Manager) newUser);
+            
+        } else if (newUser instanceof Customer) {
+            return addCustomer((Customer) newUser);
+            
+        } else if (newUser instanceof Courier) {
+        	return addCourier((Courier) newUser);
+        }
+        return false; // If user is of an unknown type
     }
     
     public boolean addCustomer(Customer customer) {
-    	AppSystem.customers.add(customer);
+    	customers.add(customer);
     	return true;
     }
     
     public boolean addManager(Manager manager) {
-    	AppSystem.managers.add(manager);
+    	managers.add(manager);
     	return true;
     }
     
     public boolean addCourier(Courier courier) {
-    	AppSystem.couriers.add(courier);
+    	couriers.add(courier);
     	return true;
+    }
+    
+    private <T extends User> boolean tryLogin(List<T> users, String username, String password, UserType typeofUser) {
+        for (T user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                currentUser = Optional.of(user);
+                currentUserType = Optional.of(typeofUser);
+                return true;
+            }
+        }
+        return false;
     }
 }

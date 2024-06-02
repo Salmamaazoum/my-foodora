@@ -41,9 +41,8 @@ public class Courier extends User {
 		this.phone = phone;
 	}
 	
-    @Override
-	public boolean addNewUser() {
-		AppSystem appSystem = AppSystem.getInstance();
-		return appSystem.addCourier(this);
+	@Override
+	public String toString() {
+		return "Customer: Username=" + getUsername()+ ", Name=" + getName() + ", surname=" + surname + ", location=" + location + ", deliveryCounter=" + deliveryCounter + ", phone=" + phone;
 	}
 }
