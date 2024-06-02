@@ -15,8 +15,15 @@ public class Courier extends User {
         this.location = location;
         this.phone = phone;
         this.deliveryCounter = 0;
+	}
+	
+	public Courier( String name, String username, String password, String surname) {
+        super( name, username, password);
+        this.surname = surname;
+        this.location = new Coordinate();
+        this.deliveryCounter = 0;
     }
-
+	
 	public String getSurname() {
 		return surname;
 	}

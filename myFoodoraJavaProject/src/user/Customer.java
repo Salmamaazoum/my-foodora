@@ -17,6 +17,14 @@ public class Customer extends User  {
         this.phone = phone;
     }
 	
+<<<<<<< HEAD
+	public Customer( String name, String username, String password, String surname, Coordinate address) {
+        super( name, username, password);
+        this.surname = surname;
+        this.address = address;
+    }
+=======
+>>>>>>> main
 	
 	public String getSurname() {
 		return surname;

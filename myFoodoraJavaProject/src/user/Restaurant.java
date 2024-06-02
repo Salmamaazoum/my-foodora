@@ -24,6 +24,13 @@ public class Restaurant extends User {
 		this.specialDiscount = specialDiscount;
 		this.mealPriceStrategy = new MealPriceCalculationStrategyDiscount();
 	}
+	
+	public Restaurant(String name, String username, String password) {
+		super(name, username, password);
+		this.meals = new ArrayList<Meal>();
+		this.menu = new Menu();
+		this.mealPriceStrategy = new MealPriceCalculationStrategyDiscount();
+	}
 
 	// Getters and Setters
 

@@ -30,8 +30,6 @@ public class AppTest {
 		// Login customer 1
 		System.out.println(appSystem.login("Layla1", "1234"));
 		
-		
-		
 	}
 	
 
