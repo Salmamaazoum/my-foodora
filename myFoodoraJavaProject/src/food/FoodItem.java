@@ -2,18 +2,26 @@ package food;
 
 public class FoodItem {
 	
+    private static int idCounter = 0;
+
+    private int id;
+	
 	private String name;
 	
-	public boolean isVegetarian ;
+	private boolean isVegetarian ;
 	
 	private double price;
 	
 	public boolean isGlutenFree;
 	
-	private String category;
+	public enum foodCategory {
+		STARTER, MAINDISH , DESSERT
+	}
 	
-	public FoodItem(String name,String category, boolean isVegetarian, boolean isGlutenFree,double price) {
-		
+	private foodCategory category;
+	
+	public FoodItem(String name, foodCategory category, boolean isVegetarian, boolean isGlutenFree,double price) {
+		this.id = ++idCounter;
 		this.isVegetarian=isVegetarian;
 		this.name=name;
 		this.price=price;
@@ -24,21 +32,26 @@ public class FoodItem {
 	public String getName() {
 		return name;
 	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	public foodCategory getCategory() {
+		return category;
+	}
 
-	public void setVegetarian(boolean isVegetarian) {
+	public void setCategory(foodCategory category) {
+		this.category = category;
+	}
+
+	
+
+	public boolean getIsVegetarian() {
+		return isVegetarian;
+	}
+
+	public void setIsVegetarian(boolean isVegetarian) {
 		this.isVegetarian = isVegetarian;
 	}
 
@@ -51,9 +64,21 @@ public class FoodItem {
 	}
 
 
-	public void setGlutenFree(boolean isGlutenFree) {
+	public void setIsGlutenFree(boolean isGlutenFree) {
 		this.isGlutenFree = isGlutenFree;
 	}
+
+	public boolean getIsGlutenFree() {
+		return isGlutenFree;
+	}
+
+	public int getId() {
+		return id;
+	}
+	
+	
+	
+	
 
 
 
