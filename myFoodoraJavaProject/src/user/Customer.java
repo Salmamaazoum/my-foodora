@@ -15,6 +15,17 @@ public class Customer extends User  {
         this.phone = phone;
     }
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public String getSurname() {
 		return surname;
 	}
