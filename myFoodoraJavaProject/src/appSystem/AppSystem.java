@@ -1,17 +1,15 @@
 package appSystem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Map.Entry;
 
 import javax.naming.NoPermissionException;
 
-import user.Courier;
-import user.Customer;
-import user.Manager;
-import user.Restaurant;
-import user.User;
-import user.UserType;
+import user.*;
 
 public class AppSystem {
     /**
@@ -44,12 +42,19 @@ public class AppSystem {
     public static List<Restaurant> getRestaurants() {
         return restaurants;
     }
+    
+    
 
-    private AppSystem() {
+    public static Optional<UserType> getCurrentUserType() {
+		return currentUserType;
+	}
+
+	private AppSystem() {
 
         managers = new ArrayList<>();
         customers = new ArrayList<>();
         couriers = new ArrayList<>();
+        restaurants = new ArrayList<>();
 
         // Add default managers
         Manager salma = new Manager("Salma", "Salma", "1234", "Salma");
@@ -82,6 +87,8 @@ public class AppSystem {
         currentUserType = Optional.empty();
         currentUserType = Optional.empty();
     }
+    
+    // Manager Tasks
 
     public void registerCustomer(Customer customer) throws NoPermissionException {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
@@ -106,6 +113,31 @@ public class AppSystem {
     	throw new NoPermissionException("Only managers can perform this action.");
     	}
     }
+    
+    
+    // Customer Tasks
+    
+    public Order createOrder(String restaurantName) throws NoPermissionException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
+    		return new Order(restaurantName);
+    	}
+    	else
+    		throw new NoPermissionException("Only Customers can perform this action");
+    }
+    
+    public void addItem2Order(Map<String, Order> customerOrders, String itemName, String orderName) throws NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
+	    	for (Entry<String,Order> entry : customerOrders.entrySet()) {
+				if (entry.getKey().equals(orderName)) {
+					entry.getValue().addItem(itemName, 1);
+				}
+	    	}
+    	}
+    	else
+    		throw new NoPermissionException("Only Customers can perform this action");
+    	
+    }
+    
 
     private <T extends User> boolean tryLogin(List<T> users, String username, String password, UserType typeofUser) {
         for (T user : users) {

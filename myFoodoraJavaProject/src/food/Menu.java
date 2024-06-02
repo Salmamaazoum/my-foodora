@@ -29,6 +29,21 @@ public class Menu {
 			items.remove(item);
 		}
 	}
+
+	@Override
+	public String toString() {
+		if (!this.items.isEmpty()) {
+			String s ="The dishes of the Menu are the following :";
+			for (FoodItem item : this.items) {
+				s+= item.getName() +" ";
+			}
+			return s;
+		}
+		else {
+			return "The restaurant's menu is empty";
+		}
+	}
+	
 	
 	
 

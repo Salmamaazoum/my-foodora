@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 
 import food.FoodItem;
 import food.Meal;
+import appSystem.AppSystem;
 
 public class Order {
 	private Restaurant restaurant;
@@ -18,8 +19,12 @@ public class Order {
     private Map<Meal,Integer> orderMeals = new HashMap<Meal,Integer>();
 
     
-    public Order (Restaurant restaurant) {
-    	this.restaurant=restaurant;
+    public Order (String restaurantName) {
+    	for (Restaurant restaurant : AppSystem.getRestaurants()) {
+    		if (restaurant.getName().equalsIgnoreCase(restaurantName))
+    			this.restaurant=restaurant;   		
+    	}
+    	
     	this.id = ++idCounter;
     	
     }
