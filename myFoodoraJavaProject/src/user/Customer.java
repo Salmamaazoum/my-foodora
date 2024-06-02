@@ -1,7 +1,5 @@
 package user;
 
-import appSystem.AppSystem;
-
 public class Customer extends User  {
 	
 	private String surname;
@@ -48,17 +46,10 @@ public class Customer extends User  {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
-	@Override
-	public boolean addNewUser() {
-		AppSystem appSystem = AppSystem.getInstance();
-		return appSystem.addCustomer(this);
-	}
 
 	@Override
 	public String toString() {
 		return "Customer: Username=" + getUsername()+ ", Name=" + getName() + ", surname=" + surname + ", address=" + address + ", email=" + email + ", phone=" + phone;
-	}
-	
+	}	
 	
 }
