@@ -1,6 +1,11 @@
 package user;
 import java.util.*;
 
+import food.BadMealCompositionCreationException;
+import food.FoodItem;
+import food.Meal;
+import food.MealPriceCalculationStrategy;
+import food.MealPriceCalculationStrategyDiscount;
 import food.Menu;
 
 public class Restaurant {
@@ -11,7 +16,7 @@ public class Restaurant {
 	
 	private int iD;
 	
-	private Location location;
+	private Coordinate location;
 	
 	private String username;
 	
@@ -29,7 +34,7 @@ public class Restaurant {
 	
 
 
-	public Restaurant(String name, Location location, String username, String password, double genericDiscount, double specialDiscount) {
+	public Restaurant(String name, Coordinate location, String username, String password, double genericDiscount, double specialDiscount) {
 		super();
 		this.name = name;
 		this.location = location;
@@ -104,7 +109,7 @@ public class Restaurant {
 	
 	public static void main(String[] args) {
         // Create a restaurant
-        Location location = new Location(12.34, 56.78);
+        Coordinate location = new Coordinate(12.34, 56.78);
         Restaurant restaurant = new Restaurant("Good Eats", location, "goodeats", "password123", 0.05, 0.10);
 
         // Add items to the menu
