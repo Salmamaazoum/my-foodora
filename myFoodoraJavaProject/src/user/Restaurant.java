@@ -30,11 +30,11 @@ public class Restaurant extends User {
 	// Getters and Setters
 
 	public Coordinate getLocation() {
-		return location;
+		return adress;
 	}
 
-	public void setLocation(Coordinate location) {
-		this.location = location;
+	public void setLocation(Coordinate adress) {
+		this.adress = adress;
 	}
 
 	public Menu getMenu() {
@@ -105,73 +105,14 @@ public class Restaurant extends User {
 		this.mealPriceStrategy = mealPriceStrategy;
 	}
 
-	// Compute a meal's price depending on whether it is special or not
-<<<<<<< HEAD
 	
 	public void setMealPrice(Meal meal) {
 		if (meal.isMealOfTheWeek()){
 			meal.setPrice(this.mealPriceStrategy.calculatePrice(meal, this.specialDiscount));
-=======
-
-	public double getMealPrice(Meal meal) {
-		if (meal.isMealOfTheWeek()) {
-			return this.mealPriceStrategy.calculatePrice(meal, this.specialDiscount);
->>>>>>> 44f71e1d4e4f24de0b43a87e3d1a50c6b17cd555
 		}
-
 		else {
 			meal.setPrice(this.mealPriceStrategy.calculatePrice(meal, this.genericDiscount));
 		}
 
 	}
-<<<<<<< HEAD
-	
-	// Implement addUser abstract method
-	
-	@Override
-	public boolean addNewUser() {
-		AppSystem appSystem = AppSystem.getInstance();
-		return appSystem.addRestaurant(this);
-	}
-	
-	
-	// =================================================
-	
-	public static void main(String[] args) {
-        // Create a restaurant
-        Coordinate location = new Coordinate(12.34, 56.78);
-        Restaurant restaurant = new Restaurant("Good Eats", location, "goodeats", "password123", 0.05, 0.10);
-
-        // Add items to the menu
-        FoodItem item1 = new FoodItem("Caesar Salad", FoodItem.foodCategory.STARTER, true, true, 5.99);
-        FoodItem item2 = new FoodItem("Grilled Chicken", FoodItem.foodCategory.STARTER, true, true, 12.99);
-        FoodItem item3 = new FoodItem("Cheesecake", FoodItem.foodCategory.DESSERT, true, true, 6.99);
-        restaurant.addItemMenu(item1);
-        restaurant.addItemMenu(item2);
-        restaurant.addItemMenu(item3);
-        for (FoodItem item : restaurant.menu.getItems()) {
-        	System.out.println(item.getName());
-        }
-
-        // Create a meal
-        Meal meal = new Meal("Healthy Combo", false, true, true, false);
-        try {
-            meal.addItem(item1);
-            meal.addItem(item2);
-            meal.addItem(item3);
-        } catch (BadMealCompositionCreationException e) {
-            System.out.println("Error creating meal: " + e.getMessage());
-        }
-
-        // Add meal to the restaurant
-        restaurant.addMeal(meal);
-
-        // Get the price of the meal
-        restaurant.setMealPrice(meal);
-        System.out.println("Price of " + meal.getName() + ": $" + meal.getPrice());
-    }
-	
-=======
-
->>>>>>> 44f71e1d4e4f24de0b43a87e3d1a50c6b17cd555
 }

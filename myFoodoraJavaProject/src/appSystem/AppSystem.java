@@ -6,6 +6,7 @@ import java.util.Optional;
 import user.Courier;
 import user.Customer;
 import user.Manager;
+import user.Restaurant;
 import user.User;
 import user.UserType;
 
