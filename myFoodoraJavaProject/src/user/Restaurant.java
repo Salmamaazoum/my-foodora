@@ -1,26 +1,12 @@
 package user;
+import food.*;
 import java.util.*;
 
-import food.BadMealCompositionCreationException;
-import food.FoodItem;
-import food.Meal;
-import food.MealPriceCalculationStrategy;
-import food.MealPriceCalculationStrategyDiscount;
-import food.Menu;
+import appSystem.AppSystem;
 
-public class Restaurant {
-	
-	private String name;
-	
-	private static int nextid;
-	
-	private int iD;
+public class Restaurant extends User{
 	
 	private Coordinate location;
-	
-	private String username;
-	
-	private String password;
 	
 	private Menu menu;
 	
@@ -32,23 +18,49 @@ public class Restaurant {
 	
 	private MealPriceCalculationStrategy mealPriceStrategy;
 	
-
-
 	public Restaurant(String name, Coordinate location, String username, String password, double genericDiscount, double specialDiscount) {
-		super();
-		this.name = name;
+		super(name, username, password);
 		this.location = location;
-		this.username = username;
-		this.password = password;
 		this.meals = new ArrayList<Meal>();
 		this.menu = new Menu();
 		this.genericDiscount = genericDiscount;
 		this.specialDiscount = specialDiscount;
-		Restaurant.nextid++;
-		this.iD=nextid;
 		this.mealPriceStrategy = new MealPriceCalculationStrategyDiscount();
 		}
 	
+	// Getters and Setters
+	
+	public Coordinate getLocation() {
+		return location;
+	}
+
+	public void setLocation(Coordinate location) {
+		this.location = location;
+	}
+
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
+
+	public ArrayList<Meal> getMeals() {
+		return meals;
+	}
+
+	public void setMeals(ArrayList<Meal> meals) {
+		this.meals = meals;
+	}
+
+	public double getGenericDiscount() {
+		return genericDiscount;
+	}
+
+	public double getSpecialDiscount() {
+		return specialDiscount;
+	}
 	
 	// Modify the Menu 
 	
@@ -56,6 +68,7 @@ public class Restaurant {
 		this.menu.addItem(item);
 	}
 	
+
 	public void removeItemMenu(FoodItem item) {
 		this.menu.removeItem(item);
 	};
@@ -78,12 +91,12 @@ public class Restaurant {
 	
 	// Establish Generic and Special Discounts
 	
-	public void setGenericDiscount(double genDiscount) {
-		this.genericDiscount=genDiscount;
+	public void setGenericDiscount(double genericDiscount) {
+		this.genericDiscount=genericDiscount;
 	}
 	
-	public void setSpecialDiscount(double speDiscount) {
-		this.specialDiscount=speDiscount;
+	public void setSpecialDiscount(double specialDiscount) {
+		this.specialDiscount=specialDiscount;
 	}
 	
 	// ============================
@@ -107,15 +120,23 @@ public class Restaurant {
 	
 	}
 	
+	// Implement addUser abstract method
+	
+	@Override
+	public boolean addNewUser() {
+		AppSystem appSystem = AppSystem.getInstance();
+		return appSystem.addRestaurant(this);
+	}
+	
 	public static void main(String[] args) {
         // Create a restaurant
         Coordinate location = new Coordinate(12.34, 56.78);
         Restaurant restaurant = new Restaurant("Good Eats", location, "goodeats", "password123", 0.05, 0.10);
 
         // Add items to the menu
-        FoodItem item1 = new FoodItem("Caesar Salad", "starter", true, true, 5.99);
-        FoodItem item2 = new FoodItem("Grilled Chicken", "starter", true, true, 12.99);
-        FoodItem item3 = new FoodItem("Cheesecake", "dessert", true, true, 6.99);
+        FoodItem item1 = new FoodItem("Caesar Salad", FoodItem.foodCategory.STARTER, true, true, 5.99);
+        FoodItem item2 = new FoodItem("Grilled Chicken", FoodItem.foodCategory.STARTER, true, true, 12.99);
+        FoodItem item3 = new FoodItem("Cheesecake", FoodItem.foodCategory.DESSERT, true, true, 6.99);
         restaurant.addItemMenu(item1);
         restaurant.addItemMenu(item2);
         restaurant.addItemMenu(item3);

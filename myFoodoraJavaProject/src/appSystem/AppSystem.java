@@ -8,6 +8,7 @@ import user.Courier;
 import user.Customer;
 import user.Manager;
 import user.User;
+import user.Restaurant;
 
 public class AppSystem {
     /**
@@ -18,13 +19,15 @@ public class AppSystem {
 	private static List<Manager> managers;
 	private static List<Customer> customers;
 	private static List<Courier> couriers;
+	private static List<Restaurant> restaurants;
 	private static Optional<User> currentUser;
     private static Optional<UserType> currentUserType;
 
     public enum UserType {
         MANAGER,
         CUSTOMER,
-        COURIER
+        COURIER,
+        RESTAURANT
     }
 	
 	public List<Manager> getManagers() {
@@ -39,11 +42,16 @@ public class AppSystem {
 		return currentUser;
 	}
 	
+	public static List<Restaurant> getRestaurants() {
+		return restaurants;
+	}
+
 	private AppSystem() {
 		
 		AppSystem.managers = new ArrayList<>();
 		AppSystem.customers = new ArrayList<>();
 		AppSystem.couriers = new ArrayList<>();
+		AppSystem.restaurants = new ArrayList<>();
 		
         // Add default managers
         Manager salma = new Manager("Salma", "Salma", "1234", "Salma");
@@ -102,4 +110,10 @@ public class AppSystem {
     	AppSystem.couriers.add(courier);
     	return true;
     }
+    
+    public boolean addRestaurant(Restaurant restaurant) {
+    	AppSystem.restaurants.add(restaurant);
+    	return true;
+    }
+    
 }
