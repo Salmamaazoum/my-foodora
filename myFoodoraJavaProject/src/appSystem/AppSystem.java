@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Map.Entry;
+import food.*;
 
 import javax.naming.NoPermissionException;
 
@@ -77,7 +78,8 @@ public class AppSystem {
     public boolean login(String username, String password) {
         if (tryLogin(managers, username, password, UserType.MANAGER) ||
                 tryLogin(customers, username, password, UserType.CUSTOMER) ||
-                tryLogin(couriers, username, password, UserType.COURIER)) {
+                tryLogin(couriers, username, password, UserType.COURIER)||
+                tryLogin(restaurants, username, password, UserType.RESTAURANT) ) {
             return true; // Login successful
         }
         return false; // Login failed
@@ -114,7 +116,7 @@ public class AppSystem {
     	}
     }
     
-    
+    //============================================
     // Customer Tasks
     
     public Order createOrder(String restaurantName) throws NoPermissionException{
@@ -125,16 +127,57 @@ public class AppSystem {
     		throw new NoPermissionException("Only Customers can perform this action");
     }
     
-    public void addItem2Order(Map<String, Order> customerOrders, String itemName, String orderName) throws NoPermissionException {
+    public void addItem2Order(Map<String, Order> customerOrders, String itemName, String orderName) throws NoPermissionException, NotFoundException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
+    		int i=0;
+	    	for (Entry<String,Order> entry : customerOrders.entrySet()) {
+				if (entry.getKey().equals(orderName)) {
+					i=1;
+					entry.getValue().addItem(itemName, 1);				}
+	    	}
+	    	if (i==0)
+	    		throw new NotFoundException("No order with such name exists");
+    	}
+    	else
+    		throw new NoPermissionException("Only Customers can perform this action");
+    	
+    }
+    
+    //à faire, pay order how? change parameters manager profit etc
+    
+    public void endOrder(String orderName, String date,Map<String, Order> customerOrders) throws NoPermissionException {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
 	    	for (Entry<String,Order> entry : customerOrders.entrySet()) {
 				if (entry.getKey().equals(orderName)) {
-					entry.getValue().addItem(itemName, 1);
+					((Customer)currentUser.get()).getOrderHistory().put(entry.getValue(), date);
 				}
 	    	}
     	}
     	else
     		throw new NoPermissionException("Only Customers can perform this action");
+    }
+    
+    //===========================
+    // Restaurant Tasks
+    
+    public void addDishRestaurantMenu(String DishName, String DishCategory,String foodType,String glutenFree, String unitPrice) throws NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+	    	FoodItem item = new FoodItem();
+	    	item.setName(DishName);
+	    	for (FoodItem.foodCategory category : FoodItem.foodCategory.values()) {
+	    		if (category.name().equalsIgnoreCase(DishCategory)) {
+	    			item.setCategory(category);
+	    			break;
+	    		}
+	    	}
+	    	item.setIsVegetarian(foodType.equalsIgnoreCase("vegetarian"));
+	    	item.setIsGlutenFree(glutenFree.equalsIgnoreCase("yes"));
+	    	item.setPrice(Double.parseDouble(unitPrice));
+	    	((Restaurant)currentUser.get()).addItemMenu(item);
+    	}
+    	else
+    		throw new NoPermissionException("Only Restaurants can perform this action");
+    	
     	
     }
     

@@ -56,6 +56,13 @@ public class Order {
     	}
     	return price;
     }
+
+	@Override
+	public String toString() {
+		return "Order [restaurant=" + restaurant + ", id=" + id + ", orderItems=" + orderItems + ", orderMeals="
+				+ orderMeals + "]";
+	}
+    
     
     
 }

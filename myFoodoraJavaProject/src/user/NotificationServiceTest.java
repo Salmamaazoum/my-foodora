@@ -23,5 +23,7 @@ public class NotificationServiceTest {
         meal.addItem(new FoodItem("Tiramisu", FoodItem.foodCategory.DESSERT, true, true, 20));
         
         restaurant.addMeal(meal);
+        meal.setMealOfTheWeek(false);
+        restaurant.setSpecialOffer(meal);
 	}
 }

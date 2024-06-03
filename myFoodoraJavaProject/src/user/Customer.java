@@ -7,7 +7,7 @@ public class Customer extends User  {
 	private Coordinate address;
     private String email;
     private String phone;
-    private List<Order> orderHistory = new ArrayList<Order>();
+    private Map<Order,String> orderHistory = new HashMap<Order,String>();
 
 	public Customer( String name, String username, String password, String surname, Coordinate address, String email, String phone) {
         super( name, username, password);
@@ -57,7 +57,7 @@ public class Customer extends User  {
 	
 	
 
-	public List<Order> getOrderHistory() {
+	public Map<Order,String> getOrderHistory() {
 		return orderHistory;
 	}
 

@@ -6,7 +6,7 @@ public class FoodItem {
 
     private int id;
 	
-	private String name;
+	private String name = "";
 	
 	private boolean isVegetarian ;
 	
@@ -19,6 +19,10 @@ public class FoodItem {
 	}
 	
 	private foodCategory category;
+	
+	public FoodItem() {
+		this.id = ++idCounter;
+	}
 	
 	public FoodItem(String name, foodCategory category, boolean isVegetarian, boolean isGlutenFree,double price) {
 		this.id = ++idCounter;

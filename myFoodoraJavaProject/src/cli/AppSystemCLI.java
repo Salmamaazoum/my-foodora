@@ -2,7 +2,9 @@ package cli;
 import java.util.*;
 import java.util.Map.Entry;
 
+import food.*;
 import appSystem.AppSystem;
+import food.FoodItem;
 import food.Meal;
 import user.Coordinate;
 import user.Courier;
@@ -56,7 +58,8 @@ public class AppSystemCLI {
                         	if (!AppSystem.getRestaurants().isEmpty()) {
 	                        	System.out.println("Here is the list of available restaurants :");
 	                        	for (Restaurant restaurant : AppSystem.getRestaurants()) {
-	                        		System.out.print(restaurant.getName()+" ");
+	                        		System.out.print(restaurant.getName()+"-");
+	                        	System.out.println("");
                         	    }
                         	}
                         	
@@ -72,7 +75,8 @@ public class AppSystemCLI {
             case "logout":
                 appSystem.logout();
                 System.out.println("Logged out.");
-                customerOrders = new HashMap<String,Order>();
+                
+                customerOrders = new HashMap<String,Order>();  //Reset customerOrders to empty Map after Logout
                 break;
                 
             case "registerCustomer":
@@ -136,6 +140,11 @@ public class AppSystemCLI {
                     System.out.println("Usage: registerRestaurant <name> <username> <password>");
                 }
                 break;
+               
+                
+            /*
+             * Customer related Tasks
+             */
             
             case "createOrder":
             	if (parts.length == 3) {
@@ -145,7 +154,7 @@ public class AppSystemCLI {
             		try {
             			Order order= appSystem.createOrder(restaurantName);
             			customerOrders.put(orderName,order);
-            			System.out.println("Order from "+restaurantName+" created successfully");
+            			System.out.println("Order from Restaurant "+restaurantName+" created successfully");
             			
             			// Display Meals and Menu of Selected Restaurant
             			if (!AppSystem.getRestaurants().isEmpty()) {
@@ -189,7 +198,51 @@ public class AppSystemCLI {
             		
             	}
             	else {
-            		System.out.println("Usage : createOrder <restaurantName> <orderName>");
+            		System.out.println("Usage : addItem2Order <orderName> <itemName>");
+            	}
+            	break;
+            	
+            case "endOrder":
+            	if (parts.length==3) {
+            		String orderName = parts[1];
+            		String date = parts[2];
+            		
+            		try {
+            			appSystem.endOrder(orderName, date, customerOrders);
+            			System.out.println("Order "+orderName +" finalised successfully");
+            		}
+            		catch (Exception e) {
+            			System.out.println("Fail to finalise order! "+ e.getMessage());
+            		}
+            	}
+            	else {
+            		System.out.println("Usage : endOrder <orderName> <date>");
+            	}
+            	break;
+            	
+            /*
+             * Restaurant related Tasks
+             */
+            	
+            case "addDishRestaurantMenu":
+            	if (parts.length==6) {
+            		String dishName= parts[1];
+            		String dishCategory = parts[2];
+            		String foodType = parts[3];
+            		String glutenFree = parts[4];
+            		String unitPrice = parts[5];
+            		
+            		try {
+            			appSystem.addDishRestaurantMenu(dishName, dishCategory, foodType, glutenFree, unitPrice);
+            			System.out.println("Dish added successfully to the Menu");
+            		}
+            		catch (Exception e) {
+            			System.out.println("Fail to add Dish to Menu! "+ e.getMessage());
+            		}
+            		
+            	}
+            	else {
+            		System.out.println("Usage : addDishRestaurantMenu <dishName> <dishCategory> <foodType> <glutenFree (yes or no)> <unitPrice>");
             	}
             	break;
             	
