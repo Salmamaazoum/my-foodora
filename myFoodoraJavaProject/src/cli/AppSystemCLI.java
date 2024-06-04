@@ -17,6 +17,7 @@ import user.UserType;
 public class AppSystemCLI {
     private static AppSystem appSystem;
     private static Map<String,Order> customerOrders = new HashMap<String,Order>();
+    private static Map<String,Meal> createdMeals = new HashMap<String,Meal>();
 
     public static void main(String[] args) {
         appSystem = AppSystem.getInstance();
@@ -77,6 +78,7 @@ public class AppSystemCLI {
                 System.out.println("Logged out.");
                 
                 customerOrders = new HashMap<String,Order>();  //Reset customerOrders to empty Map after Logout
+                createdMeals = new HashMap<String,Meal>();
                 break;
                 
             case "registerCustomer":
@@ -245,7 +247,48 @@ public class AppSystemCLI {
             		System.out.println("Usage : addDishRestaurantMenu <dishName> <dishCategory> <foodType> <glutenFree (yes or no)> <unitPrice>");
             	}
             	break;
+            
             	
+            case "createMeal":
+            	if(parts.length ==2) {
+            		String mealName = parts[1];
+            		
+            		try {
+            			Meal meal= appSystem.createMeal(mealName);
+            			createdMeals.put(mealName,meal);
+            			System.out.println("Meal Created Successfully");
+            		}
+            		catch(Exception e){
+            			System.out.println("Fail to create meal !" + e.getMessage());
+            		}
+            	}
+            	else {
+            		System.out.println("Usage : createMeal <mealName>");
+            	}
+            	break;
+            	
+            case "addDish2Meal":
+            	if (parts.length==3) {
+            		String dishName = parts[1];
+            		String mealName = parts[2];
+            		try {
+            			appSystem.addDish2Meal(dishName, mealName, createdMeals);
+            			System.out.println("Dish Added successfully to Meal");
+            		}
+            		catch(Exception e){
+            			System.out.println("Fail to add dish to Meal !" + e.getMessage());
+            		}
+            	}
+            	else {
+            		System.out.println("Usage : addDish2Meal <dishName> <mealName>");
+            	}
+            	break;
+            	
+            case "saveMeal":
+            	if (parts.length==1) {
+            		String mealName = parts[1];
+            	}
+           
             	
             default:
                 System.out.println("Unknown command: " + command);

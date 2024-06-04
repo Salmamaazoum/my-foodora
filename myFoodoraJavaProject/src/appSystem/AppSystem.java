@@ -129,14 +129,12 @@ public class AppSystem {
     
     public void addItem2Order(Map<String, Order> customerOrders, String itemName, String orderName) throws NoPermissionException, NotFoundException {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
-    		int i=0;
 	    	for (Entry<String,Order> entry : customerOrders.entrySet()) {
 				if (entry.getKey().equals(orderName)) {
-					i=1;
 					entry.getValue().addItem(itemName, 1);				}
 	    	}
-	    	if (i==0)
-	    		throw new NotFoundException("No order with such name exists");
+	    
+	    	throw new NotFoundException("No order with such name exists");
     	}
     	else
     		throw new NoPermissionException("Only Customers can perform this action");
@@ -162,18 +160,7 @@ public class AppSystem {
     
     public void addDishRestaurantMenu(String DishName, String DishCategory,String foodType,String glutenFree, String unitPrice) throws NoPermissionException {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
-	    	FoodItem item = new FoodItem();
-	    	item.setName(DishName);
-	    	for (FoodItem.foodCategory category : FoodItem.foodCategory.values()) {
-	    		if (category.name().equalsIgnoreCase(DishCategory)) {
-	    			item.setCategory(category);
-	    			break;
-	    		}
-	    	}
-	    	item.setIsVegetarian(foodType.equalsIgnoreCase("vegetarian"));
-	    	item.setIsGlutenFree(glutenFree.equalsIgnoreCase("yes"));
-	    	item.setPrice(Double.parseDouble(unitPrice));
-	    	((Restaurant)currentUser.get()).addItemMenu(item);
+	    	((Restaurant)currentUser.get()).addDishRestaurantMenu(DishName, DishCategory, foodType, glutenFree, unitPrice);
     	}
     	else
     		throw new NoPermissionException("Only Restaurants can perform this action");
@@ -181,6 +168,53 @@ public class AppSystem {
     	
     }
     
+    public Meal createMeal (String mealName, String mealType) throws NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+    		return ((Restaurant)currentUser.get()).createMeal(mealName, mealType);
+    	}
+    	else {
+    		throw new NoPermissionException("Only Restaurants can perform this action");
+    	}
+    }
+    
+    public Meal createMeal (String mealName, String mealType,String StandardOrVeg, String isGlutenFree) throws NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+    		return ((Restaurant)currentUser.get()).createMeal(mealName, mealType, StandardOrVeg,  isGlutenFree);
+    	}
+    	else {
+    		throw new NoPermissionException("Only Restaurants can perform this action");
+    	}
+    }
+    
+    
+    
+    
+    
+    public void addDish2Meal(String dishName, String mealName, Map<String,Meal> createdMeals) throws NotFoundException, NoPermissionException, BadMealCompositionCreationException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+    		for (Entry<String,Meal> entry : createdMeals.entrySet()) {
+				if (entry.getKey().equals(mealName)) {
+					((Restaurant)currentUser.get()).addDish2Meal(mealName, dishName);
+				}
+    		}
+    		
+    		throw new NotFoundException("No meal with such name has been created. Please create a new Meal with name "+mealName+" using command createMeal.");
+    		
+    	}
+    	else
+    		throw new NoPermissionException("Only Customers can perform this action");
+    }
+    
+    public void saveMeal (String mealName, Map<String,Meal> createdMeals) {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+    		int i=0;
+	    	for (Entry<String,Meal> entry : createdMeals.entrySet()) {
+				if (entry.getKey().equals(mealName)) {
+					i=1;
+				}
+	    	}
+    	}
+    }
 
     private <T extends User> boolean tryLogin(List<T> users, String username, String password, UserType typeofUser) {
         for (T user : users) {
