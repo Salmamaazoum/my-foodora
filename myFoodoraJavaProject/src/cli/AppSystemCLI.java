@@ -314,11 +314,45 @@ public class AppSystemCLI {
             		System.out.println("Usage : showMeal <mealName>");
             	}
             	break;
-            
+            	
+            case "onDuty":
+            	if (parts.length==2) {
+            		String username = parts[1];
+            		try {
+            			appSystem.setOnDuty(username, true);
+            			System.out.println("Statut changed successfully");
+         
+            		}
+            		catch(Exception e){
+            			System.out.println( e.getMessage());
+            		}
+            	}
+            	else {
+            		System.out.println("Usage : onDuty <username>");
+            	}
+            	break;
+            	
+            case "offDuty":
+            	if (parts.length==2) {
+            		String username = parts[1];
+            		try {
+            			appSystem.setOnDuty(username, false);
+            			System.out.println("Statut changed successfully");
+         
+            		}
+            		catch(Exception e){
+            			System.out.println( e.getMessage());
+            		}
+            	}
+            	else {
+            		System.out.println("Usage : onDuty <username>");
+            	}
+            	break;
             	
             default:
                 System.out.println("Unknown command: " + command);
                 break;
+                
                
                
                 

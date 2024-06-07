@@ -8,6 +8,7 @@ public class Courier extends User {
 	private Coordinate location;
 	private String phone;
 	private int deliveryCounter;
+	private boolean OnDuty;
 	
 	public Courier( String name, String username, String password, String surname, Coordinate location, String phone) {
         super( name, username, password);
@@ -48,8 +49,17 @@ public class Courier extends User {
 		this.phone = phone;
 	}
 	
+	public boolean getOnDuty() {
+		return OnDuty;
+	}
+
+	public void setOnDuty(boolean OnDuty) {
+		this.OnDuty = OnDuty;
+	}
+	
+	
 	@Override
 	public String toString() {
-		return "Customer: Username=" + getUsername()+ ", Name=" + getName() + ", surname=" + surname + ", location=" + location + ", deliveryCounter=" + deliveryCounter + ", phone=" + phone;
+		return "Customer: Username=" + getUsername()+ ", Name=" + getName() + ", surname=" + surname + ", location=" + location + ", deliveryCounter=" + deliveryCounter + ", isOnDuty=" + OnDuty;
 	}
 }

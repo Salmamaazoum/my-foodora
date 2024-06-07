@@ -1,6 +1,4 @@
-/appSystem/
 /user/
+/appSystem/
 /cli/
-/NoPermissionExeption.class
-*.class
-/food/
+/delivery/

@@ -181,6 +181,17 @@ public class AppSystem {
     	
     }
     
+    public void setOnDuty(String username, boolean isOnDuty) throws NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.COURIER && currentUser.get().getUsername().equals(username)) {
+    		Courier courier = (Courier) currentUser.get();
+    		courier.setOnDuty(isOnDuty);
+    	}
+    	else {
+    		throw new NoPermissionException("Don't have the permission to perform the requested action");
+    	}   	
+    }
+
+    
     public void createMeal (String mealName, String mealType) throws NoPermissionException {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
     		 ((Restaurant)currentUser.get()).addMeal(mealName, mealType);
@@ -204,7 +215,6 @@ public class AppSystem {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
 				((Restaurant)currentUser.get()).addDish2Meal(mealName, dishName);	
     		}
-    	
     	else
     		throw new NoPermissionException("Only Restaurants can perform this action");
     }
@@ -216,6 +226,8 @@ public class AppSystem {
     	else
     		throw new NoPermissionException("Only Restaurants can perform this action");
     }
+    
+    
 
     private <T extends User> boolean tryLogin(List<T> users, String username, String password, UserType typeofUser) {
         for (T user : users) {
@@ -227,6 +239,7 @@ public class AppSystem {
         }
         return false;
     }
+    
 
 
 }
