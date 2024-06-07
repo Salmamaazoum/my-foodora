@@ -29,13 +29,23 @@ public class PointFidelityCard extends FidelityCard {
 		super(FidelityCardType.POINT);
 	}
 	
+	
 	public double computeOrderReduction(Order order) {
 		double reduction = 0;
 		if (this.points>=targetPoints) {
-			reduction = order.getPrice()*0.1;
+			reduction = order.getFirstPrice()*discountFactor;
 		}
 		return reduction;
 	}
 	
-	
+	public double computeOrderPrice (Order order) {
+		double reduction = this.computeOrderReduction(order);
+		double initialPrice = order.getFirstPrice();
+		
+		if (reduction!=0) {
+			this.points -= targetPoints;
+		}
+		
+		return initialPrice - reduction;
+	}
 }

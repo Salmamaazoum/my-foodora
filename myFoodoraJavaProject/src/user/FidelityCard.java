@@ -19,5 +19,8 @@ public abstract class FidelityCard {
 		this.type = type;
 	}
 	
+	public abstract double computeOrderReduction (Order order);
+	
+	public abstract double computeOrderPrice(Order order);
 	
 }
