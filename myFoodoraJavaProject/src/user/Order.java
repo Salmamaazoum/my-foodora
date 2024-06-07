@@ -70,6 +70,55 @@ public class Order {
     }
     
     
+    
+    
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Calendar getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Calendar orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Map<FoodItem, Integer> getOrderItems() {
+		return orderItems;
+	}
+
+	public void setOrderItems(Map<FoodItem, Integer> orderItems) {
+		this.orderItems = orderItems;
+	}
+
+	public Map<Meal, Integer> getOrderMeals() {
+		return orderMeals;
+	}
+
+	public void setOrderMeals(Map<Meal, Integer> orderMeals) {
+		this.orderMeals = orderMeals;
+	}
 
 	public void setPrice(double price) {
 		this.price = price;
