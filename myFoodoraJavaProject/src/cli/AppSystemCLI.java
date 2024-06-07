@@ -205,10 +205,10 @@ public class AppSystemCLI {
             case "endOrder":
             	if (parts.length==3) {
             		String orderName = parts[1];
-            		String date = parts[2];
+            		
             		
             		try {
-            			appSystem.endOrder(orderName, date, customerOrders);
+            			appSystem.endOrder(orderName, customerOrders);
             			System.out.println("Order "+orderName +" finalised successfully");
             		}
             		catch (Exception e) {
@@ -216,7 +216,7 @@ public class AppSystemCLI {
             		}
             	}
             	else {
-            		System.out.println("Usage : endOrder <orderName> <date>");
+            		System.out.println("Usage : endOrder <orderName>");
             	}
             	break;
             	
@@ -315,6 +315,37 @@ public class AppSystemCLI {
             	}
             	break;
             
+            case "setSpecialOffer":
+            	if (parts.length==2) {
+            		String mealName = parts[1];
+            		try {
+            			appSystem.setSpecialOffer(mealName);
+         
+            		}
+            		catch(Exception e){
+            			System.out.println("Fail to set special offer on meal "+mealName+"!" + e.getMessage());
+            		}
+            	}
+            	else {
+            		System.out.println("Usage : setSpecialOffer <mealName>");
+            	}
+            	break;
+            
+            case "removeFromSpecialOffer":
+            	if (parts.length==2) {
+            		String mealName = parts[1];
+            		try {
+            			appSystem.removeFromSpecialOffer(mealName);
+         
+            		}
+            		catch(Exception e){
+            			System.out.println("Fail to remove special offer from meal "+mealName+"!" + e.getMessage());
+            		}
+            	}
+            	else {
+            		System.out.println("Usage : setSpecialOffer <mealName>");
+            	}
+            	break;
             	
             default:
                 System.out.println("Unknown command: " + command);

@@ -7,14 +7,20 @@ import food.Meal;
 import appSystem.AppSystem;
 
 public class Order {
+	
 	private Restaurant restaurant;
 	
     private static int idCounter = 0;
 
     private int id;
     
+    private Calendar orderDate; 
     
-    private Map<FoodItem,Integer> orderItems = new HashMap<FoodItem,Integer>();
+    /*
+     * we must add the customer attribute
+     */
+    
+    private Map<FoodItem,Integer> orderItems = new HashMap<FoodItem,Integer>(); //map food item into its corresponding quantity
 	
     private Map<Meal,Integer> orderMeals = new HashMap<Meal,Integer>();
 
@@ -26,6 +32,7 @@ public class Order {
     	}
     	
     	this.id = ++idCounter;
+    	this.orderDate = Calendar.getInstance();
     	
     }
     
