@@ -17,7 +17,6 @@ import user.UserType;
 public class AppSystemCLI {
     private static AppSystem appSystem;
     private static Map<String,Order> customerOrders = new HashMap<String,Order>();
-    private static Map<String,Meal> createdMeals = new HashMap<String,Meal>();
 
     public static void main(String[] args) {
         appSystem = AppSystem.getInstance();
@@ -78,7 +77,6 @@ public class AppSystemCLI {
                 System.out.println("Logged out.");
                 
                 customerOrders = new HashMap<String,Order>();  //Reset customerOrders to empty Map after Logout
-                createdMeals = new HashMap<String,Meal>();
                 break;
                 
             case "registerCustomer":
@@ -250,20 +248,36 @@ public class AppSystemCLI {
             
             	
             case "createMeal":
-            	if(parts.length ==2) {
+            	if(parts.length ==3) {
             		String mealName = parts[1];
+            		String mealType = parts[2];
+            		System.out.println("In the configuration you inserted, the meal is by default standard and gluten-containing.");
             		
             		try {
-            			Meal meal= appSystem.createMeal(mealName);
-            			createdMeals.put(mealName,meal);
+            			appSystem.createMeal(mealName,mealType);
             			System.out.println("Meal Created Successfully");
             		}
             		catch(Exception e){
             			System.out.println("Fail to create meal !" + e.getMessage());
             		}
             	}
+            	else if (parts.length==5) {
+            		String mealName = parts[1];
+            		String mealType = parts[2];
+            		String standardOrVeg = parts[3];
+            		String isGlutenFree = parts [4];
+            		
+            		try {
+            			appSystem.createMeal(mealName, mealType, standardOrVeg, isGlutenFree);
+            			System.out.println("Meal Created Successfully");
+            		}
+            		catch(Exception e){
+            			System.out.println("Fail to create meal !" + e.getMessage());
+            		}
+             	}
             	else {
-            		System.out.println("Usage : createMeal <mealName>");
+            		System.out.println("Usage : createMeal <mealName> <mealType (full or half) >");
+            		System.out.println("Or : createMeal <mealName> <mealType (full/half)> <standardOrVegetarian> <GlutenFree (Yes/No)> ");
             	}
             	break;
             	
@@ -272,7 +286,8 @@ public class AppSystemCLI {
             		String dishName = parts[1];
             		String mealName = parts[2];
             		try {
-            			appSystem.addDish2Meal(dishName, mealName, createdMeals);
+            			appSystem.addDish2Meal(dishName, mealName);
+            			
             			System.out.println("Dish Added successfully to Meal");
             		}
             		catch(Exception e){
@@ -284,15 +299,27 @@ public class AppSystemCLI {
             	}
             	break;
             	
-            case "saveMeal":
-            	if (parts.length==1) {
+            case "showMeal":
+            	if (parts.length==2) {
             		String mealName = parts[1];
+            		try {
+            			appSystem.showMeal(mealName);
+         
+            		}
+            		catch(Exception e){
+            			System.out.println("Fail to display meal !" + e.getMessage());
+            		}
             	}
-           
+            	else {
+            		System.out.println("Usage : showMeal <mealName>");
+            	}
+            	break;
+            
             	
             default:
                 System.out.println("Unknown command: " + command);
                 break;
+               
                
                 
         }

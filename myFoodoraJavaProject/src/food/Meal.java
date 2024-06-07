@@ -24,7 +24,14 @@ public abstract class Meal {
 	 * Whether it is meal of the week or Not
 	 */
 	
-	protected boolean mealOfTheWeek; 
+	protected boolean mealOfTheWeek;
+	
+	/*
+	 * List of dishes which compose the Meal ( Later we can create classes corresponding to each Dish )
+	 * Or class named MealComposition with attributes Starter, mainDish and Dessert
+	 */
+	
+	protected ArrayList<FoodItem> mealComposition;
 	
 	/*
 	 * The price of the Meal
@@ -109,6 +116,15 @@ public abstract class Meal {
 		this.price = price;
 	}
 
+	public ArrayList<FoodItem> getMealComposition() {
+		return mealComposition;
+	}
+
+	public void setMealComposition(ArrayList<FoodItem> mealComposition) {
+		this.mealComposition = mealComposition;
+	}
+
+	
 
 	
 

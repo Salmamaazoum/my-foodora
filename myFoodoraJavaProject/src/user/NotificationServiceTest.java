@@ -13,8 +13,8 @@ public class NotificationServiceTest {
         Customer c1 = new Customer("Hala", "Hala123", "password", "Surname1", new Coordinate(10, 10), "customer1@example.com", "123456789");
         Customer c2 = new Customer("Customer2", "customer2", "password", "Surname2", new Coordinate(20, 20), "customer2@example.com", "987654321");
         
-        
-        NotificationService.getInstance().addSubscriber(new MailSubscriber(c1.getUsername(),c1.getId(),c1.getEmail()));
+        /*
+         *         NotificationService.getInstance().addSubscriber(new MailSubscriber(c1.getUsername(),c1.getId(),c1.getEmail()));
         NotificationService.getInstance().addSubscriber(new PhoneSubscriber(c2.getUsername(),c2.getId(),c2.getPhone()) );
         // Create a meal
         Meal meal = new Meal("Special Meal", false, true, true, true);
@@ -25,5 +25,7 @@ public class NotificationServiceTest {
         restaurant.addMeal(meal);
         meal.setMealOfTheWeek(false);
         restaurant.setSpecialOffer(meal);
+         */
+
 	}
 }

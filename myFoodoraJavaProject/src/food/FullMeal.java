@@ -4,34 +4,26 @@ import java.util.ArrayList;
 
 public class FullMeal extends Meal{
 	
-	private ArrayList<FoodItem> mealComposition;
-	
 	public FullMeal(String mealName, boolean isVegetarian, boolean isGlutenFree, boolean mealOftheWeek) {
 		super(mealName, isVegetarian, isGlutenFree,mealOftheWeek);
-		this.mealComposition = new ArrayList<FoodItem>(3);
+		this.mealComposition = new ArrayList<FoodItem>();
 	}
 	
 	public FullMeal(String mealName, boolean isVegetarian, boolean isGlutenFree) {
 		super(mealName, isVegetarian, isGlutenFree);
-		this.mealComposition = new ArrayList<FoodItem>(3);
+		this.mealComposition = new ArrayList<FoodItem>();
 	}
 	
 	public FullMeal(String mealName) {
 		super(mealName);
-		this.mealComposition = new ArrayList<FoodItem>(3);
+		this.mealComposition = new ArrayList<FoodItem>();
 	}
 	
 	public void addItem(FoodItem item) throws BadMealCompositionCreationException{
 		this.itemVisitor.addItemToMeal(item, this);
 	}
 
-	public ArrayList<FoodItem> getMealComposition() {
-		return mealComposition;
-	}
 
-	public void setMealComposition(ArrayList<FoodItem> mealComposition) {
-		this.mealComposition = mealComposition;
-	}
 	
 	@Override
 	public String toString() {

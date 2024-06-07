@@ -19,7 +19,9 @@ public class Menu {
 	
 	public void addItem(FoodItem item) {
 		if (!items.contains(item)) {
+
 			items.add(item);
+	
 		}
 		
 	}

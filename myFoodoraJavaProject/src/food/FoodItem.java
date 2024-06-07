@@ -79,6 +79,14 @@ public class FoodItem {
 	public int getId() {
 		return id;
 	}
+
+	@Override
+	public String toString() {
+		return "FoodItem [id=" + id + ", name=" + name + ", isVegetarian=" + isVegetarian + ", price=" + price
+				+ ", isGlutenFree=" + isGlutenFree + ", category=" + category + "]";
+	}
+	
+	
 	
 	
 	

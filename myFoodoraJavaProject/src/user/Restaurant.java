@@ -17,7 +17,7 @@ public class Restaurant extends User {
 
 	public Restaurant(String name, String username, String password, Coordinate address,
 			double genericDiscount, double specialDiscount) {
-		super(name, username, password);2
+		super(name, username, password);
 		
 		this.address = address;
 		
@@ -106,13 +106,14 @@ public class Restaurant extends User {
 		this.menu.removeItem(dish);
 	}
 
-	// ========================
-
-	// Add and Remove Meals
+	/*
+	 * Add meal based on the name, type, etc.
+	 * Remove meal based on the name.
+	 */
 	
 	public void addMeal(String mealName, String mealType) {
 		Meal meal = this.foodFactory.createMeal(mealName, mealType);
-		this.meals.add(meal);
+		this.meals.add(meal);  //what if it already exists? override equals method
 	}
 	
 	public void addMeal(String mealName, String mealType, String StandardOrVeg, String isGlutenFree) {
@@ -122,6 +123,7 @@ public class Restaurant extends User {
 	
 	/*
 	 * In case a Restaurants creates a meal and sets mealOfTheWeek= True then adds it to Menu
+	 * Add and Remove meals using Meal Object
 	 */
 
 	public void addMeal(Meal meal) {
@@ -136,11 +138,18 @@ public class Restaurant extends User {
 	}
 
 	public void removeMeal(Meal meal) {
-		if (meals.contains(meal)) {
+		if (meals.contains(meal)) {  //needs Overriding of equals and hashCode
 			this.meals.remove(meal);
 		}
 	}
-
+	/*
+	 * Display a meal
+	 */
+	
+	public void showMeal(String mealName) throws NotFoundException {
+		Meal meal = this.findMealUsingName(mealName);
+		System.out.println(meal);
+	}
 	// =============================
 
 	// Establish Generic and Special Discounts
@@ -182,12 +191,26 @@ public class Restaurant extends User {
 		
 	}
 	
+	public void setSpecialOffer(String mealName) throws NotFoundException {
+		Meal meal = this.findMealUsingName(mealName);
+		if (!meal.isMealOfTheWeek()) {
+			meal.setMealOfTheWeek(true);
+			this.setMealPrice(meal);
+			NotificationService.getInstance().setOffer(meal,this);
+		}
+		
+	}
+	
 	public void removeFromSpecialOffer(Meal meal) {
 		if (meal.isMealOfTheWeek()) {
 			meal.setMealOfTheWeek(false);
 			this.setMealPrice(meal);
 		}
 	}
+	
+	/*
+	 * Find Meal or Dish Using the Name
+	 */
 	
 	public FoodItem findDishUsingName(String dishName) throws NotFoundException {
 		for (FoodItem dish : this.menu.getItems()) {
@@ -207,9 +230,13 @@ public class Restaurant extends User {
 			}
 		}
 		
-		throw new NotFoundException("There is no meal with such name.");
+		throw new NotFoundException("There is no meal with such name. Please create a new Meal with name "+mealName+ " using command createMeal.");
 
 	}
+	
+	/*
+	 * Add a Dish to a certain meal
+	 */
 	
 	public void addDish2Meal(String mealName, String dishName) throws NotFoundException, BadMealCompositionCreationException {
 		FoodItem dish = this.findDishUsingName(dishName);
