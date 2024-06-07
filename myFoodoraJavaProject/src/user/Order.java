@@ -54,16 +54,26 @@ public class Order {
     
 
     
-    public double getPrice() {
+    public double getFirstPrice() {
+    	
     	double price = 0;
+    	
     	for (Entry<Meal, Integer> entry : orderMeals.entrySet())  {
     		price+=entry.getKey().getPrice()*entry.getValue();
     	}
+    	
     	for (Entry<FoodItem, Integer> entry : orderItems.entrySet()) {
     		price+=entry.getKey().getPrice()*entry.getValue();
     	}
+    	
     	return price;
     }
+    
+    
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
 	@Override
 	public String toString() {
