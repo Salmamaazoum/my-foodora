@@ -16,16 +16,16 @@ public class Order {
     
     private Calendar orderDate; 
     
-    /*
-     * we must add the customer attribute
-     */
+    private Customer customer;
     
     private Map<FoodItem,Integer> orderItems = new HashMap<FoodItem,Integer>(); //map food item into its corresponding quantity
 	
     private Map<Meal,Integer> orderMeals = new HashMap<Meal,Integer>();
+    
+    private double price;
 
     
-    public Order (String restaurantName) {
+    public Order (String restaurantName, Customer customer) {
     	for (Restaurant restaurant : AppSystem.getRestaurants()) {
     		if (restaurant.getName().equalsIgnoreCase(restaurantName))
     			this.restaurant=restaurant;   		
@@ -33,6 +33,7 @@ public class Order {
     	
     	this.id = ++idCounter;
     	this.orderDate = Calendar.getInstance();
+    	this.customer=customer;
     	
     }
     

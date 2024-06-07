@@ -121,7 +121,7 @@ public class AppSystem {
     
     public Order createOrder(String restaurantName) throws NoPermissionException{
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
-    		return new Order(restaurantName);
+    		return new Order(restaurantName,((Customer)currentUser.get()));
     	}
     	else
     		throw new NoPermissionException("Only Customers can perform this action");
