@@ -208,6 +208,14 @@ public class Restaurant extends User {
 		}
 	}
 	
+	public void removeFromSpecialOffer(String mealName) throws NotFoundException {
+		Meal meal = this.findMealUsingName(mealName);
+		if (meal.isMealOfTheWeek()) {
+			meal.setMealOfTheWeek(false);
+			this.setMealPrice(meal);
+		}
+	}
+	
 	/*
 	 * Find Meal or Dish Using the Name
 	 */
@@ -242,5 +250,6 @@ public class Restaurant extends User {
 		FoodItem dish = this.findDishUsingName(dishName);
 		Meal meal = this.findMealUsingName(mealName);
 		meal.addItem(dish);
+		meal.setPrice(meal.getPrice()+dish.getPrice());
 	}
 }

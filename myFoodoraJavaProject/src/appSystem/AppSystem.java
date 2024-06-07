@@ -121,7 +121,7 @@ public class AppSystem {
     
     public Order createOrder(String restaurantName) throws NoPermissionException{
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
-    		return new Order(restaurantName);
+    		return new Order(restaurantName,((Customer)currentUser.get()));
     	}
     	else
     		throw new NoPermissionException("Only Customers can perform this action");
@@ -148,13 +148,13 @@ public class AppSystem {
     
     //à faire, pay order how? change parameters manager profit etc
     
-    public void endOrder(String orderName, String date,Map<String, Order> customerOrders) throws NoPermissionException, NotFoundException {
+    public void endOrder(String orderName, Map<String, Order> customerOrders) throws NoPermissionException, NotFoundException {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
     		boolean orderFound = false;
 	    	for (Entry<String,Order> entry : customerOrders.entrySet()) {
 				if (entry.getKey().equals(orderName)) {
 					orderFound = true;
-					((Customer)currentUser.get()).getOrderHistory().put(entry.getValue(), date);
+					((Customer)currentUser.get()).getOrderHistory().add(entry.getValue());
 					break;
 				}
 	    	}
@@ -229,6 +229,25 @@ public class AppSystem {
     
     
 
+    	
+    public void setSpecialOffer(String mealName) throws NotFoundException, NoPermissionException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+    		((Restaurant)currentUser.get()).setSpecialOffer(mealName);
+    	}
+    	else
+    		throw new NoPermissionException("Only Restaurants can perform this action");
+    }
+    
+    
+    public void removeFromSpecialOffer(String mealName) throws NotFoundException, NoPermissionException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+    		((Restaurant)currentUser.get()).setSpecialOffer(mealName);
+    	}
+    	else
+    		throw new NoPermissionException("Only Restaurants can perform this action");
+    }
+    
+    
     private <T extends User> boolean tryLogin(List<T> users, String username, String password, UserType typeofUser) {
         for (T user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {

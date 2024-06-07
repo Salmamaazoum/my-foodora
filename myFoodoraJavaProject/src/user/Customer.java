@@ -4,10 +4,16 @@ import java.util.*;
 public class Customer extends User  {
 	
 	private String surname;
+	
 	private Coordinate address;
+	
     private String email;
+    
     private String phone;
-    private Map<Order,String> orderHistory = new HashMap<Order,String>();
+    
+    private ArrayList<Order> orderHistory = new ArrayList<Order>();
+    
+    private FidelityCard fidelityCard;
 
 	public Customer( String name, String username, String password, String surname, Coordinate address, String email, String phone) {
         super( name, username, password);
@@ -15,12 +21,14 @@ public class Customer extends User  {
         this.address = address;
         this.email = email;
         this.phone = phone;
+        this.fidelityCard= new BasicFidelityCard();
     }
 	
 	public Customer( String name, String username, String password, String surname, Coordinate address) {
         super( name, username, password);
         this.surname = surname;
         this.address = address;
+        this.fidelityCard= new BasicFidelityCard();
     }
 	
 	public String getSurname() {
@@ -57,10 +65,20 @@ public class Customer extends User  {
 	
 	
 
-	public Map<Order,String> getOrderHistory() {
+	public ArrayList<Order> getOrderHistory() {
 		return orderHistory;
 	}
+	
+	
 
+
+	public FidelityCard getFidelityCard() {
+		return fidelityCard;
+	}
+
+	public void setFidelityCard(FidelityCard fidelityCard) {
+		this.fidelityCard = fidelityCard;
+	}
 
 	@Override
 	public String toString() {
