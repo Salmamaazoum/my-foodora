@@ -8,11 +8,17 @@ import appSystem.AppSystem;
 public class Restaurant extends User {
 
 	private Coordinate address;
+	
 	private Menu menu;
+	
 	private ArrayList<Meal> meals;
-	private double genericDiscount;
-	private double specialDiscount;
+	
+	private double genericDiscount = 0.05;
+	
+	private double specialDiscount = 0.1;
+	
 	private MealPriceCalculationStrategy mealPriceStrategy = new MealPriceCalculationStrategyDiscount();
+	
 	private FoodFactory foodFactory = new FoodFactory();
 
 	public Restaurant(String name, String username, String password, Coordinate address,
@@ -252,4 +258,35 @@ public class Restaurant extends User {
 		meal.addItem(dish);
 		meal.setPrice(meal.getPrice()+dish.getPrice());
 	}
+	
+	public void displayRestaurant() {
+	    // Use StringBuilder for efficient string concatenation
+	    StringBuilder output = new StringBuilder();
+	    
+	    // Adding header for the menu
+	    output.append("Menu of ").append(this.name).append(":\n");
+	    
+	    // Check if the menu is empty
+	    if (this.menu.getItems().isEmpty()) {
+	        output.append("No items in the menu.\n");
+	    } else {
+	        output.append(this.menu.toString()).append("\n"); // Assuming menu.toString() is implemented appropriately
+	    }
+	    
+	    // Adding header for the meals
+	    if (!this.meals.isEmpty()) {
+	        output.append("Meals offered at ").append(this.name).append(":\n");
+	        for (Meal meal : this.meals) {
+	            // Assuming Meal's toString method is overridden to provide detailed information about the meal
+	            output.append(meal.toString()).append("\n");
+	        }
+	    } else {
+	        output.append("No meals currently offered.\n");
+	    }
+	    
+	    // Print the entire constructed output
+	    System.out.println(output.toString());
+	}
+
+	
 }

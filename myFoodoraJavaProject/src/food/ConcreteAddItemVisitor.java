@@ -19,11 +19,11 @@ public class ConcreteAddItemVisitor implements AddItemVisitor{
 			}
 	
 		}
-		if ( (halfMeal.isVegetarian()) && (!item.getIsVegetarian())) {
+		if ( (halfMeal.isVegetarian()) && (!item.isVegetarian())) {
 			throw new BadMealCompositionCreationException("attempt to add non-vegetarian item to a vegetarian meal");
 		}
 		
-		if ( (halfMeal.isGlutenFree()) && (!item.getIsGlutenFree())) {
+		if ( (halfMeal.isGlutenFree()) && (!item.isGlutenFree())) {
 			throw new BadMealCompositionCreationException("attempt to add gluten-containing item to a gluten-free meal");
 		}
 		
@@ -42,11 +42,11 @@ public class ConcreteAddItemVisitor implements AddItemVisitor{
             }
 		}
 		
-		if ( (fullMeal.isVegetarian()) && (!item.getIsVegetarian())) {
+		if ( (fullMeal.isVegetarian()) && (!item.isVegetarian())) {
 			throw new BadMealCompositionCreationException("attempt to add non-vegetarian item to a vegetarian meal");
 		}
 		
-		if ( (fullMeal.isGlutenFree()) && (!item.getIsGlutenFree())) {
+		if ( (fullMeal.isGlutenFree()) && (!item.isGlutenFree())) {
 			throw new BadMealCompositionCreationException("attempt to add gluten-containing item to a gluten-free meal");
 		}
 		

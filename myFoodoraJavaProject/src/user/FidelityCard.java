@@ -23,4 +23,6 @@ public abstract class FidelityCard {
 	
 	public abstract double computeOrderPrice(Order order);
 	
+	
+	
 }

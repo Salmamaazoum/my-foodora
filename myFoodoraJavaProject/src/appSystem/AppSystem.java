@@ -17,11 +17,19 @@ public class AppSystem {
      * Singleton instance of the Application
      */
     private static AppSystem instance = null;
-    private static List<Manager> managers;
-    private static List<Customer> customers;
-    private static List<Courier> couriers;
-    private static List<Restaurant> restaurants;
-    private static Optional<User> currentUser;
+    
+    private static List<Manager> managers = new ArrayList<>();
+    
+    private static List<Customer> customers = new ArrayList<>();
+    
+    private static List<Courier> couriers = new ArrayList<>();
+    
+    private static List<Restaurant> restaurants = new ArrayList<>();
+    
+    private static List<Order> orders = new ArrayList<>();
+    
+    private static Optional<User> currentUser ;
+    
     private static Optional<UserType> currentUserType;
 
     public List<Manager> getManagers() {
@@ -52,10 +60,6 @@ public class AppSystem {
 
 	private AppSystem() {
 
-        managers = new ArrayList<>();
-        customers = new ArrayList<>();
-        couriers = new ArrayList<>();
-        restaurants = new ArrayList<>();
 
         // Add default managers
         Manager salma = new Manager("Salma", "Salma", "1234", "Salma");
@@ -119,12 +123,24 @@ public class AppSystem {
     //============================================
     // Customer Tasks
     
-    public Order createOrder(String restaurantName) throws NoPermissionException{
+    public Order createOrder(String restaurantName) throws NoPermissionException, NotFoundException{
+    	Order order = null;
+    	
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
-    		return new Order(restaurantName,((Customer)currentUser.get()));
+    		if (!AppSystem.getRestaurants().isEmpty()) {
+				for (Restaurant restaurant : AppSystem.getRestaurants()) {
+					if (restaurant.getName().equalsIgnoreCase(restaurantName)) {
+						order = new Order(restaurantName,((Customer)currentUser.get()));
+					}
+				}
+    		}
+    		if (order == null) {
+    			throw new NotFoundException("The restaurant "+restaurantName+" does not exist!");
+    		}
     	}
     	else
     		throw new NoPermissionException("Only Customers can perform this action");
+    	return order;
     }
     
     public void addItem2Order(Map<String, Order> customerOrders, String itemName, String orderName) throws NoPermissionException, NotFoundException {
@@ -150,15 +166,24 @@ public class AppSystem {
     
     public void endOrder(String orderName, Map<String, Order> customerOrders) throws NoPermissionException, NotFoundException {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
+    		
     		boolean orderFound = false;
+    		/*
+    		 * Loop through the orders which were created by the customers during this exact login
+    		 */
 	    	for (Entry<String,Order> entry : customerOrders.entrySet()) {
 				if (entry.getKey().equals(orderName)) {
+					
+					Order order = entry.getValue();
 					orderFound = true;
-					((Customer)currentUser.get()).getOrderHistory().add(entry.getValue());
+
+					((Customer)currentUser.get()).endOrder(order);
+	
 					break;
 				}
 	    	}
 	    	
+	  
 	    	if (!orderFound) {
 	    		throw new NotFoundException("No order with such name exists");
 	    	}
@@ -168,9 +193,100 @@ public class AppSystem {
     }
     
     /*
-     * Restaurant related Tasks
+     * display Customer's previous orders
      */
     
+    public void displayHistoryOrders() throws NoPermissionException {
+		if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
+			((Customer)currentUser.get()).displayOrders();
+		}
+		else
+		    throw new NoPermissionException("Only Customers can perform this action");
+    }
+    
+    /*
+     * register/unregister Fidelity Card plan
+     */
+    
+    public void registerFidelityCard(String cardType) throws NoPermissionException {
+		if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
+			((Customer)currentUser.get()).registerFidelityCard(cardType);
+		}
+		else
+		    throw new NoPermissionException("Only Customers can perform this action");
+    }
+    
+    public void unregisterFidelityCard() throws NoPermissionException {
+		if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
+			((Customer)currentUser.get()).unregisterFidelityCard();
+		}
+		else
+		    throw new NoPermissionException("Only Customers can perform this action");
+    }
+    
+    public void displayFidelityCardInfo() throws NoPermissionException {
+		if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
+			((Customer)currentUser.get()).displayFidelityCard();;
+		}
+		else
+		    throw new NoPermissionException("Only Customers can perform this action");
+    }
+    
+    /*
+     * Restaurant related Tasks
+     
+     */
+    
+    public void showMenu() throws NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+	    	((Restaurant)currentUser.get()).displayRestaurant();
+    	}
+    	else
+    		throw new NoPermissionException("Only Restaurants can perform this action");
+    	
+    }
+    
+    public void setSpecialDiscountFactor(String discount) throws NoPermissionException, IllegalArgumentException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+            double discountFactor;
+            try {
+                discountFactor = Double.parseDouble(discount);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid discount format. Please enter a double value.");
+            }
+            
+
+            if (discountFactor <= 0 || discountFactor >= 1) {
+                throw new IllegalArgumentException("The discount factor must be greater than 0 and less than 1.");
+            }	
+	    	((Restaurant)currentUser.get()).setSpecialDiscount(discountFactor);
+    	}
+    	else
+    		throw new NoPermissionException("Only Restaurants can perform this action");
+    	
+    }
+    
+    public void setGenericDiscountFactor(String discount) throws NoPermissionException, IllegalArgumentException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+    		
+            double discountFactor;
+            try {
+                discountFactor = Double.parseDouble(discount);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid discount format. Please enter a double value.");
+            }
+            
+
+            if (discountFactor <= 0 || discountFactor >= 1) {
+                throw new IllegalArgumentException("The discount factor must be greater than 0 and less than 1.");
+            }	
+	    	((Restaurant)currentUser.get()).setGenericDiscount(discountFactor);
+    	}
+    	else
+    		throw new NoPermissionException("Only Restaurants can perform this action");
+    	
+    }
+   
     public void addDishRestaurantMenu(String DishName, String DishCategory,String foodType,String glutenFree, String unitPrice) throws NoPermissionException {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
 	    	((Restaurant)currentUser.get()).addDishRestaurantMenu(DishName, DishCategory, foodType, glutenFree, unitPrice);
@@ -181,15 +297,7 @@ public class AppSystem {
     	
     }
     
-    public void setOnDuty(String username, boolean isOnDuty) throws NoPermissionException {
-    	if (currentUserType.isPresent() && currentUserType.get() == UserType.COURIER && currentUser.get().getUsername().equals(username)) {
-    		Courier courier = (Courier) currentUser.get();
-    		courier.setOnDuty(isOnDuty);
-    	}
-    	else {
-    		throw new NoPermissionException("Don't have the permission to perform the requested action");
-    	}   	
-    }
+
 
     
     public void createMeal (String mealName, String mealType) throws NoPermissionException {
@@ -247,6 +355,18 @@ public class AppSystem {
     		throw new NoPermissionException("Only Restaurants can perform this action");
     }
     
+    /*
+     * Courrier related tasks
+     */
+    public void setOnDuty(String username, boolean isOnDuty) throws NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.COURIER && currentUser.get().getUsername().equals(username)) {
+    		Courier courier = (Courier) currentUser.get();
+    		courier.setOnDuty(isOnDuty);
+    	}
+    	else {
+    		throw new NoPermissionException("Don't have the permission to perform the requested action");
+    	}   	
+    }
     
     private <T extends User> boolean tryLogin(List<T> users, String username, String password, UserType typeofUser) {
         for (T user : users) {

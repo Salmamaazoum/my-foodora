@@ -1,18 +1,6 @@
 package food;
 
-public class FoodItem {
-	
-    private static int idCounter = 0;
-
-    private int id;
-	
-	private String name = "";
-	
-	private boolean isVegetarian ;
-	
-	private double price;
-	
-	public boolean isGlutenFree;
+public class FoodItem extends MenuComponent {	
 	
 	public enum foodCategory {
 		STARTER, MAINDISH , DESSERT
@@ -21,15 +9,11 @@ public class FoodItem {
 	private foodCategory category;
 	
 	public FoodItem() {
-		this.id = ++idCounter;
+		super();
 	}
 	
 	public FoodItem(String name, foodCategory category, boolean isVegetarian, boolean isGlutenFree,double price) {
-		this.id = ++idCounter;
-		this.isVegetarian=isVegetarian;
-		this.name=name;
-		this.price=price;
-		this.isGlutenFree=isGlutenFree;
+		super(name,isVegetarian,isGlutenFree,price);
 		this.category=category;
 	}
 
@@ -66,7 +50,21 @@ public class FoodItem {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	
+	
 
+
+	public int getOrderedFrequency() {
+		return orderedFrequency;
+	}
+
+	public void setOrderedFrequency(int orderedFrequency) {
+		this.orderedFrequency = orderedFrequency;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public void setIsGlutenFree(boolean isGlutenFree) {
 		this.isGlutenFree = isGlutenFree;
@@ -78,6 +76,10 @@ public class FoodItem {
 
 	public int getId() {
 		return id;
+	}
+	
+	public void updateOrderedFrequency() {
+		this.orderedFrequency++;
 	}
 
 	@Override

@@ -58,7 +58,7 @@ public class AppSystemCLI {
 							if (!AppSystem.getRestaurants().isEmpty()) {
 								System.out.println("Here is the list of available restaurants :");
 								for (Restaurant restaurant : AppSystem.getRestaurants()) {
-									System.out.print(restaurant.getName() + "-");
+									System.out.print(restaurant.getName() + "\n");
 									System.out.println("");
 								}
 							}
@@ -160,18 +160,10 @@ public class AppSystemCLI {
 						if (!AppSystem.getRestaurants().isEmpty()) {
 							for (Restaurant restaurant : AppSystem.getRestaurants()) {
 								if (restaurant.getName().equalsIgnoreCase(restaurantName)) {
-									System.out.println("Menu of " + restaurantName);
-									System.out.println(restaurant.getMenu());
-									if (!restaurant.getMeals().isEmpty()) {
-										System.out.println("Meals of " + restaurantName);
-										for (Meal meal : restaurant.getMeals()) {
-											System.out.println(meal);
-										}
-									}
-
+									restaurant.displayRestaurant();
 								}
 							}
-						}
+						}		
 						// ==================================
 					} catch (Exception e) {
 						System.out.println("Fail to create order! " + e.getMessage());
@@ -199,12 +191,12 @@ public class AppSystemCLI {
 				break;
 
 			case "endOrder":
-				if (parts.length == 3) {
+				if (parts.length == 2) {
 					String orderName = parts[1];
 
 					try {
 						appSystem.endOrder(orderName, customerOrders);
-						System.out.println("Order " + orderName + " finalised successfully");
+						
 					} catch (Exception e) {
 						System.out.println("Fail to finalise order! " + e.getMessage());
 					}
@@ -212,10 +204,91 @@ public class AppSystemCLI {
 					System.out.println("Usage : endOrder <orderName>");
 				}
 				break;
+			
+			case "historyOfOrders":
+				if (parts.length == 1) {
+					try {
+						appSystem.displayHistoryOrders();
+					} catch (Exception e) {
+						System.out.println("Fail to display previous orders" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : historyOfOrders <>");
+				}
+				break;
+				
+			case "registerFidelityCard":
+				if (parts.length == 2) {
+					String cardtype = parts[1];
+					try {
+						appSystem.registerFidelityCard(cardtype);
+					} catch (Exception e) {
+						System.out.println("Fail to register Fidelity Card plan" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : registerFidelityCard <cardType>");
+				}
+				break;
+				
+			case "unregisterFidelityCard":
+				if (parts.length == 1) {
+					
+					try {
+						appSystem.unregisterFidelityCard();
+					} catch (Exception e) {
+						System.out.println("Fail to unregister Fidelity Card plan" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : unregisterFidelityCard <>");
+				}
+				break;
 
 			/*
 			 * Restaurant related Tasks
 			 */
+				
+			case "showMenu":
+				if (parts.length == 1) {
+					try {
+						appSystem.showMenu();
+
+					} catch (Exception e) {
+						System.out.println("Fail to display menu !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : showMenu <>");
+				}
+				break;
+				
+			case "setSpecialDiscountFactor":
+				if (parts.length == 2) {
+					String specialDiscountFactor = parts[1];
+					try {
+						appSystem.setSpecialDiscountFactor(specialDiscountFactor);
+						System.out.println("Special discount updated successfully to "+specialDiscountFactor);
+
+					} catch (Exception e) {
+						System.out.println("Fail to set special discount factor !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : setSpecialDiscountFactor <specialDiscountFactor>");
+				}
+				break;
+				
+			case "setGenericDiscountFactor":
+				if (parts.length == 2) {
+					String genericDiscountFactor = parts[1];
+					try {
+						appSystem.setGenericDiscountFactor(genericDiscountFactor);
+						System.out.println("Special discount updated successfully to "+genericDiscountFactor);
+
+					} catch (Exception e) {
+						System.out.println("Fail to set generic discount factor !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : setGenericDiscountFactor <genericDiscountFactor>");
+				}
+				break;
 
 			case "addDishRestaurantMenu":
 				if (parts.length == 6) {

@@ -48,4 +48,67 @@ public class PointFidelityCard extends FidelityCard {
 		
 		return initialPrice - reduction;
 	}
+	
+	public void addPoints(int numberPoints) {
+		this.points+=numberPoints;
+	}
+	
+	public int computeNumberAddedPoints(double price) {
+		return (int) (price/amountReduction);
+	}
+
+	public void updatePoints(double price) {
+
+		int numberPoints = this.computeNumberAddedPoints(price);
+		this.addPoints(numberPoints);
+
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+
+	public static double getAmountReduction() {
+		return amountReduction;
+	}
+
+
+	public static void setAmountReduction(double amountReduction) {
+		PointFidelityCard.amountReduction = amountReduction;
+	}
+
+
+	public static int getTargetPoints() {
+		return targetPoints;
+	}
+
+
+	public static void setTargetPoints(int targetPoints) {
+		PointFidelityCard.targetPoints = targetPoints;
+	}
+
+
+	public static double getDiscountFactor() {
+		return discountFactor;
+	}
+
+
+	public static void setDiscountFactor(double discountFactor) {
+		PointFidelityCard.discountFactor = discountFactor;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Point Fidelity Card: "+"\n"+"Number of points gained so far: "+points;
+	}
+	
+	
+	
 }

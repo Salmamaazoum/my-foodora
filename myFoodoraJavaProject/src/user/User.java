@@ -3,10 +3,10 @@ package user;
 public abstract class User {
 	
 	
-	private int id;
-	private String name;
-	private String username;
-	private String password;
+	protected int id;
+	protected String name;
+	protected String username;
+	protected String password;
 	
     
     public User(String name, String username, String password) {
