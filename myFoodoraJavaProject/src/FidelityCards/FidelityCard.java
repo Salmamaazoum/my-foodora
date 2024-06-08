@@ -1,4 +1,6 @@
-package user;
+package FidelityCards;
+
+import user.Order;
 
 public abstract class FidelityCard {
 	protected FidelityCardType type;

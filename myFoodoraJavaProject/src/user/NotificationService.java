@@ -5,7 +5,7 @@ import food.Meal;
 public class NotificationService {
 	private static NotificationService instance = null;
 	
-	public static ArrayList<Subscriber> subscribers = new ArrayList<Subscriber>();
+	public static ArrayList<Observer> subscribers = new ArrayList<Observer>();
 	
 	public static boolean changed;
 	
@@ -21,28 +21,28 @@ public class NotificationService {
 		return instance;
 	}
 	
-	public void addSubscriber(Subscriber c) {
+	public void addObserver(Observer c) {
 		subscribers.add(c);
 	}
 	
-	public void removeSubscriber(Subscriber c) {
+	public void removeObserver(Observer c) {
 		if (subscribers.contains(c)) {
 			subscribers.remove(c);
 		}
 	}
 	
-	public void notifySubscribers(Meal meal, Restaurant restaurant) {
+	public void notifySubscribers(Meal meal, Restaurant restaurant,Offer offer) {
 		if (changed) {
-			for (Subscriber c: subscribers) {
-				c.update(meal,restaurant);
+			for (Observer c: subscribers) {
+				c.update(restaurant,offer,meal);
 			}
 		}
 		changed=false;
 	}
 	
-	public void setOffer(Meal meal, Restaurant restaurant) {
+	public void setOffer(Meal meal, Restaurant restaurant,Offer offer) {
 		changed=true;
-		this.notifySubscribers(meal,restaurant);
+		this.notifySubscribers(meal,restaurant,offer);
 		
 	}
 	

@@ -2,7 +2,13 @@ package user;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Customer extends User  {
+import FidelityCards.BasicFidelityCard;
+import FidelityCards.FidelityCard;
+import FidelityCards.FidelityCardFactory;
+import FidelityCards.PointFidelityCard;
+import food.Meal;
+
+public class Customer extends User implements Observer {
 	
 	private String surname;
 	
@@ -17,6 +23,16 @@ public class Customer extends User  {
     private FidelityCard fidelityCard;
     
     private boolean consensus;
+    
+    public enum Contact_offers {
+		email,
+		phone;
+	}
+	
+	/**
+	 * contact to be used to send the offers
+	 */
+	protected Contact_offers contact_offers = Contact_offers.email;
 
 	public Customer( String name, String username, String password, String surname, Coordinate address, String email, String phone) {
         super( name, username, password);
@@ -69,13 +85,80 @@ public class Customer extends User  {
 	
 	
 	
+	
+
+	public Contact_offers getContact_offers() {
+		return contact_offers;
+	}
+
+	public void setContact_offers(Contact_offers contact_offers) {
+		this.contact_offers = contact_offers;
+	}
 
 	public boolean consensus() {
 		return consensus;
 	}
 
 	public void setConsensus(boolean consensus) {
+		if(!this.consensus) {
+			if(consensus){
+				NotificationService.getInstance().addObserver(this);
+			}
+		}
+
+		if(this.consensus) {
+			if(!consensus){
+				NotificationService.getInstance().removeObserver(this);
+			}
+		}
+		
 		this.consensus = consensus;
+	}
+	
+	@Override
+	public void update(Restaurant restaurant, Offer offer,Meal meal) {
+		if(consensus) {
+			switch(offer){
+			case mealOfTheWeek:
+				switch(this.contact_offers) {
+				case email:
+					System.out.println("New email received at " + this.email + ": Restaurant " + restaurant.getName() + " has a new special offer: "
+							+ " New meal of the week: " + meal.getName());
+					break;
+				case phone:
+					System.out.println("New sms received at " + this.phone + ": Restaurant " + restaurant.getName() + " has a new special offer: "
+							+ " New meal of the week: " + meal.getName());
+					break;
+				}
+				break;
+				
+			case genericDiscount:
+				switch(this.contact_offers) {
+				case email:
+					System.out.println("New email received at " + this.email + ": Restaurant " + restaurant.getName() + " has a new special offer: "
+							+ " New generic discount factor: " + restaurant.getGenericDiscount());
+					break;
+				case phone:
+					System.out.println("New sms received at " + this.phone + ": Restaurant " + restaurant.getName() + " has a new special offer: "
+							+ " New generic discount factor: " + restaurant.getGenericDiscount());
+					break;
+				}
+				break;
+				
+			case specialDiscount:
+				switch(this.contact_offers) {
+				case email:
+					System.out.println("New email received at " + this.email + ": Restaurant " + restaurant.getName() + " has a new special offer: "
+							+ " New special discount factor: " + restaurant.getSpecialDiscount());
+					break;
+				case phone:
+					System.out.println("New sms received at " + this.phone + ": Restaurant " + restaurant.getName() + " has a new special offer: "
+							+ " New special discount factor: " + restaurant.getSpecialDiscount());
+					break;
+				}
+				break;
+			}
+		}
 	}
 
 	public ArrayList<Order> getOrderHistory() {
@@ -98,17 +181,15 @@ public class Customer extends User  {
 	 * Pay for an order by displaying a confirmation message
 	 */
 	public void payOrder(double price) {
-	    // Use String.format to cleanly format the message and handle floating point representation
+
 	    System.out.println(String.format("You have paid €%.2f for your order.", price));
 	    System.out.println("");
 
-	    // Check if the fidelity card is of type PointFidelityCard
 	    if (this.fidelityCard instanceof PointFidelityCard) {
 	        PointFidelityCard pointCard = (PointFidelityCard) this.fidelityCard;
 	        int numberAddedPts = pointCard.computeNumberAddedPoints(price);
 	        pointCard.updatePoints(price);
 
-	        // Format the points message to be clearer and grammatically correct
 	        if (numberAddedPts>=1) {
 	        	String pointsMessage = String.format("You earned %d %s!", numberAddedPts, numberAddedPts == 1 ? "fidelity point" : "fidelity points");
 	        	System.out.println(pointsMessage);

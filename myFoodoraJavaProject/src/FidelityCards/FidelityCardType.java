@@ -1,4 +1,4 @@
-package user;
+package FidelityCards;
 
 public enum FidelityCardType {
   BASIC,POINT,LOTTERY

@@ -1,4 +1,6 @@
-package user;
+package FidelityCards;
+
+import user.Order;
 
 public class BasicFidelityCard extends FidelityCard {
 	

@@ -1,9 +1,10 @@
-package user;
+package FidelityCards;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map.Entry;
 
 import food.Meal;
+import user.Order;
 
 public class LotteryFidelityCard extends FidelityCard {
 	

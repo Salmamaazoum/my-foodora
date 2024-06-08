@@ -134,7 +134,7 @@ public class Restaurant extends User {
 
 	public void addMeal(Meal meal) {
 		if (meal.isMealOfTheWeek()) {
-			NotificationService.getInstance().setOffer(meal,this);
+			NotificationService.getInstance().setOffer(meal,this,Offer.mealOfTheWeek);
 			meal.setPrice(this.mealPriceStrategy.calculatePrice(meal, this.specialDiscount));
 		}
 		else {
@@ -162,10 +162,12 @@ public class Restaurant extends User {
 
 	public void setGenericDiscount(double genericDiscount) {
 		this.genericDiscount = genericDiscount;
+		NotificationService.getInstance().setOffer(null,this,Offer.genericDiscount);
 	}
 
 	public void setSpecialDiscount(double specialDiscount) {
 		this.specialDiscount = specialDiscount;
+		NotificationService.getInstance().setOffer(null,this,Offer.specialDiscount);
 	}
 
 	// ============================
@@ -174,6 +176,7 @@ public class Restaurant extends User {
 
 	public void setPriceStrategy(MealPriceCalculationStrategy mealPriceStrategy) {
 		this.mealPriceStrategy = mealPriceStrategy;
+		
 	}
 
 	
@@ -192,7 +195,7 @@ public class Restaurant extends User {
 		if (!meal.isMealOfTheWeek()) {
 			meal.setMealOfTheWeek(true);
 			this.setMealPrice(meal);
-			NotificationService.getInstance().setOffer(meal,this);
+			NotificationService.getInstance().setOffer(meal,this,Offer.mealOfTheWeek);
 		}
 		
 	}
@@ -202,7 +205,7 @@ public class Restaurant extends User {
 		if (!meal.isMealOfTheWeek()) {
 			meal.setMealOfTheWeek(true);
 			this.setMealPrice(meal);
-			NotificationService.getInstance().setOffer(meal,this);
+			NotificationService.getInstance().setOffer(meal,this,Offer.mealOfTheWeek);
 		}
 		
 	}

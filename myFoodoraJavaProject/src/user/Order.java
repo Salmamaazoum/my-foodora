@@ -2,6 +2,7 @@ package user;
 import java.util.*;
 import java.util.Map.Entry;
 
+import FidelityCards.FidelityCard;
 import food.FoodItem;
 import food.Meal;
 import appSystem.AppSystem;
