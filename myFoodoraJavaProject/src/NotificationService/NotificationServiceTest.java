@@ -1,8 +1,11 @@
-package user;
+package NotificationService;
 
 import food.BadMealCompositionCreationException;
 import food.FoodItem;
 import food.Meal;
+import user.Coordinate;
+import user.Customer;
+import user.Restaurant;
 
 public class NotificationServiceTest {
 	public static void main(String[] args) throws BadMealCompositionCreationException {

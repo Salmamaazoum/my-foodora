@@ -1,8 +1,9 @@
-package user;
+package NotificationService;
 import java.util.*;
 import food.Meal;
+import user.Restaurant;
 
-public class NotificationService {
+public class NotificationService implements Observable{
 	private static NotificationService instance = null;
 	
 	public static ArrayList<Observer> subscribers = new ArrayList<Observer>();
@@ -21,7 +22,7 @@ public class NotificationService {
 		return instance;
 	}
 	
-	public void addObserver(Observer c) {
+	public void registerObserver(Observer c) {
 		subscribers.add(c);
 	}
 	
@@ -31,7 +32,7 @@ public class NotificationService {
 		}
 	}
 	
-	public void notifySubscribers(Meal meal, Restaurant restaurant,Offer offer) {
+	public void notifyObservers(Meal meal, Restaurant restaurant,Offer offer) {
 		if (changed) {
 			for (Observer c: subscribers) {
 				c.update(restaurant,offer,meal);
@@ -42,10 +43,13 @@ public class NotificationService {
 	
 	public void setOffer(Meal meal, Restaurant restaurant,Offer offer) {
 		changed=true;
-		this.notifySubscribers(meal,restaurant,offer);
+		this.notifyObservers(meal,restaurant,offer);
 		
+	}
+
+
 	}
 	
 	
-}
+
 

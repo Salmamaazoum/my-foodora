@@ -6,6 +6,9 @@ import FidelityCards.BasicFidelityCard;
 import FidelityCards.FidelityCard;
 import FidelityCards.FidelityCardFactory;
 import FidelityCards.PointFidelityCard;
+import NotificationService.NotificationService;
+import NotificationService.Observer;
+import NotificationService.Offer;
 import food.Meal;
 
 public class Customer extends User implements Observer {
@@ -102,7 +105,7 @@ public class Customer extends User implements Observer {
 	public void setConsensus(boolean consensus) {
 		if(!this.consensus) {
 			if(consensus){
-				NotificationService.getInstance().addObserver(this);
+				NotificationService.getInstance().registerObserver(this);
 			}
 		}
 

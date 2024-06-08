@@ -3,6 +3,8 @@ package user;
 import food.*;
 import java.util.*;
 
+import NotificationService.NotificationService;
+import NotificationService.Offer;
 import appSystem.AppSystem;
 
 public class Restaurant extends User {

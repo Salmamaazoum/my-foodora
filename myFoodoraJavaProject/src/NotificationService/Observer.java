@@ -1,6 +1,7 @@
-package user;
+package NotificationService;
 
 import food.Meal;
+import user.Restaurant;
 
 public interface Observer {
 
