@@ -259,32 +259,55 @@ public class Restaurant extends User {
 		meal.setPrice(meal.getPrice()+dish.getPrice());
 	}
 	
+	public void showSortedHalfMeals() {
+		
+		ArrayList<MenuComponent> halfMeals = new ArrayList<>();
+	        for (Meal meal : this.meals) {
+	            if (meal instanceof HalfMeal) {
+	                halfMeals.add(meal);
+	            }
+	        }
+
+	    OrderedFrequencySorter sorter = new OrderedFrequencySorter();
+	    ArrayList<MenuComponent> sortedHalfMeals = sorter.sort(halfMeals);
+		System.out.println("Sorted Half Meals");
+		for (MenuComponent item : sortedHalfMeals) {
+			System.out.println(item.getName()+" : ordered "+item.getOrderedFrequency() +(item.getOrderedFrequency()==1 ? " time." : " times."));
+		}
+	}
+	
+	public void showSortedDishes() {
+		
+		ArrayList<MenuComponent> dishes = new ArrayList<MenuComponent>(this.menu.getItems());
+	    OrderedFrequencySorter sorter = new OrderedFrequencySorter();
+	    ArrayList<MenuComponent> sortedDishes = sorter.sort(dishes);
+		System.out.println("Sorted Dishes");
+		for (MenuComponent item : sortedDishes) {
+			System.out.println(item.getName()+" : ordered "+item.getOrderedFrequency() +(item.getOrderedFrequency()==1 ? " time." : " times."));
+		}
+	}
+	
 	public void displayRestaurant() {
-	    // Use StringBuilder for efficient string concatenation
 	    StringBuilder output = new StringBuilder();
-	    
-	    // Adding header for the menu
+
 	    output.append("Menu of ").append(this.name).append(":\n");
-	    
-	    // Check if the menu is empty
+
 	    if (this.menu.getItems().isEmpty()) {
 	        output.append("No items in the menu.\n");
 	    } else {
-	        output.append(this.menu.toString()).append("\n"); // Assuming menu.toString() is implemented appropriately
+	        output.append(this.menu.toString()).append("\n"); 
 	    }
 	    
-	    // Adding header for the meals
+
 	    if (!this.meals.isEmpty()) {
 	        output.append("Meals offered at ").append(this.name).append(":\n");
 	        for (Meal meal : this.meals) {
-	            // Assuming Meal's toString method is overridden to provide detailed information about the meal
 	            output.append(meal.toString()).append("\n");
 	        }
 	    } else {
 	        output.append("No meals currently offered.\n");
 	    }
-	    
-	    // Print the entire constructed output
+
 	    System.out.println(output.toString());
 	}
 

@@ -1,29 +1,41 @@
 package cli;
 
-import java.util.*;
-import java.util.Map.Entry;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
-import food.*;
 import appSystem.AppSystem;
-import food.FoodItem;
-import food.Meal;
 import user.Coordinate;
 import user.Courier;
 import user.Customer;
-import user.Restaurant;
-import user.User;
 import user.Order;
+import user.Restaurant;
 import user.UserType;
 
 public class AppSystemCLI {
 	private static AppSystem appSystem;
 	private static Map<String, Order> customerOrders = new HashMap<String, Order>();
+	
+    private static void printWelcomeMessage() {
+        System.out.println(
+            "  _  _  _  _  ____  __    __  ____   __  ____   __  \n" +
+            " ( \\/ )( \\/ )(  __)/  \\  /  \\(    \\ /  \\(  _ \\ / _\\ \n" +
+            " / \\/ \\ )  (  ) _)(  O )(  O )) D ((  O ))   //    \\\n" +
+            " \\_)(_/(__/  (__)  \\__/  \\__/(___/ \\__/(__\\_)\\_/ \\_/\n" +
+            "\n              Deliciously Delivered ☺"
+            + "\n"+
+            "\nWelcome to myFoodora!"
+        );
+    }
 
 	public static void main(String[] args) {
 		appSystem = AppSystem.getInstance();
 		Scanner scanner = new Scanner(System.in);
 
-		System.out.println("Welcome to the AppSystem CLI!");
+		printWelcomeMessage();
+		
+		System.out.println("Please use 'login <username> <password>'.");
+		System.out.println("For any inquiries regarding the commands, type 'help'.");
 
 		while (true) {
 			System.out.print("> ");
@@ -398,6 +410,32 @@ public class AppSystemCLI {
 					}
 				} else {
 					System.out.println("Usage : setSpecialOffer <mealName>");
+				}
+				break;
+				
+			case "showSortedHalfMeals":
+				if (parts.length == 1) {
+					try {
+						appSystem.showSortedHalfMeals();
+
+					} catch (Exception e) {
+						System.out.println("Fail to display sorted half meals !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : showSortedHalfMeals <>");
+				}
+				break;
+				
+			case "showSortedDishes":
+				if (parts.length == 1) {
+					try {
+						appSystem.showSortedDishes();
+
+					} catch (Exception e) {
+						System.out.println("Fail to display sorted dishes !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : showSortedDishes <>");
 				}
 				break;
 

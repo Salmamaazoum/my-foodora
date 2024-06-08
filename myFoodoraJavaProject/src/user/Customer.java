@@ -100,6 +100,7 @@ public class Customer extends User  {
 	public void payOrder(double price) {
 	    // Use String.format to cleanly format the message and handle floating point representation
 	    System.out.println(String.format("You have paid €%.2f for your order.", price));
+	    System.out.println("");
 
 	    // Check if the fidelity card is of type PointFidelityCard
 	    if (this.fidelityCard instanceof PointFidelityCard) {
@@ -124,6 +125,7 @@ public class Customer extends User  {
 
 	    if (price > 0) {
 	        System.out.println("Payment in process...");
+	       
 	        this.payOrder(price); 
 	    } else if (price == 0) {
 	        System.out.println("No payment needed. Your order seems to be free!");

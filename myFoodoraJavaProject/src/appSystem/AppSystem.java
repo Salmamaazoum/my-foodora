@@ -355,6 +355,22 @@ public class AppSystem {
     		throw new NoPermissionException("Only Restaurants can perform this action");
     }
     
+    public void showSortedHalfMeals() throws NotFoundException, NoPermissionException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+    		((Restaurant)currentUser.get()).showSortedHalfMeals();
+    	}
+    	else
+    		throw new NoPermissionException("Only Restaurants can perform this action");
+    }
+    
+    public void showSortedDishes() throws NotFoundException, NoPermissionException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.RESTAURANT) {
+    		((Restaurant)currentUser.get()).showSortedDishes();
+    	}
+    	else
+    		throw new NoPermissionException("Only Restaurants can perform this action");
+    }
+    
     /*
      * Courrier related tasks
      */

@@ -17,13 +17,6 @@ public class FoodItem extends MenuComponent {
 		this.category=category;
 	}
 
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public foodCategory getCategory() {
 		return category;
@@ -33,61 +26,19 @@ public class FoodItem extends MenuComponent {
 		this.category = category;
 	}
 
-	
 
-	public boolean getIsVegetarian() {
-		return isVegetarian;
-	}
-
-	public void setIsVegetarian(boolean isVegetarian) {
-		this.isVegetarian = isVegetarian;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-	
-	
-
-
-	public int getOrderedFrequency() {
-		return orderedFrequency;
-	}
-
-	public void setOrderedFrequency(int orderedFrequency) {
-		this.orderedFrequency = orderedFrequency;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setIsGlutenFree(boolean isGlutenFree) {
-		this.isGlutenFree = isGlutenFree;
-	}
-
-	public boolean getIsGlutenFree() {
-		return isGlutenFree;
-	}
-
-	public int getId() {
-		return id;
-	}
-	
-	public void updateOrderedFrequency() {
-		this.orderedFrequency++;
-	}
 
 	@Override
 	public String toString() {
-		return "FoodItem [id=" + id + ", name=" + name + ", isVegetarian=" + isVegetarian + ", price=" + price
-				+ ", isGlutenFree=" + isGlutenFree + ", category=" + category + "]";
+	    return "FoodItem {\n" +
+	           "  id: " + id + ",\n" +
+	           "  name: " + name + ",\n" +
+	           "  isVegetarian: " + (isVegetarian ? "Yes" : "No") + ",\n" +
+	           "  price: $" + String.format("%.2f", price) + ",\n" +
+	           "  isGlutenFree: " + (isGlutenFree ? "Yes" : "No") + ",\n" +
+	           "  category: " + category + "\n" +
+	           "}";
 	}
-	
 	
 	
 	
