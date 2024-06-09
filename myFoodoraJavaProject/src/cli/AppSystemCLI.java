@@ -1,5 +1,8 @@
 package cli;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -26,6 +29,15 @@ public class AppSystemCLI {
             + "\n"+
             "\nWelcome to myFoodora!"
         );
+    }
+    
+    private static void runTestScenario(String testScenarioFile) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(testScenarioFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                handleCommand(line);
+            }
+        }
     }
 
 	public static void main(String[] args) {
@@ -116,6 +128,19 @@ public class AppSystemCLI {
 	            System.out.println("----------------------------------------");
 	            System.out.println("----------------------------------------");
 				break;
+				
+			case "runTest":
+                if (parts.length == 2) {
+                    String testScenarioFile = parts[1];
+                    try {
+                        runTestScenario(testScenarioFile);
+                    } catch (Exception e) {
+                        System.out.println("Failed to run test scenario: " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("Usage: runTest <testScenario-file>");
+                }
+                break;
 
 			case "login":
 				if (parts.length == 3) {

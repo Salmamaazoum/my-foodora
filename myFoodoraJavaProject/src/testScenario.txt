@@ -1,0 +1,9 @@
+login "admin" "1234"
+registerRestaurant "Noodle House" "noodle" "1234"
+registerRestaurant "Burger King" "bk" "1234"
+registerCustomer "Alice" "Waters" "awaters" "1234"
+registerCustomer "Thomas" "Keller" "tkeller" "1234"
+registerCourier "Michael" "Johnson" "mjohnson" "1234"
+registerCourier "Carl" "Lewis" "clewis" "1234"
+registerCourier "Flash" "Gordon" "flashg" "1234"
+logout
