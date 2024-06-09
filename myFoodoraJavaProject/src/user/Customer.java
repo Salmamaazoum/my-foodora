@@ -217,7 +217,7 @@ public class Customer extends User implements Observer {
 	    if (price > 0) {
 	        System.out.println("Payment in process...");
 	       
-	        this.payOrder(price); 
+	        this.payOrder(order.getTotalPrice()); 
 	    } else if (price == 0) {
 	        System.out.println("No payment needed. Your order seems to be free!");
 	    } else {

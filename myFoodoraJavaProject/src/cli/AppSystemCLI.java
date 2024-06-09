@@ -35,6 +35,7 @@ public class AppSystemCLI {
 
 		FileReader file = null;
 		BufferedReader reader = null;
+		int i =1;
 
 		try {
 			// open input stream pointing at fileName
@@ -46,7 +47,10 @@ public class AppSystemCLI {
 
 			// reading input file line by line
 			while ((line = reader.readLine()) != null) {
+				System.out.println(i +"-"+ line);
 				handleCommand(line);
+				System.out.println("");
+				i++;
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -64,10 +68,9 @@ public class AppSystemCLI {
 		}
 
 	} 
+	
     private static void runTestScenario(String testScenarioFile) throws IOException {
-
         readTextFile(testScenarioFile);
-
     }
 
 	public static void main(String[] args) {
@@ -193,7 +196,7 @@ public class AppSystemCLI {
 
 						}
 					} else {
-						System.out.println("Login failed.");
+						System.out.println("Login failed. Unknown user");
 					}
 				} else {
 					System.out.println("Usage: login <username> <password>");
@@ -289,7 +292,21 @@ public class AppSystemCLI {
 				}
 				break;
 				
-			case "showRestaurantsTop":
+			case "showCustomers":
+				if (parts.length == 1) {
+					try {
+						appSystem.showCustomers();
+
+					} catch (Exception e) {
+						System.out.println("Fail to display sorted Customers !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : showCustomers <>");
+				}
+				break;
+
+				
+			case "showRestaurantTop":
 				if (parts.length == 1) {
 					try {
 						appSystem.showSortedRestaurants();
@@ -331,16 +348,17 @@ public class AppSystemCLI {
 				break;
 				
 			case "setProfitPolicy":
-				if (parts.length == 2) {
+				if (parts.length == 3) {
 					String ProfPolicyName = parts[1];
+					double target = Double.parseDouble(parts[2]);
 					try {
-						appSystem.setProfitPolicyName(ProfPolicyName);
+						appSystem.setProfitPolicyName(ProfPolicyName, target);
 						System.out.println("Profit policy changed successfully");
 					} catch (Exception e) {
 						System.out.println(e.getMessage());
 					}
 				} else {
-					System.out.println("Usage : setProfitPolicy <ProfitPolicyName>");
+					System.out.println("Usage : setProfitPolicy <ProfitPolicyName> <target>");
 				}
 				break;
 				
@@ -379,6 +397,7 @@ public class AppSystemCLI {
 					System.out.println("Usage : showTotalProfit <> or showTotalProfit <satrtDate> <EndDate>");
 				}
 				break;
+				
 				
 
 			/*
@@ -631,6 +650,7 @@ public class AppSystemCLI {
 					String mealName = parts[1];
 					try {
 						appSystem.setSpecialOffer(mealName);
+						System.out.println("New Special Offer : "+mealName+" is the meal of the Week!");
 
 					} catch (Exception e) {
 						System.out.println("Fail to set special offer on meal " + mealName + "!" + e.getMessage());
@@ -714,7 +734,7 @@ public class AppSystemCLI {
             		}
             	}
             	else {
-            		System.out.println("Usage : onDuty <username>");
+            		System.out.println("Usage : offDuty <username>");
             	}
             	break;
 					

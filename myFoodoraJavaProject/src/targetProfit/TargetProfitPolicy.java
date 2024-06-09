@@ -5,6 +5,6 @@ import appSystem.AppSystem;
 
 public interface TargetProfitPolicy {
 
-	public abstract double meetTargetProfit (AppSystem appSystem, double targetProfit) throws NonReachableTargetProfitException;
+	public abstract void meetTargetProfit (AppSystem appSystem, double targetProfit) throws NonReachableTargetProfitException;
 	
 }

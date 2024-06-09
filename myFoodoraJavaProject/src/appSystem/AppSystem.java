@@ -42,7 +42,7 @@ public class AppSystem {
 	private static TargetProfitPolicy targetProfitPolicy = new ServiceFeeTargetPolicy();
 
 	private double serviceFee = 2;
-	private double markupPercentage = 3.0;
+	private double markupPercentage = 0.3;
 	private double deliveryCost = 5;
     
 
@@ -196,10 +196,10 @@ public class AppSystem {
     	}
     }
     
-    public void setProfitPolicyName(String profitPolicyName) throws NoPermissionException, unknownProfitPolicyException {
+    public void setProfitPolicyName(String profitPolicyName, double target) throws NoPermissionException, unknownProfitPolicyException, NonReachableTargetProfitException {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
     		Manager manager = (Manager) currentUser.get();
-    		manager.setTargetProfitPolicy(profitPolicyName);
+    		manager.setTargetProfitPolicy(profitPolicyName, target);
     	} else {
     		throw new NoPermissionException("Only managers can perform this action.");
     	}

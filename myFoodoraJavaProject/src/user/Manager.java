@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import Exceptions.NonReachableTargetProfitException;
 import Exceptions.unknownDeliveryPolicyException;
 import Exceptions.unknownProfitPolicyException;
 import appSystem.AppSystem;
@@ -31,7 +32,7 @@ public class Manager extends User {
         super( name, username, password);
         this.surname = surname;
         this.deliveryPolicyFactory = new DeliveryPolicyFactory();
-        this.deliveryPolicyFactory = new DeliveryPolicyFactory();
+        this.targetProfitPolicyFactory = new TargetProfitPolicyFactory();
         this.appSystem = AppSystem.getInstance();
     }
 	
@@ -84,9 +85,11 @@ public class Manager extends User {
     	
     }
     
-	public void setTargetProfitPolicy (String targetProfitPolicyName) throws unknownProfitPolicyException{
+	public void setTargetProfitPolicy (String targetProfitPolicyName, double target) throws unknownProfitPolicyException, NonReachableTargetProfitException{
 		TargetProfitPolicy targetProfitPolicy = targetProfitPolicyFactory.chooseTargetProfitPolicy(targetProfitPolicyName);
+		targetProfitPolicy.meetTargetProfit(appSystem, target);
 		AppSystem.setTargetProfitPolicy(targetProfitPolicy);
+		
 	}
 	
 	public void setDeliveryPolicy (String deliveryPolicyName) throws unknownDeliveryPolicyException{

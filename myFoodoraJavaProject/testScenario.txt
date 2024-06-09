@@ -1,9 +1,113 @@
-login "admin" "1234"
-registerRestaurant "Noodle House" "noodle" "1234"
-registerRestaurant "Burger King" "bk" "1234"
-registerCustomer "Alice" "Waters" "awaters" "1234"
-registerCustomer "Thomas" "Keller" "tkeller" "1234"
-registerCourier "Michael" "Johnson" "mjohnson" "1234"
-registerCourier "Carl" "Lewis" "clewis" "1234"
-registerCourier "Flash" "Gordon" "flashg" "1234"
+login Salma 1234
+registerRestaurant NoodleHouse noodle 1234
+registerRestaurant BurgerKing bk 1234
+registerCustomer Alice Waters awaters 1234
+registerCustomer Thomas Keller tkeller 1234
+registerCourier Michael Johnson mjohnson 1234
+registerCourier Carl Lewis clewis 1234
+registerCourier Flash Gordon flashg 1234
+showCustomers
+showCourierDeliveries
+showRestaurantTop
+logout
+login noodle 1234
+addDishRestaurantMenu ramenpork mainDish standard no 9 
+addDishRestaurantMenu ramenveggie mainDish vegetarian yes 8.5
+addDishRestaurantMenu sushiroll mainDish vegetarian yes 9.5
+addDishRestaurantMenu misosoup starter vegetarian yes 4
+addDishRestaurantMenu mochi dessert vegetarian no 6
+createMeal ComboA full
+addDish2Meal misosoup ComboA
+addDish2Meal sushiroll ComboA
+addDish2Meal mochi ComboA
+showMeal ComboA
+createMeal ComboB half
+addDish2Meal misosoup ComboB
+addDish2Meal ramenpork ComboB
+setSpecialOffer ComboA
+showMenu
+setGenericDiscountFactor 0.065
+showMenu
+logout 
+login bk 1234
+addDishRestaurantMenu cheeseburger mainDish standard no 14
+addDishRestaurantMenu veggieburger mainDish vegetarian yes 15.5
+addDishRestaurantMenu fries starter vegetarian yes 5
+addDishRestaurantMenu nuggets starter standard yes 4
+addDishRestaurantMenu chocopie dessert vegetarian yes 7.5
+createMeal MegaMeal full
+addDish2Meal cheeseburger MegaMeal
+addDish2Meal nuggets MegaMeal
+addDish2Meal chocopie MegaMeal
+showMeal MegaMeal
+createMeal MiniMeal half
+addDish2Meal veggieburger MiniMeal
+addDish2Meal fries MiniMeal
+setSpecialOffer MiniMeal
+showMenu
+setSpecialDiscountFactor 0.1
+showMenu 
+logout
+login Salma 1234
+registerCustomer Remy Linguini rlinguini 1234
+logout
+login rlinguini 1234
+registerFidelityCard point
+displayFidelityCardInfo
+createOrder BurgerKing myOrder1
+addItem2Order myOrder1 MiniMeal
+addItem2Order myOrder1 MegaMeal
+addItem2Order myOrder1 chocopie
+endOrder myOrder1
+logout
+login awaters 1234
+registerFidelityCard lottery
+displayFidelityCardInfo
+createOrder NoodleHouse myOrder1
+addItem2Order myOrder1 ComboA
+addItem2Order myOrder1 ComboB
+addItem2Order myOrder1 misosoup
+addItem2Order myOrder1 mochi
+endOrder myOrder1
+logout
+login clewis 1234
+offDuty clewis
+logout
+login flashg 1234
+onDuty clewis
+logout
+login mjohnson 1234
+logout
+login clewis 1234
+logout
+login Salma 1234
+showTotalProfit
+showTotalProfit 01/02/2018 28/02/2018
+setDeliveryPolicy fairOccupationPolicy
+logout
+login awaters 1234
+historyOfOrders
+displayFidelityCardInfo
+createOrder NoodleHouse myOrder1
+addItem2Order myOrder1 ComboB
+addItem2Order myOrder1 misosoup
+addItem2Order myOrder1 mochi
+endOrder myOrder1
+logout
+login clewis 1234
+logout
+login noodle 1234
+showSortedHalfMeals
+showSortedDishes
+logout
+login Salma 1234
+showTotalProfit
+showTotalProfit 01/02/2018 28/02/2018
+setProfitPolicy deliveryCost 25
+showTotalProfit
+showCustomers 
+showCourierDeliveries
+showRestaurantTop
+logout
+login hamid 1234
 logout

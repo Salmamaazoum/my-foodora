@@ -1,6 +1,7 @@
 package targetProfit;
 
 import Exceptions.unknownProfitPolicyException;
+import appSystem.AppSystem;
 
 public class TargetProfitPolicyFactory {
 	public TargetProfitPolicyFactory() {

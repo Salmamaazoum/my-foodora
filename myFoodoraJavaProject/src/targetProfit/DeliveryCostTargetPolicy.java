@@ -5,8 +5,9 @@ import appSystem.AppSystem;
 
 public class DeliveryCostTargetPolicy implements TargetProfitPolicy {
 	
+
 	@Override
-	public double meetTargetProfit (AppSystem appSystem, double targetProfit) throws NonReachableTargetProfitException {
+	public void meetTargetProfit (AppSystem appSystem, double targetProfit) throws NonReachableTargetProfitException {
 		int numberOfOrders = AppSystem.getOrders().size();
 		double totalIncome = appSystem.getTotalIncomeLastMonth();
 		double markupPercentage = appSystem.getMarkupPercentage();
@@ -17,7 +18,7 @@ public class DeliveryCostTargetPolicy implements TargetProfitPolicy {
 			throw (new NonReachableTargetProfitException("This target profit can not be reached"));
 		}
 		if (markupPercentage >= 0){
-			return(deliveryCost);
+			appSystem.setDeliveryCost(deliveryCost);
 		}else{
 			throw (new NonReachableTargetProfitException("This target profit can not be reached"));
 		}
