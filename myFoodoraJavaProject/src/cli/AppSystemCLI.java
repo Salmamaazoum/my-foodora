@@ -412,7 +412,6 @@ public class AppSystemCLI {
 					System.out.println("Usage : setSpecialOffer <mealName>");
 				}
 				break;
-<<<<<<< HEAD
 			
             case "onDuty":
             	if (parts.length==2) {
@@ -447,7 +446,6 @@ public class AppSystemCLI {
             		System.out.println("Usage : onDuty <username>");
             	}
             	break;
-=======
 				
 			case "showSortedHalfMeals":
 				if (parts.length == 1) {
@@ -474,7 +472,6 @@ public class AppSystemCLI {
 					System.out.println("Usage : showSortedDishes <>");
 				}
 				break;
->>>>>>> main
 
 			default:
 				System.out.println("Unknown command: " + command);
