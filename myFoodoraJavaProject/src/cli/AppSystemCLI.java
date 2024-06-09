@@ -100,7 +100,7 @@ public class AppSystemCLI {
 					String username = parts[3];
 					String password = parts[4];
 
-					Customer customer = new Customer(firstName, username, password, lastName, new Coordinate());
+					Customer customer = new Customer(firstName, username, password, lastName);
 
 					try {
 						appSystem.registerCustomer(customer);
