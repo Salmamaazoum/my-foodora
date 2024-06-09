@@ -25,6 +25,14 @@ public class Courier extends User {
         this.deliveryCounter = 0;
     }
 	
+	public int getDeliveryCounter() {
+		return this.deliveryCounter;
+	}
+	
+	public void setDeliveryCounter(int deliveryCounter) {
+		this.deliveryCounter = deliveryCounter;
+	}
+	
 	public String getSurname() {
 		return surname;
 	}
@@ -55,6 +63,10 @@ public class Courier extends User {
 
 	public void setOnDuty(boolean OnDuty) {
 		this.OnDuty = OnDuty;
+	}
+	
+	public void incrementDeliveryCounter() {
+		deliveryCounter++;
 	}
 	
 	

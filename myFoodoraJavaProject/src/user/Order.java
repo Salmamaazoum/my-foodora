@@ -19,6 +19,8 @@ public class Order {
     
     private Customer customer;
     
+    private Courier courier;
+    
     private Map<FoodItem,Integer> orderItems = new HashMap<FoodItem,Integer>(); //map food item into its corresponding quantity
 	
     private Map<Meal,Integer> orderMeals = new HashMap<Meal,Integer>();
@@ -155,6 +157,10 @@ public class Order {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	
+	public void setCourier(Courier courier) {
+		this.courier = courier;
 	}
 
 	@Override

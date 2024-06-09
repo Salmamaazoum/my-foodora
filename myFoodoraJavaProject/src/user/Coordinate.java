@@ -38,5 +38,9 @@ public class Coordinate {
 		return "Coordinate: x=" + x + ", y=" + y;
 	}
 	
+	public double calculateDistance(Coordinate coordinate) {
+		return Math.sqrt((coordinate.getX()-x)*(coordinate.getX()-x)+(coordinate.getY()-y)*(coordinate.getY()-y));
+	}
+	
 
 }
