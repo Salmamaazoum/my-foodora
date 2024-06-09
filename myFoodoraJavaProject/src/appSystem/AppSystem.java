@@ -205,6 +205,7 @@ public class AppSystem {
     	}
     }
     
+    
     public void showSortedCouriers() throws NoPermissionException{
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
     		((Manager)currentUser.get()).showSortedCouriers();
@@ -300,6 +301,25 @@ public class AppSystem {
     /*
      *  Customer Tasks
      */
+	
+	public void setConsensusMail(String mail) throws NoPermissionException {
+		if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
+			((Customer)currentUser.get()).setConsensus(true);
+			((Customer)currentUser.get()).setContact_offers(Customer.Contact_offers.email,mail);
+		}
+		else
+		    throw new NoPermissionException("Only Customers can perform this action");
+    }
+	
+	public void setConsensusPhone(String phone) throws NoPermissionException {
+		if (currentUserType.isPresent() && currentUserType.get() == UserType.CUSTOMER) {
+			((Customer)currentUser.get()).setConsensus(true);
+			((Customer)currentUser.get()).setContact_offers(Customer.Contact_offers.phone,phone);
+		}
+		else
+		    throw new NoPermissionException("Only Customers can perform this action");
+    }
+	
     
     public Order createOrder(String restaurantName) throws NoPermissionException, NotFoundException{
     	Order order = null;

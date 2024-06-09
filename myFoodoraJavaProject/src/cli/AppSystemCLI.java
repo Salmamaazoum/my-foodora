@@ -489,6 +489,34 @@ public class AppSystemCLI {
 				}
 				break;
 				
+			case "setConsensusMail":
+				if (parts.length == 2) {
+					String mail = parts[1];
+					try {
+						appSystem.setConsensusMail(mail);
+						System.out.println("You will from now on receive mail notifications about special offers");
+					} catch (Exception e) {
+						System.out.println("Fail to register Fidelity Card plan" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : registerFidelityCard <cardType>");
+				}
+				break;
+			
+			case "setConsensusPhone":
+				if (parts.length == 2) {
+					String phone = parts[1];
+					try {
+						appSystem.setConsensusPhone(phone);
+						System.out.println("You will from now on receive phone notifications about special offers");
+					} catch (Exception e) {
+						System.out.println("Fail to register Fidelity Card plan" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : registerFidelityCard <cardType>");
+				}
+				break;
+				
 			case "unregisterFidelityCard":
 				if (parts.length == 1) {
 					

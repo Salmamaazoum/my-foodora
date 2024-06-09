@@ -28,7 +28,10 @@ setSpecialOffer ComboA
 showMenu
 setGenericDiscountFactor 0.065
 showMenu
-logout 
+logout
+login awaters 1234
+setConsensusMail waters@example.com
+logout
 login bk 1234
 addDishRestaurantMenu cheeseburger mainDish standard no 14
 addDishRestaurantMenu veggieburger mainDish vegetarian yes 15.5
