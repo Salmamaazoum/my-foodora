@@ -56,6 +56,66 @@ public class AppSystemCLI {
 		String command = parts[0];
 
 		switch (command) {
+			case "help":
+	            System.out.println("Available commands:\n");
+	            System.out.println("runTest <testScenarioFile> - execute the list of CLUI commands contained in the testScenario file passed as argument\n");
+	            System.out.println("login <username> <password> - Log in with the specified username and password.");
+	            System.out.println("logout - Log out of the current session.");
+	            System.out.println("----------------------------------------");
+	            System.out.println("----------------------------------------");
+	            System.out.println("Manager related tasks :");
+	            System.out.println("registerCustomer <firstName> <lastName> <username> <password> - Registers a new customer with the specified first name, last name, username, and password.");
+	            System.out.println("registerRestaurant <name> <username> <password> - Registers a new restaurant with the given name, username, and password.");
+	            System.out.println("registerCourier <firstName> <lastName> <username> <password> - Registers a new courier with the provided first name, last name, username, and password.");
+	            System.out.println("showCourierDeliveries - Displays a list of all couriers sorted by the number of deliveries they have completed.");
+	            System.out.println("showRestaurantsTop - Displays a list of restaurants sorted by popularity or total number of orders.");
+	            System.out.println("showMenuItem <restaurant-name> - Shows all menu items available in the specified restaurant.");
+	            System.out.println("setDeliveryPolicy <delPolicyName> - Sets the delivery policy for the system to the specified policy.");
+	            System.out.println("setProfitPolicy <ProfitPolicyName> - Sets the profit policy of the system based on the given policy name.");
+	            System.out.println("associateCard <userName> <cardType> - Associates a fidelity card of the specified type with the given user.");
+	            System.out.println("showTotalProfit - Displays the total profit made by the system. Can also display profit for a specific date range if dates are provided.");
+	            System.out.println("showTotalProfit <startDate> <endDate> - Displays the total profit made by the system within the specified date range.");
+	            System.out.println("----------------------------------------");
+	            System.out.println("----------------------------------------");
+	            System.out.println("Customer related tasks :");
+	            System.out.println("createOrder <restaurantName> <orderName> - Create a new order at the specified restaurant and assign it a name for future reference.");
+	            System.out.println("addItem2Order <orderName> <itemName> - Add a specified item to an already created order by its name.");
+	            System.out.println("endOrder <orderName> - Finalize and submit the specified order, processing payment and scheduling delivery.");
+	            System.out.println("historyOfOrders - Display the history of all completed orders for the logged-in customer.");
+	            System.out.println("registerFidelityCard <cardType> - Register a fidelity card of the specified type for the logged-in customer.");
+	            System.out.println("unregisterFidelityCard - Unregister the current fidelity card for the logged-in customer, removing any associated benefits.");
+	            System.out.println("displayFidelityCardInfo - Display details about the currently registered fidelity card for the logged-in customer.");
+	            System.out.println("----------------------------------------");
+	            System.out.println("----------------------------------------");
+	            System.out.println("Restaurant related tasks :");
+	            System.out.println("showMenu - Displays the entire menu for the current restaurant.");
+	            System.out.println("setSpecialDiscountFactor <specialDiscountFactor> - Sets a special discount factor for applicable meals in the restaurant.");
+	            System.out.println("setGenericDiscountFactor <genericDiscountFactor> - Sets a generic discount factor that applies to all meals.");
+	            System.out.println("addDishRestaurantMenu <dishName> <dishCategory> <foodType> <glutenFree> <unitPrice> - Adds a dish to the restaurant menu with specified attributes.");
+	            System.out.println("createMeal <mealName> <mealType> - Creates a new meal. Optionally specify if the meal is vegetarian and/or gluten-free.");
+	            System.out.println("createMeal <mealName> <mealType> <standardOrVegetarian> <GlutenFree> - Extended version to specify dietary preferences.");
+	            System.out.println("addDish2Meal <dishName> <mealName> - Adds a dish to an existing meal.");
+	            System.out.println("showMeal <mealName> - Displays details about a specific meal.");
+	            System.out.println("setSpecialOffer <mealName> - Marks a meal as a special offer, potentially altering its price.");
+	            System.out.println("removeFromSpecialOffer <mealName> - Removes the special offer status from a meal.");
+	            System.out.println("showSortedHalfMeals - Displays all half-meal options sorted by some criteria such as popularity or price.");
+	            System.out.println("showSortedDishes - Displays dishes sorted by popularity or another criterion.");
+	            System.out.println("showCourierDeliveries - Displays a list of all couriers sorted by the number of deliveries they have completed.");
+	            System.out.println("showRestaurantsTop - Displays a list of restaurants sorted by popularity or total number of orders.");
+	            System.out.println("showMenuItem <restaurant-name> - Shows all menu items available in the specified restaurant.");
+	            System.out.println("setDeliveryPolicy <delPolicyName> - Sets the delivery policy for the system to the specified policy.");
+	            System.out.println("setProfitPolicy <ProfitPolicyName> - Sets the profit policy of the system based on the given policy name.");
+	            System.out.println("associateCard <userName> <cardType> - Associates a fidelity card of the specified type with the given user.");
+	            System.out.println("showTotalProfit - Displays the total profit made by the system. Can also display profit for a specific date range if dates are provided.");
+	            System.out.println("showTotalProfit <startDate> <endDate> - Displays the total profit made by the system within the specified date range.");
+	            System.out.println("----------------------------------------");
+	            System.out.println("----------------------------------------");
+	            System.out.println("Courier related tasks :");
+	            System.out.println("onDuty <username> - Sets the specified courier's status to on duty, indicating they are available for deliveries.");
+	            System.out.println("offDuty <username> - Sets the specified courier's status to off duty, indicating they are not available for deliveries.");
+	            System.out.println("----------------------------------------");
+	            System.out.println("----------------------------------------");
+				break;
 
 			case "login":
 				if (parts.length == 3) {
@@ -91,6 +151,10 @@ public class AppSystemCLI {
 
 				customerOrders = new HashMap<String, Order>(); // Reset customerOrders to empty Map after Logout
 				break;
+				
+				/*
+				 * Manager related Tasks
+				 */
 
 			case "registerCustomer":
 				if (parts.length == 5) {
@@ -114,9 +178,7 @@ public class AppSystemCLI {
 				}
 				break;
 
-				/*
-				 * Manager related Tasks
-				 */
+
 
 			case "registerRestaurant":
 				if (parts.length == 4) {
