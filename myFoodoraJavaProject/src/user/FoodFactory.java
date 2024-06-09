@@ -17,8 +17,8 @@ public class FoodFactory {
     			break;
     		}
     	}
-    	item.setIsVegetarian(foodType.equalsIgnoreCase("vegetarian"));
-    	item.setIsGlutenFree(glutenFree.equalsIgnoreCase("yes"));
+    	item.setVegetarian(foodType.equalsIgnoreCase("vegetarian"));
+    	item.setGlutenFree(glutenFree.equalsIgnoreCase("yes"));
     	item.setPrice(Double.parseDouble(unitPrice));
     	
     	return item;

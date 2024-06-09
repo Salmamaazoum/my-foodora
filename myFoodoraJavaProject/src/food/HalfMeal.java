@@ -30,7 +30,7 @@ public class HalfMeal extends Meal{
 
 	@Override
 	public String toString() {
-		String s = "The meal '" + this.name + "' is composed of : ";
+		String s = "The meal '" + this.name + "' composed of : ";
 		for (int i=0;i<this.mealComposition.size()-1;i++) {
 			s += this.mealComposition.get(i).getName() +", ";
 		}

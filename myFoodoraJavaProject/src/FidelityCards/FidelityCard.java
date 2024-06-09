@@ -1,4 +1,6 @@
-package user;
+package FidelityCards;
+
+import user.Order;
 
 public abstract class FidelityCard {
 	protected FidelityCardType type;
@@ -22,5 +24,7 @@ public abstract class FidelityCard {
 	public abstract double computeOrderReduction (Order order);
 	
 	public abstract double computeOrderPrice(Order order);
+	
+	
 	
 }

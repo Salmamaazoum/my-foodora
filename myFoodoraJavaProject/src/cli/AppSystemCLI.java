@@ -1,29 +1,41 @@
 package cli;
 
-import java.util.*;
-import java.util.Map.Entry;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
-import food.*;
 import appSystem.AppSystem;
-import food.FoodItem;
-import food.Meal;
 import user.Coordinate;
 import user.Courier;
 import user.Customer;
-import user.Restaurant;
-import user.User;
 import user.Order;
+import user.Restaurant;
 import user.UserType;
 
 public class AppSystemCLI {
 	private static AppSystem appSystem;
 	private static Map<String, Order> customerOrders = new HashMap<String, Order>();
+	
+    private static void printWelcomeMessage() {
+        System.out.println(
+            "  _  _  _  _  ____  __    __  ____   __  ____   __  \n" +
+            " ( \\/ )( \\/ )(  __)/  \\  /  \\(    \\ /  \\(  _ \\ / _\\ \n" +
+            " / \\/ \\ )  (  ) _)(  O )(  O )) D ((  O ))   //    \\\n" +
+            " \\_)(_/(__/  (__)  \\__/  \\__/(___/ \\__/(__\\_)\\_/ \\_/\n" +
+            "\n              Deliciously Delivered ☺"
+            + "\n"+
+            "\nWelcome to myFoodora!"
+        );
+    }
 
 	public static void main(String[] args) {
 		appSystem = AppSystem.getInstance();
 		Scanner scanner = new Scanner(System.in);
 
-		System.out.println("Welcome to the AppSystem CLI!");
+		printWelcomeMessage();
+		
+		System.out.println("Please use 'login <username> <password>'.");
+		System.out.println("For any inquiries regarding the commands, type 'help'.");
 
 		while (true) {
 			System.out.print("> ");
@@ -58,7 +70,7 @@ public class AppSystemCLI {
 							if (!AppSystem.getRestaurants().isEmpty()) {
 								System.out.println("Here is the list of available restaurants :");
 								for (Restaurant restaurant : AppSystem.getRestaurants()) {
-									System.out.print(restaurant.getName() + "-");
+									System.out.print(restaurant.getName() + "\n");
 									System.out.println("");
 								}
 							}
@@ -160,18 +172,10 @@ public class AppSystemCLI {
 						if (!AppSystem.getRestaurants().isEmpty()) {
 							for (Restaurant restaurant : AppSystem.getRestaurants()) {
 								if (restaurant.getName().equalsIgnoreCase(restaurantName)) {
-									System.out.println("Menu of " + restaurantName);
-									System.out.println(restaurant.getMenu());
-									if (!restaurant.getMeals().isEmpty()) {
-										System.out.println("Meals of " + restaurantName);
-										for (Meal meal : restaurant.getMeals()) {
-											System.out.println(meal);
-										}
-									}
-
+									restaurant.displayRestaurant();
 								}
 							}
-						}
+						}		
 						// ==================================
 					} catch (Exception e) {
 						System.out.println("Fail to create order! " + e.getMessage());
@@ -199,12 +203,12 @@ public class AppSystemCLI {
 				break;
 
 			case "endOrder":
-				if (parts.length == 3) {
+				if (parts.length == 2) {
 					String orderName = parts[1];
 
 					try {
 						appSystem.endOrder(orderName, customerOrders);
-						System.out.println("Order " + orderName + " finalised successfully");
+						
 					} catch (Exception e) {
 						System.out.println("Fail to finalise order! " + e.getMessage());
 					}
@@ -212,10 +216,91 @@ public class AppSystemCLI {
 					System.out.println("Usage : endOrder <orderName>");
 				}
 				break;
+			
+			case "historyOfOrders":
+				if (parts.length == 1) {
+					try {
+						appSystem.displayHistoryOrders();
+					} catch (Exception e) {
+						System.out.println("Fail to display previous orders" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : historyOfOrders <>");
+				}
+				break;
+				
+			case "registerFidelityCard":
+				if (parts.length == 2) {
+					String cardtype = parts[1];
+					try {
+						appSystem.registerFidelityCard(cardtype);
+					} catch (Exception e) {
+						System.out.println("Fail to register Fidelity Card plan" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : registerFidelityCard <cardType>");
+				}
+				break;
+				
+			case "unregisterFidelityCard":
+				if (parts.length == 1) {
+					
+					try {
+						appSystem.unregisterFidelityCard();
+					} catch (Exception e) {
+						System.out.println("Fail to unregister Fidelity Card plan" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : unregisterFidelityCard <>");
+				}
+				break;
 
 			/*
 			 * Restaurant related Tasks
 			 */
+				
+			case "showMenu":
+				if (parts.length == 1) {
+					try {
+						appSystem.showMenu();
+
+					} catch (Exception e) {
+						System.out.println("Fail to display menu !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : showMenu <>");
+				}
+				break;
+				
+			case "setSpecialDiscountFactor":
+				if (parts.length == 2) {
+					String specialDiscountFactor = parts[1];
+					try {
+						appSystem.setSpecialDiscountFactor(specialDiscountFactor);
+						System.out.println("Special discount updated successfully to "+specialDiscountFactor);
+
+					} catch (Exception e) {
+						System.out.println("Fail to set special discount factor !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : setSpecialDiscountFactor <specialDiscountFactor>");
+				}
+				break;
+				
+			case "setGenericDiscountFactor":
+				if (parts.length == 2) {
+					String genericDiscountFactor = parts[1];
+					try {
+						appSystem.setGenericDiscountFactor(genericDiscountFactor);
+						System.out.println("Special discount updated successfully to "+genericDiscountFactor);
+
+					} catch (Exception e) {
+						System.out.println("Fail to set generic discount factor !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : setGenericDiscountFactor <genericDiscountFactor>");
+				}
+				break;
 
 			case "addDishRestaurantMenu":
 				if (parts.length == 6) {
@@ -327,6 +412,7 @@ public class AppSystemCLI {
 					System.out.println("Usage : setSpecialOffer <mealName>");
 				}
 				break;
+<<<<<<< HEAD
 			
             case "onDuty":
             	if (parts.length==2) {
@@ -361,6 +447,34 @@ public class AppSystemCLI {
             		System.out.println("Usage : onDuty <username>");
             	}
             	break;
+=======
+				
+			case "showSortedHalfMeals":
+				if (parts.length == 1) {
+					try {
+						appSystem.showSortedHalfMeals();
+
+					} catch (Exception e) {
+						System.out.println("Fail to display sorted half meals !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : showSortedHalfMeals <>");
+				}
+				break;
+				
+			case "showSortedDishes":
+				if (parts.length == 1) {
+					try {
+						appSystem.showSortedDishes();
+
+					} catch (Exception e) {
+						System.out.println("Fail to display sorted dishes !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : showSortedDishes <>");
+				}
+				break;
+>>>>>>> main
 
 			default:
 				System.out.println("Unknown command: " + command);

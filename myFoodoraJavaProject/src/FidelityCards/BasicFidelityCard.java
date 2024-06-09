@@ -1,4 +1,6 @@
-package user;
+package FidelityCards;
+
+import user.Order;
 
 public class BasicFidelityCard extends FidelityCard {
 	
@@ -15,4 +17,12 @@ public class BasicFidelityCard extends FidelityCard {
 	public double computeOrderPrice(Order order) {
 		return order.getFirstPrice();
 	}
+
+
+	@Override
+	public String toString() {
+		return "Basic Fidelity Card";
+	}
+	
+	
 }

@@ -3,16 +3,24 @@ package user;
 import food.*;
 import java.util.*;
 
+import NotificationService.NotificationService;
+import NotificationService.Offer;
 import appSystem.AppSystem;
 
 public class Restaurant extends User {
 
 	private Coordinate address;
+	
 	private Menu menu;
+	
 	private ArrayList<Meal> meals;
-	private double genericDiscount;
-	private double specialDiscount;
+	
+	private double genericDiscount = 0.05;
+	
+	private double specialDiscount = 0.1;
+	
 	private MealPriceCalculationStrategy mealPriceStrategy = new MealPriceCalculationStrategyDiscount();
+	
 	private FoodFactory foodFactory = new FoodFactory();
 
 	public Restaurant(String name, String username, String password, Coordinate address,
@@ -128,7 +136,7 @@ public class Restaurant extends User {
 
 	public void addMeal(Meal meal) {
 		if (meal.isMealOfTheWeek()) {
-			NotificationService.getInstance().setOffer(meal,this);
+			NotificationService.getInstance().setOffer(meal,this,Offer.mealOfTheWeek);
 			meal.setPrice(this.mealPriceStrategy.calculatePrice(meal, this.specialDiscount));
 		}
 		else {
@@ -156,10 +164,12 @@ public class Restaurant extends User {
 
 	public void setGenericDiscount(double genericDiscount) {
 		this.genericDiscount = genericDiscount;
+		NotificationService.getInstance().setOffer(null,this,Offer.genericDiscount);
 	}
 
 	public void setSpecialDiscount(double specialDiscount) {
 		this.specialDiscount = specialDiscount;
+		NotificationService.getInstance().setOffer(null,this,Offer.specialDiscount);
 	}
 
 	// ============================
@@ -168,6 +178,7 @@ public class Restaurant extends User {
 
 	public void setPriceStrategy(MealPriceCalculationStrategy mealPriceStrategy) {
 		this.mealPriceStrategy = mealPriceStrategy;
+		
 	}
 
 	
@@ -186,7 +197,7 @@ public class Restaurant extends User {
 		if (!meal.isMealOfTheWeek()) {
 			meal.setMealOfTheWeek(true);
 			this.setMealPrice(meal);
-			NotificationService.getInstance().setOffer(meal,this);
+			NotificationService.getInstance().setOffer(meal,this,Offer.mealOfTheWeek);
 		}
 		
 	}
@@ -196,7 +207,7 @@ public class Restaurant extends User {
 		if (!meal.isMealOfTheWeek()) {
 			meal.setMealOfTheWeek(true);
 			this.setMealPrice(meal);
-			NotificationService.getInstance().setOffer(meal,this);
+			NotificationService.getInstance().setOffer(meal,this,Offer.mealOfTheWeek);
 		}
 		
 	}
@@ -252,4 +263,58 @@ public class Restaurant extends User {
 		meal.addItem(dish);
 		meal.setPrice(meal.getPrice()+dish.getPrice());
 	}
+	
+	public void showSortedHalfMeals() {
+		
+		ArrayList<MenuComponent> halfMeals = new ArrayList<>();
+	        for (Meal meal : this.meals) {
+	            if (meal instanceof HalfMeal) {
+	                halfMeals.add(meal);
+	            }
+	        }
+
+	    OrderedFrequencySorter sorter = new OrderedFrequencySorter();
+	    ArrayList<MenuComponent> sortedHalfMeals = sorter.sort(halfMeals);
+		System.out.println("Sorted Half Meals");
+		for (MenuComponent item : sortedHalfMeals) {
+			System.out.println(item.getName()+" : ordered "+item.getOrderedFrequency() +(item.getOrderedFrequency()==1 ? " time." : " times."));
+		}
+	}
+	
+	public void showSortedDishes() {
+		
+		ArrayList<MenuComponent> dishes = new ArrayList<MenuComponent>(this.menu.getItems());
+	    OrderedFrequencySorter sorter = new OrderedFrequencySorter();
+	    ArrayList<MenuComponent> sortedDishes = sorter.sort(dishes);
+		System.out.println("Sorted Dishes");
+		for (MenuComponent item : sortedDishes) {
+			System.out.println(item.getName()+" : ordered "+item.getOrderedFrequency() +(item.getOrderedFrequency()==1 ? " time." : " times."));
+		}
+	}
+	
+	public void displayRestaurant() {
+	    StringBuilder output = new StringBuilder();
+
+	    output.append("Menu of ").append(this.name).append(":\n");
+
+	    if (this.menu.getItems().isEmpty()) {
+	        output.append("No items in the menu.\n");
+	    } else {
+	        output.append(this.menu.toString()).append("\n"); 
+	    }
+	    
+
+	    if (!this.meals.isEmpty()) {
+	        output.append("Meals offered at ").append(this.name).append(":\n");
+	        for (Meal meal : this.meals) {
+	            output.append(meal.toString()).append("\n");
+	        }
+	    } else {
+	        output.append("No meals currently offered.\n");
+	    }
+
+	    System.out.println(output.toString());
+	}
+
+	
 }

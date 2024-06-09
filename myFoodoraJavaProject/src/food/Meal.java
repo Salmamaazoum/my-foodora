@@ -1,24 +1,8 @@
 package food;
 import java.util.*;
 
-public abstract class Meal {
+public abstract class Meal extends MenuComponent{
 	
-	/*
-	 * Name of the Meal
-	 */
-	
-	protected String name;
-	
-	/*
-	 * Whether it is Vegetarian or Standard
-	 */
-
-	protected boolean isVegetarian; 
-	
-	/*
-	 * Whether it is Gluten-Free or not
-	 */
-	protected boolean isGlutenFree; 
 	
 	/*
 	 * Whether it is meal of the week or Not
@@ -33,10 +17,6 @@ public abstract class Meal {
 	
 	protected ArrayList<FoodItem> mealComposition;
 	
-	/*
-	 * The price of the Meal
-	 */
-	protected double price;
 	
 	/*
 	 * Declaring and instantiating the addItemVisitor
@@ -46,57 +26,22 @@ public abstract class Meal {
 	
 	
 	public Meal (String name) {
+		super();
 		this.name=name;
 	}
 	
 	public Meal (String name, boolean isVegetarian, boolean isGlutenFree, boolean mealOfTheWeek){
-		
-		this.name=name;
-		
-		this.isGlutenFree = isGlutenFree;
-		
-		this.isVegetarian = isVegetarian;
-		
+		super(name,isVegetarian,isGlutenFree);
 		this.mealOfTheWeek=mealOfTheWeek;		
 		}
 	
 	public Meal (String name, boolean isVegetarian, boolean isGlutenFree){
-		
-		this.name=name;
-		
-		this.isGlutenFree = isGlutenFree;
-		
-		this.isVegetarian = isVegetarian;
-		
+		super(name,isVegetarian,isGlutenFree);
 		}
 	
 	
 	public abstract void addItem(FoodItem item) throws BadMealCompositionCreationException;
 	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
-	public boolean isVegetarian() {
-		return isVegetarian;
-	}
-
-	public void setVegetarian(boolean isVegetarian) {
-		this.isVegetarian = isVegetarian;
-	}
-
-	public boolean isGlutenFree() {
-		return isGlutenFree;
-	}
-
-	public void setGlutenFree(boolean isGlutenFree) {
-		this.isGlutenFree = isGlutenFree;
-	}
 
 	public boolean isMealOfTheWeek() {
 		return mealOfTheWeek;
@@ -106,15 +51,6 @@ public abstract class Meal {
 		this.mealOfTheWeek = mealOfTheWeek;
 	}
 
-
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
 
 	public ArrayList<FoodItem> getMealComposition() {
 		return mealComposition;

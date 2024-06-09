@@ -1,18 +1,6 @@
 package food;
 
-public class FoodItem {
-	
-    private static int idCounter = 0;
-
-    private int id;
-	
-	private String name = "";
-	
-	private boolean isVegetarian ;
-	
-	private double price;
-	
-	public boolean isGlutenFree;
+public class FoodItem extends MenuComponent {	
 	
 	public enum foodCategory {
 		STARTER, MAINDISH , DESSERT
@@ -21,25 +9,14 @@ public class FoodItem {
 	private foodCategory category;
 	
 	public FoodItem() {
-		this.id = ++idCounter;
+		super();
 	}
 	
 	public FoodItem(String name, foodCategory category, boolean isVegetarian, boolean isGlutenFree,double price) {
-		this.id = ++idCounter;
-		this.isVegetarian=isVegetarian;
-		this.name=name;
-		this.price=price;
-		this.isGlutenFree=isGlutenFree;
+		super(name,isVegetarian,isGlutenFree,price);
 		this.category=category;
 	}
 
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public foodCategory getCategory() {
 		return category;
@@ -49,43 +26,19 @@ public class FoodItem {
 		this.category = category;
 	}
 
-	
 
-	public boolean getIsVegetarian() {
-		return isVegetarian;
-	}
-
-	public void setIsVegetarian(boolean isVegetarian) {
-		this.isVegetarian = isVegetarian;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-
-	public void setIsGlutenFree(boolean isGlutenFree) {
-		this.isGlutenFree = isGlutenFree;
-	}
-
-	public boolean getIsGlutenFree() {
-		return isGlutenFree;
-	}
-
-	public int getId() {
-		return id;
-	}
 
 	@Override
 	public String toString() {
-		return "FoodItem [id=" + id + ", name=" + name + ", isVegetarian=" + isVegetarian + ", price=" + price
-				+ ", isGlutenFree=" + isGlutenFree + ", category=" + category + "]";
+	    return "FoodItem {\n" +
+	           "  id: " + id + ",\n" +
+	           "  name: " + name + ",\n" +
+	           "  isVegetarian: " + (isVegetarian ? "Yes" : "No") + ",\n" +
+	           "  price: $" + String.format("%.2f", price) + ",\n" +
+	           "  isGlutenFree: " + (isGlutenFree ? "Yes" : "No") + ",\n" +
+	           "  category: " + category + "\n" +
+	           "}";
 	}
-	
 	
 	
 	
