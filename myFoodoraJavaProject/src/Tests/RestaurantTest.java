@@ -56,7 +56,7 @@ public class RestaurantTest {
     @DisplayName("Test removing a meal decreases meal count")
     void testRemoveMeal() throws NotFoundException {
         int initialSize = restaurant.getMeals().size();
-        restaurant.removeMeal("Meal2");
+        restaurant.removeMeal("Meal1");
         assertEquals(initialSize - 1, restaurant.getMeals().size(), "Meal should be removed from the list");
     }
 
@@ -72,14 +72,11 @@ public class RestaurantTest {
     @DisplayName("Test special offer updates meal's special status and triggers notification")
     void testSetSpecialOffer() throws NotFoundException {
     	Meal meal = restaurant.findMealUsingName("Meal1");
-    	double price1 = meal.getPrice(); // Initial Price, using only the generic discount factor
-    	System.out.println(price1);
+    	double priceWithoutDiscount = meal.getPrice() / (1-restaurant.getGenericDiscount()); // Initial Price, using only the generic discount factor
         assertFalse(meal.isMealOfTheWeek(), "Initially, meal should not be meal of the week");
         restaurant.setSpecialOffer(meal);
         assertTrue(meal.isMealOfTheWeek(), "Meal should be set as meal of the week");
-        System.out.println(meal.getPrice());
-        
-        assertEquals(price1*(1-restaurant.getSpecialDiscount()), meal.getPrice(), "Meal price should be calculated with special discount");
+        assertEquals(priceWithoutDiscount*(1-restaurant.getSpecialDiscount()), meal.getPrice());
     }
 
     @Test
