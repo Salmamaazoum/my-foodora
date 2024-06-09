@@ -16,22 +16,42 @@ import user.*;
 import food.*;
 import FidelityCards.*;
 import NotificationService.*;
+import appSystem.AppSystem;
 
 public class CustomerTest {
 
     private Customer customer;
     private Restaurant restaurant;
+    private Meal meal;
     private NotificationService notificationService;
+    
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
     @BeforeEach
-    public void setUp() {
-        customer = new Customer("John", "john123", "password", "Doe", new Coordinate(1, 1));
-
+    public void setUp() throws NotFoundException, BadMealCompositionCreationException {
+        customer = new Customer("John", "john123", "password", "Doe");
+        AppSystem appSystem = AppSystem.getInstance();
+        
+        /*
+         * Adding dishes to the menu of the restaurant
+         */
         restaurant = new Restaurant("Pizza Place","allopizza","c");
+    	restaurant.addDishRestaurantMenu("Salad", "starter", "vegetarian", "yes", "10");
+		restaurant.addDishRestaurantMenu("Pasta", "maindish", "standard", "no", "25");
+		
+        meal = restaurant.createMeal("Pizza", "half");
+        restaurant.addMeal(meal);
+        
+        restaurant.addDish2Meal("Pizza", "Salad");
+        restaurant.addDish2Meal("Pizza", "Pasta");
+        
+        appSystem.getRestaurants().add(restaurant);
+        appSystem.getCustomers().add(customer);
+        
         notificationService = NotificationService.getInstance();
         notificationService.clearObservers();
+        
         System.setOut(new PrintStream(outContent));
     }
 
@@ -57,16 +77,7 @@ public class CustomerTest {
 
     @Test
     @DisplayName("Verify Notification Reception Outputs Correctly")
-    void testNotificationReception() throws NotFoundException, BadMealCompositionCreationException {
-        
-    	restaurant.addDishRestaurantMenu("Salad", "starter", "vegetarian", "yes", "10");
-		restaurant.addDishRestaurantMenu("Pasta", "maindish", "standard", "no", "25");
-		
-        Meal meal = restaurant.createMeal("Meal1", "half");
-        restaurant.addMeal(meal);
-        
-        restaurant.addDish2Meal("Meal1", "Salad");
-        restaurant.addDish2Meal("Meal1", "Pasta");
+    void testNotificationReception() {
         
         Offer offer = Offer.mealOfTheWeek;
 
@@ -79,21 +90,23 @@ public class CustomerTest {
 
         // Assert output content
         String expectedOutput = "New email received at john@example.com: Restaurant Pizza Place has a new special offer:  New meal of the week: Pizza";
-        
         assertTrue(outContent.toString().contains(expectedOutput), "Output should contain notification details");
     }
 
     @Test
     @DisplayName("Verify Payment Processing Outputs Correct Information")
-    void testOrderPaymentOutput() {
-        // Assuming Order is correctly implemented and has necessary methods
-        Order order = new Order("Pizza Place",customer);
-        order.addItem("s",1);
+    void testOrderPaymentOutput() throws NotFoundException {
 
-        // Complete order process
+        Order order = new Order("Pizza Place",customer);
+        order.addItem("Salad",1);
+        
+        AppSystem appSystem = AppSystem.getInstance();
+        Courier courier = new Courier("Bouchaib","Jilali","bouchab","123");
+        appSystem.getCouriers().add(courier);
+
         customer.endOrder(order);
       
-        String expectedPaymentMessage = "You have paid €20.00 for your order.";
+        String expectedPaymentMessage = "You have paid €10.00 for your order.";
         assertTrue(outContent.toString().contains(expectedPaymentMessage), "Output should confirm payment was processed");
     }
 

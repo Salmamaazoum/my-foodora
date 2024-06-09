@@ -2,6 +2,7 @@ package user;
 import java.util.*;
 import java.util.Map.Entry;
 
+import Exceptions.NotFoundException;
 import FidelityCards.FidelityCard;
 import food.FoodItem;
 import food.Meal;
@@ -50,10 +51,12 @@ public class Order {
     	
     }
     
-    public void addItem(String foodName, int quantity) {   // add exception if name does not exist in Menu?
+    public void addItem(String foodName, int quantity) throws NotFoundException { 
+    	int i =0;
     	for (FoodItem item : restaurant.getMenu().getItems()) {
     		if (item.getName().equalsIgnoreCase(foodName)) {
     			orderItems.put(item,quantity);
+    			i=1;
     			return;
     		}
     	}
@@ -61,8 +64,12 @@ public class Order {
     	for (Meal meal : restaurant.getMeals()) {
     		if(meal.getName().equalsIgnoreCase(foodName)) {
     			orderMeals.put(meal, quantity);
+    			i=1;
     		}
     	}
+    	
+    	if (i==0)
+    		throw new NotFoundException("You cannot add this item as it doesn't exist in the menu");
     }
     
 
@@ -91,7 +98,7 @@ public class Order {
     	return price;
     }
     
-    public void submitOrder(double price) {
+    public void submitOrder(double price) throws NotFoundException {
     	
     	double serviceFee = appSystem.getServiceFee();
     	double markupPercentage = appSystem.getMarkupPercentage();
@@ -123,7 +130,7 @@ public class Order {
     	
     	System.out.println("Order : ");
     	System.out.println(this);
-    	System.out.println("The price of the order is: "+ price);
+    	System.out.println("The price of the order, including service fee and the markup percentage is: "+ totalPrice);
 			
 	}
     	

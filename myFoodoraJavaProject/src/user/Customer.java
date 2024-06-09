@@ -2,6 +2,7 @@ package user;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import Exceptions.NotFoundException;
 import FidelityCards.BasicFidelityCard;
 import FidelityCards.FidelityCard;
 import FidelityCards.FidelityCardFactory;
@@ -37,20 +38,20 @@ public class Customer extends User implements Observer {
 	 */
 	protected Contact_offers contact_offers = Contact_offers.email;
 
-	public Customer( String name, String username, String password, String surname, Coordinate address, String email, String phone) {
+	public Customer( String name, String username, String password, String surname,  String email, String phone) {
         super( name, username, password);
         this.surname = surname;
-        this.address = address;
         this.email = email;
         this.phone = phone;
         this.fidelityCard= new BasicFidelityCard();
+        this.address=new Coordinate();
     }
 	
-	public Customer( String name, String username, String password, String surname, Coordinate address) {
+	public Customer( String name, String username, String password, String surname) {
         super( name, username, password);
         this.surname = surname;
-        this.address = address;
         this.fidelityCard= new BasicFidelityCard();
+        this.address=new Coordinate();
     }
 	
 	public String getSurname() {
@@ -208,7 +209,7 @@ public class Customer extends User implements Observer {
 	}
 
 	
-	public void endOrder(Order order) {
+	public void endOrder(Order order) throws NotFoundException {
 	    System.out.println("Finalizing your order...");
 	    double price = order.getFinalPrice(); 
 	    order.submitOrder(price); 

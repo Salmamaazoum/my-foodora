@@ -65,7 +65,7 @@ public class RestaurantTest {
     void testSetSpecialDiscount() {
         restaurant.setSpecialDiscount(0.15); // Change from default value
         assertEquals(0.15, restaurant.getSpecialDiscount(), "Special discount should be updated");
-        // Verifying if notification service is called is tricky without a mock, implying need for integration testing or mocking framework
+        
     }
 
     @Test
@@ -96,7 +96,6 @@ public class RestaurantTest {
         }, "Should throw NotFoundException for a non-existent meal");
     }
 
-    // Additional tests could be written for modifying the menu, handling different types of meals, etc.
 }
 
 

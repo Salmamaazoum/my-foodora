@@ -45,6 +45,7 @@ public class Restaurant extends User {
 		this.menu = new Menu();
 		this.genericDiscount = genericDiscount;
 		this.specialDiscount = specialDiscount;
+		this.address= new Coordinate();
 
 	}
 	
@@ -52,6 +53,7 @@ public class Restaurant extends User {
 		super(name, username, password);
 		this.meals = new ArrayList<Meal>();
 		this.menu = new Menu();
+		this.address= new Coordinate();
 
 	}
 

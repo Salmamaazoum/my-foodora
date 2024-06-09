@@ -41,11 +41,11 @@ public class LotteryFidelityCard extends FidelityCard {
 	public double computeOrderReduction (Order order) {
 		double reduction = 0;
 		
-		if (lastTimeUsed == null || areDifferentDays(order.getOrderDate(), this.lastTimeUsed)) {
+		if (lastTimeUsed() == null || areDifferentDays(order.getOrderDate(), this.lastTimeUsed())) {
 			
 			if (Math.random()<probability) {
 				
-				this.lastTimeUsed = (Calendar) order.getOrderDate().clone();
+				this.setLastTimeUsed((Calendar) order.getOrderDate().clone());
 				
 				double maxMealPrice = 0 ;
 				
@@ -71,8 +71,18 @@ public class LotteryFidelityCard extends FidelityCard {
 
 	@Override
 	public String toString() {
-	    String lastUsedStr = (lastTimeUsed == null) ? "Never used" : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(lastTimeUsed.getTime());
+	    String lastUsedStr = (lastTimeUsed() == null) ? "Never used" : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(lastTimeUsed().getTime());
 	    return "Lottery Fidelity Card :" + "\n" + "Last time used: " + lastUsedStr + "\n";
+	}
+
+
+	public Calendar lastTimeUsed() {
+		return lastTimeUsed;
+	}
+
+
+	public void setLastTimeUsed(Calendar lastTimeUsed) {
+		this.lastTimeUsed = lastTimeUsed;
 	}
 	
 	
