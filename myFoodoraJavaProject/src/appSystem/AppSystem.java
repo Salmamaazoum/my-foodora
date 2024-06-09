@@ -1,6 +1,7 @@
 package appSystem;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -233,6 +234,21 @@ public class AppSystem {
     	else
     		throw new NoPermissionException("Only Managers can perform this action");
     }
+    
+	public double totalIncome(Calendar calendar1, Calendar calendar2) throws NoPermissionException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		double totalIncome = 0 ;
+    		for(Order order : orders){
+    			Calendar dateOfOrder = order.getOrderDate();
+    			if ((dateOfOrder.compareTo(calendar1)>=0)&&(dateOfOrder.compareTo(calendar2)<=0)){
+    				totalIncome += order.getPrice()*(1+markupPercentage)+serviceFee ;
+    			}
+    		}
+    		return totalIncome;
+    	}
+    	else
+    		throw new NoPermissionException("Only Managers can perform this action");
+	}
     
     
 

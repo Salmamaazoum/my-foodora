@@ -225,6 +225,19 @@ public class AppSystemCLI {
 					System.out.println("Usage : setProfitPolicy <ProfitPolicyName>");
 				}
 				break;
+				
+			case "showTotalProfit":
+				if (parts.length == 1) {
+					String ProfPolicyName = parts[1];
+					try {
+						System.out.println("Total Profit:" );
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				} else {
+					System.out.println("Usage :showTotalProfit <>");
+				}
+				break;
 
 			/*
 			 * Customer related Tasks

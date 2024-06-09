@@ -28,9 +28,12 @@ public class Order {
     private Map<Meal,Integer> orderMeals = new HashMap<Meal,Integer>();
     
     private double price;
-
     
-    public Order (String restaurantName, Customer customer) {
+    public double getPrice() {
+		return price;
+	}
+
+	public Order (String restaurantName, Customer customer) {
     	for (Restaurant restaurant : AppSystem.getRestaurants()) {
     		if (restaurant.getName().equalsIgnoreCase(restaurantName))
     			this.restaurant=restaurant;
@@ -79,7 +82,9 @@ public class Order {
     	
     	FidelityCard fidelityCard = this.customer.getFidelityCard();
     	
-    	return fidelityCard.computeOrderPrice(this);
+    	price = fidelityCard.computeOrderPrice(this);
+    			
+    	return price;
     }
     
     public void submitOrder(double price) {
