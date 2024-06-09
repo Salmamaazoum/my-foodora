@@ -30,14 +30,44 @@ public class AppSystemCLI {
             "\nWelcome to myFoodora!"
         );
     }
-    
+	private static void readTextFile(String fileName) {
+
+
+		FileReader file = null;
+		BufferedReader reader = null;
+
+		try {
+			// open input stream pointing at fileName
+			file = new FileReader(fileName);
+
+			// open input buffered reader to read file line by line
+			reader = new BufferedReader(file);
+			String line = "";
+
+			// reading input file line by line
+			while ((line = reader.readLine()) != null) {
+				handleCommand(line);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (file != null) {
+				try {
+					file.close();
+					reader.close();
+
+				} catch (IOException e) {
+					System.out.println("File not found: " + fileName);
+					// Ignore issues during closing 
+				}
+			}
+		}
+
+	} 
     private static void runTestScenario(String testScenarioFile) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(testScenarioFile))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                handleCommand(line);
-            }
-        }
+
+        readTextFile(testScenarioFile);
+
     }
 
 	public static void main(String[] args) {
@@ -431,6 +461,7 @@ public class AppSystemCLI {
 					String cardtype = parts[1];
 					try {
 						appSystem.registerFidelityCard(cardtype);
+						System.out.println("Registering successful ! Welcome to the "+cardtype+" fidelity card plan!");
 					} catch (Exception e) {
 						System.out.println("Fail to register Fidelity Card plan" + e.getMessage());
 					}
