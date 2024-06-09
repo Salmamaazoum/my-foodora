@@ -8,7 +8,7 @@ public class FoodFactory {
 		
 	}
 	
-	public FoodItem createDish(String dishName, String dishCategory, String foodType,String glutenFree, String unitPrice ) {
+	public static FoodItem createDish(String dishName, String dishCategory, String foodType,String glutenFree, String unitPrice ) {
 		FoodItem item = new FoodItem();
     	item.setName(dishName);
     	for (FoodItem.foodCategory category : FoodItem.foodCategory.values()) {
@@ -24,7 +24,7 @@ public class FoodFactory {
     	return item;
 	}
 	
-	public Meal createMeal(String mealName, String mealType) {
+	public static Meal createMeal(String mealName, String mealType) {
 		Meal meal = null;
 		switch (mealType) {
 		case "full":
@@ -38,7 +38,7 @@ public class FoodFactory {
 		return meal;
 	}
 	
-	public Meal createMeal(String mealName, String mealType, String StandardOrVeg, String isGlutenFree) {
+	public static Meal createMeal(String mealName, String mealType, String StandardOrVeg, String isGlutenFree) {
 		Meal meal = null;
 		switch (mealType) {
 		case "full":

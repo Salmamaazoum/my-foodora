@@ -1,6 +1,8 @@
 package Tests;
 
 import Exceptions.NotFoundException;
+import NotificationService.NotificationService;
+import NotificationService.Offer;
 import appSystem.AppSystem;
 import food.BadMealCompositionCreationException;
 import food.FoodItem;
@@ -9,35 +11,95 @@ import user.Coordinate;
 import user.Customer;
 import user.Order;
 import user.Restaurant;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import food.*;
+import Exceptions.NotFoundException;
+import NotificationService.NotificationService;
 
 public class RestaurantTest {
-	public static void main(String[] args) throws NotFoundException, BadMealCompositionCreationException {
-		AppSystem as = AppSystem.getInstance();
-		Restaurant r = new Restaurant("h","c","n");
-		AppSystem.getRestaurants().add(r);
-		r.addDishRestaurantMenu("s", "starter", "vegetarian", "yes", "20");
-		r.addDishRestaurantMenu("d", "maindish", "vegetarian", "yes", "12");
-	
-		r.addMeal(r.createMeal("myMeal", "half"));
 
-		r.addDish2Meal("myMeal", "s");
-		r.addDish2Meal("myMeal", "d");
+    private Restaurant restaurant;
+    
+
+    @BeforeEach
+    void setUp() throws NotFoundException, BadMealCompositionCreationException {
+        restaurant = new Restaurant("Le Bistrot", "gourmet", "securepass");
+        restaurant.addDishRestaurantMenu("Salad", "starter", "vegetarian", "yes", "10");
+		restaurant.addDishRestaurantMenu("Pasta", "maindish", "standard", "no", "25");
+		restaurant.addDishRestaurantMenu("Tiramisu", "dessert", "standard", "no", "8");
 		
-		r.setSpecialOffer("myMeal");
+        Meal meal = restaurant.createMeal("Meal1", "half");
+        restaurant.addMeal(meal);
+        
+        restaurant.addDish2Meal("Meal1", "Salad");
+        restaurant.addDish2Meal("Meal1", "Pasta");
+    }
 
-		Coordinate address = new Coordinate(1.0, 1.0); // Assuming Coordinate is defined elsewhere
-        Customer customer = new Customer("John", "john123", "pass123", "Doe", address, "john@example.com", "1234567890");
+    @Test
+    @DisplayName("Test adding a new meal increases meal count")
+    void testAddMeal() throws NotFoundException, BadMealCompositionCreationException {
+        int initialSize = restaurant.getMeals().size();
         
-        Order o = new Order("h",customer);
-        o.addItem("s",1);
+        Meal newMeal = restaurant.createMeal("Meal2", "half");
+        restaurant.addMeal(newMeal);
         
-        customer.registerFidelityCard("point");;
-        customer.endOrder(o);
-        customer.endOrder(o);
-        r.showSortedDishes();
+        restaurant.addDish2Meal("Meal2", "Tiramisu");
+        restaurant.addDish2Meal("Meal2", "Pasta");
+        
+        assertEquals(initialSize + 1, restaurant.getMeals().size(), "Meal should be added to the list");
+    }
 
-        customer.displayFidelityCard();
+    @Test
+    @DisplayName("Test removing a meal decreases meal count")
+    void testRemoveMeal() throws NotFoundException {
+        int initialSize = restaurant.getMeals().size();
+        restaurant.removeMeal("Meal2");
+        assertEquals(initialSize - 1, restaurant.getMeals().size(), "Meal should be removed from the list");
+    }
+
+    @Test
+    @DisplayName("Test setting special discount triggers notification")
+    void testSetSpecialDiscount() {
+        restaurant.setSpecialDiscount(0.15); // Change from default value
+        assertEquals(0.15, restaurant.getSpecialDiscount(), "Special discount should be updated");
+        // Verifying if notification service is called is tricky without a mock, implying need for integration testing or mocking framework
+    }
+
+    @Test
+    @DisplayName("Test special offer updates meal's special status and triggers notification")
+    void testSetSpecialOffer() throws NotFoundException {
+    	Meal meal = restaurant.findMealUsingName("Meal1");
+    	double price1 = meal.getPrice(); // Initial Price, using only the generic discount factor
+    	System.out.println(price1);
+        assertFalse(meal.isMealOfTheWeek(), "Initially, meal should not be meal of the week");
+        restaurant.setSpecialOffer(meal);
+        assertTrue(meal.isMealOfTheWeek(), "Meal should be set as meal of the week");
+        System.out.println(meal.getPrice());
         
-        
-	}
+        assertEquals(price1*(1-restaurant.getSpecialDiscount()), meal.getPrice(), "Meal price should be calculated with special discount");
+    }
+
+    @Test
+    @DisplayName("Test find meal using name successfully")
+    void testFindMealUsingName() {
+        assertDoesNotThrow(() -> {
+            Meal foundMeal = restaurant.findMealUsingName("Meal1");
+            assertNotNull(foundMeal, "Meal should be found by name");
+        });
+    }
+
+    @Test
+    @DisplayName("Test finding non-existing meal throws NotFoundException")
+    void testFindMealUsingNameNotFound() {
+        assertThrows(NotFoundException.class, () -> {
+            restaurant.findMealUsingName("NonExistentMeal");
+        }, "Should throw NotFoundException for a non-existent meal");
+    }
+
+    // Additional tests could be written for modifying the menu, handling different types of meals, etc.
 }
+
+

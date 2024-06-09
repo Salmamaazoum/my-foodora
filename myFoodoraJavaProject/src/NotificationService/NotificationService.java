@@ -43,10 +43,21 @@ public class NotificationService implements Observable{
 	
 	public void setOffer(Meal meal, Restaurant restaurant,Offer offer) {
 		changed=true;
-		this.notifyObservers(meal,restaurant,offer);
+		notifyObservers(meal,restaurant,offer);
 		
 	}
 
+	public static ArrayList<Observer> getObservers() {
+		return subscribers;
+	}
+
+	public static void setObservers(ArrayList<Observer> subscribers) {
+		NotificationService.subscribers = subscribers;
+	}
+	
+	public static void clearObservers() {
+		subscribers = new ArrayList<Observer>();
+	}
 
 	}
 	

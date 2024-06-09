@@ -161,6 +161,13 @@ public class Restaurant extends User {
 			this.meals.remove(meal);
 		}
 	}
+	
+	public void removeMeal(String mealName) throws NotFoundException {
+		Meal meal = this.findMealUsingName(mealName);
+		if (meals.contains(meal)) {  //needs Overriding of equals and hashCode
+			this.meals.remove(meal);
+		}
+	}
 	/*
 	 * Display a meal
 	 */
@@ -272,7 +279,7 @@ public class Restaurant extends User {
 		FoodItem dish = this.findDishUsingName(dishName);
 		Meal meal = this.findMealUsingName(mealName);
 		meal.addItem(dish);
-		meal.setPrice(meal.getPrice()+dish.getPrice());
+		meal.setPrice(meal.getPrice()+(1-this.genericDiscount)*dish.getPrice());
 	}
 	
 	public void showSortedHalfMeals() {

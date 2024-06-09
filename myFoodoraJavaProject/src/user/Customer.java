@@ -94,8 +94,14 @@ public class Customer extends User implements Observer {
 		return contact_offers;
 	}
 
-	public void setContact_offers(Contact_offers contact_offers) {
+	public void setContact_offers(Contact_offers contact_offers, String mailOrPhone) {
 		this.contact_offers = contact_offers;
+		switch(contact_offers) {
+		case email:
+			this.email=mailOrPhone;
+		case phone:
+			this.phone=mailOrPhone;
+		}
 	}
 
 	public boolean consensus() {
