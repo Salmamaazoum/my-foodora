@@ -241,6 +241,28 @@ public class AppSystemCLI {
 					System.out.println("Usage : associateCard <userName> <cardType>");
 				}
 				break;
+				
+			case "showTotalProfit":
+				if (parts.length == 1) {
+					try {
+						System.out.println("Total Profit: " + appSystem.computeTotalProfit());
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				}
+				else if (parts.length == 3) {
+					String startDate = parts[1];
+					String endDate = parts[2];
+						try {
+							System.out.println("Total Profit: " + appSystem.computeTotalProfit(startDate,endDate));
+						} catch (Exception e) {
+							System.out.println(e.getMessage());
+						}
+				} else {
+					System.out.println("Usage : showTotalProfit <> or showTotalProfit <satrtDate> <EndDate>");
+				}
+				break;
+				
 
 			/*
 			 * Customer related Tasks

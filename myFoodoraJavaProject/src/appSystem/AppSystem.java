@@ -1,8 +1,12 @@
 package appSystem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Map.Entry;
@@ -33,8 +37,6 @@ public class AppSystem {
     private static Optional<User> currentUser ;
     
     private static Optional<UserType> currentUserType;
-    
-    private double totalIncomeLastMonth;
     
 	private static DeliveryPolicy deliveryPolicy = new FastestDeliveryPolicy();
 	private static TargetProfitPolicy targetProfitPolicy = new ServiceFeeTargetPolicy();
@@ -67,6 +69,10 @@ public class AppSystem {
         return instance;
     }
     
+    public void addOrder(Order order) {
+    	orders.add(order);
+    }
+    
 	
     public static TargetProfitPolicy getTargetProfitPolicy() {
 		return targetProfitPolicy;
@@ -80,14 +86,6 @@ public class AppSystem {
 		return deliveryPolicy;
 	}
 
-	public double getTotalIncomeLastMonth() {
-		return totalIncomeLastMonth;
-	}
-
-	public void setTotalIncomeLastMonth(double totalIncomeLastMonth) {
-		this.totalIncomeLastMonth = totalIncomeLastMonth;
-	}
-    
 	public double getServiceFee() {
 		return serviceFee;
 	}
@@ -260,6 +258,42 @@ public class AppSystem {
     	else
     		throw new NoPermissionException("Only Managers can perform this action");
     }
+    
+    public double computeTotalProfit() throws NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		return ((Manager)currentUser.get()).computeTotalProfit();
+    	}
+    	else
+    		throw new NoPermissionException("Only Managers can perform this action");
+    }
+
+    public double computeTotalProfit(String startDate, String endDate) throws NoPermissionException, ParseException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+            Calendar cal1 = Calendar.getInstance();
+            Calendar cal2 = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            cal1.setTime(sdf.parse(startDate));
+            cal1.setTime(sdf.parse(endDate));
+            return ((Manager)currentUser.get()).computeTotalProfit(cal1, cal2);
+    	}
+    	else
+    		throw new NoPermissionException("Only Managers can perform this action");
+    }
+    
+	public double getTotalIncomeLastMonth(){
+		Calendar date1 = Calendar.getInstance();
+		Calendar date2 = Calendar.getInstance();
+		
+		date1.add(Calendar.MONTH, -1);
+		date2.add(Calendar.MONTH, -1);
+
+		int lastDayOfLastMonth = date2.getActualMaximum(Calendar.DAY_OF_MONTH);
+		
+		date1.set(Calendar.DAY_OF_MONTH, 1);
+		date2.set(Calendar.DAY_OF_MONTH, lastDayOfLastMonth);
+		double totalIncome = totalIncome (date1, date2);
+		return totalIncome ;
+	}
 
     
     //============================================
@@ -537,6 +571,17 @@ public class AppSystem {
             }
         }
         return false;
+    }
+    
+    private double totalIncome(Calendar cal1, Calendar cal2) {
+		double totalProfit = 0 ;
+		for(Order order : AppSystem.getOrders()){
+			Calendar dateOfOrder = order.getOrderDate();
+			if ((dateOfOrder.compareTo(cal1)>=0)&&(dateOfOrder.compareTo(cal2)<=0)){
+				totalProfit += order.getTotalPrice() ;
+			}
+		}
+		return totalProfit;
     }
     
 
