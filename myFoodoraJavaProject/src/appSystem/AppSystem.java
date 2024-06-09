@@ -10,8 +10,10 @@ import food.*;
 import Exceptions.*;
 import delivery.DeliveryPolicy;
 import delivery.FastestDeliveryPolicy;
-import user.*;
+import targetProfit.ServiceFeeTargetPolicy;
+import targetProfit.TargetProfitPolicy;
 
+import user.*;
 public class AppSystem {
     /**
      * Singleton instance of the Application
@@ -32,7 +34,63 @@ public class AppSystem {
     
     private static Optional<UserType> currentUserType;
     
-    private static DeliveryPolicy deliveryPolicy = new FastestDeliveryPolicy();
+    private double totalIncomeLastMonth;
+    
+	private static DeliveryPolicy deliveryPolicy = new FastestDeliveryPolicy();
+	private static TargetProfitPolicy targetProfitPolicy = new ServiceFeeTargetPolicy();
+
+	private double serviceFee = 2;
+	private double markupPercentage = 3.0;
+	private double deliveryCost = 5;
+    
+	
+    public static TargetProfitPolicy getTargetProfitPolicy() {
+		return targetProfitPolicy;
+	}
+
+	public static void setTargetProfitPolicy(TargetProfitPolicy targetProfitPolicy) {
+		AppSystem.targetProfitPolicy = targetProfitPolicy;
+	}
+
+	public static DeliveryPolicy getDeliveryPolicy() {
+		return deliveryPolicy;
+	}
+
+	public double getTotalIncomeLastMonth() {
+		return totalIncomeLastMonth;
+	}
+
+	public void setTotalIncomeLastMonth(double totalIncomeLastMonth) {
+		this.totalIncomeLastMonth = totalIncomeLastMonth;
+	}
+    
+	public double getServiceFee() {
+		return serviceFee;
+	}
+
+	public void setServiceFee(double serviceFee) {
+		this.serviceFee = serviceFee;
+	}
+
+	public double getMarkupPercentage() {
+		return markupPercentage;
+	}
+
+	public void setMarkupPercentage(double markupPercentage) {
+		this.markupPercentage = markupPercentage;
+	}
+
+	public double getDeliveryCost() {
+		return deliveryCost;
+	}
+
+	public void setDeliveryCost(double deliveryCost) {
+		this.deliveryCost = deliveryCost;
+	}
+
+	public static List<Order> getOrders() {
+		return orders;
+	}
 
     public List<Manager> getManagers() {
         return managers;
@@ -130,6 +188,15 @@ public class AppSystem {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
     		Manager manager = (Manager) currentUser.get();
     		manager.setDeliveryPolicy(deliveryPolicyName);
+    	} else {
+    		throw new NoPermissionException("Only managers can perform this action.");
+    	}
+    }
+    
+    public void setProfitPolicyName(String profitPolicyName) throws NoPermissionException, unknownProfitPolicyException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		Manager manager = (Manager) currentUser.get();
+    		manager.setTargetProfitPolicy(profitPolicyName);
     	} else {
     		throw new NoPermissionException("Only managers can perform this action.");
     	}

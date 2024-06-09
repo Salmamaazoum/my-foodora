@@ -5,10 +5,13 @@ import java.util.Calendar;
 import java.util.List;
 
 import Exceptions.unknownDeliveryPolicyException;
+import Exceptions.unknownProfitPolicyException;
 import appSystem.AppSystem;
 import delivery.DeliveryPolicy;
 import delivery.DeliveryPolicyFactory;
 import food.MenuComponent;
+import targetProfit.TargetProfitPolicy;
+import targetProfit.TargetProfitPolicyFactory;
 import user.Courier;
 import user.CourierSorter;
 import food.FoodItem;
@@ -16,21 +19,20 @@ import food.Menu;
 
 public class Manager extends User {
 	
-	private String surname;
-	private DeliveryPolicyFactory deliveryPolicyFactory ;
 	private AppSystem appSystem;
+	private String surname;
+	
+	private DeliveryPolicyFactory deliveryPolicyFactory;
+	private TargetProfitPolicyFactory targetProfitPolicyFactory;
+
 	
     public Manager( String name, String username, String password, String surname) {
         super( name, username, password);
         this.surname = surname;
         this.deliveryPolicyFactory = new DeliveryPolicyFactory();
+        this.deliveryPolicyFactory = new DeliveryPolicyFactory();
         this.appSystem = AppSystem.getInstance();
     }
-    
-	public void setDeliveryPolicy (String deliveryPolicyChoice) throws unknownDeliveryPolicyException{
-		DeliveryPolicy deliveryPolicy = deliveryPolicyFactory.chooseDeliveryPolicy(deliveryPolicyChoice);
-		appSystem.setDeliveryPolicy(deliveryPolicy);
-	}
 	
 	public void showSortedCouriers() {
 		
@@ -80,4 +82,14 @@ public class Manager extends User {
     	}
     	
     }
+    
+	public void setTargetProfitPolicy (String targetProfitPolicyName) throws unknownProfitPolicyException{
+		TargetProfitPolicy targetProfitPolicy = targetProfitPolicyFactory.chooseTargetProfitPolicy(targetProfitPolicyName);
+		AppSystem.setTargetProfitPolicy(targetProfitPolicy);
+	}
+	
+	public void setDeliveryPolicy (String deliveryPolicyName) throws unknownDeliveryPolicyException{
+		DeliveryPolicy deliveryPolicy = deliveryPolicyFactory.chooseDeliveryPolicy(deliveryPolicyName);
+		appSystem.setDeliveryPolicy(deliveryPolicy);
+	}
 }

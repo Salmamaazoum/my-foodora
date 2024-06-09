@@ -197,6 +197,34 @@ public class AppSystemCLI {
 					System.out.println("Usage :  showMenuItem <restaurant-name>");
 				}
 				break;
+				
+			case "setDeliveryPolicy":
+				if (parts.length == 2) {
+					String delPolicyName = parts[1];
+					try {
+						appSystem.setDeliveryPolicyName(delPolicyName);
+						System.out.println("Delivery policy changed successfully");
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : setDeliveryPolicy <delPolicyName>");
+				}
+				break;
+				
+			case "setProfitPolicy":
+				if (parts.length == 2) {
+					String ProfPolicyName = parts[1];
+					try {
+						appSystem.setProfitPolicyName(ProfPolicyName);
+						System.out.println("Profit policy changed successfully");
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : setProfitPolicy <ProfitPolicyName>");
+				}
+				break;
 
 			/*
 			 * Customer related Tasks
@@ -480,20 +508,6 @@ public class AppSystemCLI {
 					}
 				} else {
 					System.out.println("Usage : showSortedDishes <>");
-				}
-				break;
-				
-			case "setDeliveryPolicy":
-				if (parts.length == 2) {
-					String delPolicyName = parts[1];
-					try {
-						appSystem.setDeliveryPolicyName(delPolicyName);
-						System.out.println("Delivery policy changed successfully");
-					} catch (Exception e) {
-						System.out.println(e.getMessage());
-					}
-				} else {
-					System.out.println("Usage : setDeliveryPolicy <delPolicyName>");
 				}
 				break;
 				
