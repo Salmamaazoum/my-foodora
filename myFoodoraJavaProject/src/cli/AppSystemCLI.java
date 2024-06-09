@@ -228,9 +228,8 @@ public class AppSystemCLI {
 				
 			case "showTotalProfit":
 				if (parts.length == 1) {
-					String ProfPolicyName = parts[1];
 					try {
-						System.out.println("Total Profit:" );
+						System.out.println("Total Profit:" + appSystem.totalIncome(null, null)  );
 					} catch (Exception e) {
 						System.out.println(e.getMessage());
 					}
