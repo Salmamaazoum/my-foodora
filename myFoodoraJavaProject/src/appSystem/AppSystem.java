@@ -12,7 +12,7 @@ import delivery.DeliveryPolicy;
 import delivery.FastestDeliveryPolicy;
 import targetProfit.ServiceFeeTargetPolicy;
 import targetProfit.TargetProfitPolicy;
-
+import FidelityCards.*;
 import user.*;
 public class AppSystem {
     /**
@@ -42,6 +42,30 @@ public class AppSystem {
 	private double serviceFee = 2;
 	private double markupPercentage = 3.0;
 	private double deliveryCost = 5;
+    
+
+
+	private AppSystem() {
+        currentUser = Optional.empty();
+        currentUserType = Optional.empty();
+
+    }
+	
+	
+
+    public void addDefaultManagers() {
+    	// Add default managers
+        Manager salma = new Manager("Salma", "Salma", "1234", "Salma");
+        Manager hala = new Manager("Hala", "Hala", "1234", "Salma");
+    	managers.add(salma);
+    	managers.add(hala);
+    }
+    public static AppSystem getInstance() {
+        if (instance == null) {
+            instance = new AppSystem();
+        }
+        return instance;
+    }
     
 	
     public static TargetProfitPolicy getTargetProfitPolicy() {
@@ -117,27 +141,6 @@ public class AppSystem {
     public static Optional<UserType> getCurrentUserType() {
 		return currentUserType;
 	}
-
-	private AppSystem() {
-
-
-        // Add default managers
-        Manager salma = new Manager("Salma", "Salma", "1234", "Salma");
-        Manager hala = new Manager("Hala", "Hala", "1234", "Salma");
-
-        managers.add(salma);
-        managers.add(hala);
-        currentUser = Optional.empty();
-        currentUserType = Optional.empty();
-
-    }
-
-    public static AppSystem getInstance() {
-        if (instance == null) {
-            instance = new AppSystem();
-        }
-        return instance;
-    }
     
     public void setDeliveryPolicy(DeliveryPolicy deliveryPolicy) throws unknownDeliveryPolicyException {
     	this.deliveryPolicy = deliveryPolicy;
@@ -158,7 +161,9 @@ public class AppSystem {
         currentUserType = Optional.empty();
     }
     
-    // Manager Tasks
+    /*
+     *  Manager Tasks
+     */
 
     public void registerCustomer(Customer customer) throws NoPermissionException {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
@@ -234,11 +239,33 @@ public class AppSystem {
     		throw new NoPermissionException("Only Managers can perform this action");
     }
     
+    public Customer findCustomerUsingUserName(String userName) throws NotFoundException {
+    	Customer customer = null;
+    	for (Customer c : this.customers) {
+    		if (c.getUsername().equals(userName)) {
+    			customer = c;
+    		}
+    	}
+    	if (customer == null)
+    		throw new NotFoundException("The customer "+userName+" does not exist in the database.");
+    	return customer;
+    }
     
+    public void associateCard(String userName, String cardType) throws NotFoundException, NoPermissionException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		FidelityCard card = FidelityCardFactory.createFidelityCard(cardType);
+    		Customer customer = this.findCustomerUsingUserName(userName);
+    		((Manager)currentUser.get()).associateCard(customer, card);
+    	}
+    	else
+    		throw new NoPermissionException("Only Managers can perform this action");
+    }
 
     
     //============================================
-    // Customer Tasks
+    /*
+     *  Customer Tasks
+     */
     
     public Order createOrder(String restaurantName) throws NoPermissionException, NotFoundException{
     	Order order = null;

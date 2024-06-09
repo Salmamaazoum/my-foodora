@@ -30,6 +30,7 @@ public class AppSystemCLI {
 
 	public static void main(String[] args) {
 		appSystem = AppSystem.getInstance();
+		appSystem.addDefaultManagers();
 		Scanner scanner = new Scanner(System.in);
 
 		printWelcomeMessage();
@@ -225,6 +226,21 @@ public class AppSystemCLI {
 					System.out.println("Usage : setProfitPolicy <ProfitPolicyName>");
 				}
 				break;
+				
+			case "associateCard" :
+				if (parts.length == 3) {
+					String userName = parts[1];
+					String cardType = parts[2];
+					try {
+						appSystem.associateCard(userName,cardType);
+						System.out.println("Fidelity card of type "+cardType+" has been assigned successfully to customer "+userName+"!" );
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : associateCard <userName> <cardType>");
+				}
+				break;
 
 			/*
 			 * Customer related Tasks
@@ -324,6 +340,19 @@ public class AppSystemCLI {
 					}
 				} else {
 					System.out.println("Usage : unregisterFidelityCard <>");
+				}
+				break;
+				
+			case "displayFidelityCardInfo":
+				if (parts.length == 1) {
+					
+					try {
+						appSystem.displayFidelityCardInfo();
+					} catch (Exception e) {
+						System.out.println("Fail to display Fidelity Card information!" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : displayFidelityCardInfo <>");
 				}
 				break;
 

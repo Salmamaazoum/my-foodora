@@ -16,6 +16,7 @@ import user.Courier;
 import user.CourierSorter;
 import food.FoodItem;
 import food.Menu;
+import FidelityCards.*;
 
 public class Manager extends User {
 	
@@ -91,5 +92,9 @@ public class Manager extends User {
 	public void setDeliveryPolicy (String deliveryPolicyName) throws unknownDeliveryPolicyException{
 		DeliveryPolicy deliveryPolicy = deliveryPolicyFactory.chooseDeliveryPolicy(deliveryPolicyName);
 		appSystem.setDeliveryPolicy(deliveryPolicy);
+	}
+	
+	public void associateCard(Customer c, FidelityCard f) {
+		c.setFidelityCard(f);
 	}
 }
