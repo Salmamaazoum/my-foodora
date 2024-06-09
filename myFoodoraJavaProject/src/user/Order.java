@@ -12,6 +12,8 @@ public class Order {
 	private Restaurant restaurant;
 	
     private static int idCounter = 0;
+    
+    private AppSystem appSystem;
 
     private int id;
     
@@ -28,6 +30,10 @@ public class Order {
     private Map<Meal,Integer> orderMeals = new HashMap<Meal,Integer>();
     
     private double price;
+    
+    private double profit;
+    
+    private double totalPrice;
 
     
     public Order (String restaurantName, Customer customer) {
@@ -40,6 +46,7 @@ public class Order {
     	this.id = ++idCounter;
     	this.orderDate = Calendar.getInstance();
     	this.customer=customer;
+    	this.appSystem = AppSystem.getInstance();
     	
     }
     
@@ -79,12 +86,25 @@ public class Order {
     	
     	FidelityCard fidelityCard = this.customer.getFidelityCard();
     	
-    	return fidelityCard.computeOrderPrice(this);
+    	price = fidelityCard.computeOrderPrice(this);
+    	
+    	return price;
     }
     
     public void submitOrder(double price) {
     	
+    	double serviceFee = appSystem.getServiceFee();
+    	double markupPercentage = appSystem.getMarkupPercentage();
+    	double deliveryCost = appSystem.getDeliveryCost();
+    	
+    
+    	profit = price* markupPercentage + serviceFee - deliveryCost;
+    	totalPrice = price *(1+ markupPercentage) + serviceFee;
+    	
+    	AppSystem.getDeliveryPolicy().allocateCourierToOrder(appSystem.getCouriers(), this);
+    	appSystem.addOrder(this);
     	this.customer.getOrderHistory().add(this);
+    	
     	
     	/*
     	 * Update ordered frequency of chosen items of this submitted order!
@@ -110,6 +130,14 @@ public class Order {
     
     
     
+	public double getProfit() {
+		return profit;
+	}
+
+	public void setProfit(double profit) {
+		this.profit = profit;
+	}
+
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}
@@ -164,6 +192,16 @@ public class Order {
 	
 	public void setCourier(Courier courier) {
 		this.courier = courier;
+	}
+	
+	
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	@Override

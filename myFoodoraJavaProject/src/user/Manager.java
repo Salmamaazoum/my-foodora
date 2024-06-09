@@ -97,4 +97,24 @@ public class Manager extends User {
 	public void associateCard(Customer c, FidelityCard f) {
 		c.setFidelityCard(f);
 	}
+
+	public double computeTotalProfit() {
+		double totalProfit = 0 ;
+		for(Order order : AppSystem.getOrders()){
+			totalProfit = totalProfit +order.getProfit();
+		}
+		return totalProfit;
+	}
+	
+	public double computeTotalProfit(Calendar cal1, Calendar cal2) {
+		double totalProfit = 0 ;
+		for(Order order : AppSystem.getOrders()){
+			Calendar dateOfOrder = order.getOrderDate();
+			if ((dateOfOrder.compareTo(cal1)>=0)&&(dateOfOrder.compareTo(cal2)<=0)){
+				totalProfit += order.getProfit() ;
+			}
+		}
+		return totalProfit;
+	}
+
 }
