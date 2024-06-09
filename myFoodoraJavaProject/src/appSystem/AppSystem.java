@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Map.Entry;
 import food.*;
-
-import javax.naming.NoPermissionException;
-
+import Exceptions.*;
+import delivery.DeliveryPolicy;
+import delivery.FastestDeliveryPolicy;
 import user.*;
 
 public class AppSystem {
@@ -31,6 +31,8 @@ public class AppSystem {
     private static Optional<User> currentUser ;
     
     private static Optional<UserType> currentUserType;
+    
+    private static DeliveryPolicy deliveryPolicy = new FastestDeliveryPolicy();
 
     public List<Manager> getManagers() {
         return managers;
@@ -78,6 +80,10 @@ public class AppSystem {
         }
         return instance;
     }
+    
+    public void setDeliveryPolicy(DeliveryPolicy deliveryPolicy) throws unknownDeliveryPolicyException {
+    	this.deliveryPolicy = deliveryPolicy;
+    }
 
     public boolean login(String username, String password) {
         if (tryLogin(managers, username, password, UserType.MANAGER) ||
@@ -119,6 +125,50 @@ public class AppSystem {
     	throw new NoPermissionException("Only managers can perform this action.");
     	}
     }
+    
+    public void setDeliveryPolicyName(String deliveryPolicyName) throws NoPermissionException, unknownDeliveryPolicyException {
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		Manager manager = (Manager) currentUser.get();
+    		manager.setDeliveryPolicy(deliveryPolicyName);
+    	} else {
+    		throw new NoPermissionException("Only managers can perform this action.");
+    	}
+    }
+    
+    public void showSortedCouriers() throws NoPermissionException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		((Manager)currentUser.get()).showSortedCouriers();
+    	}
+    	else
+    		throw new NoPermissionException("Only Managers can perform this action");
+    }
+    
+    public void showSortedRestaurants() throws NoPermissionException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		((Manager)currentUser.get()).showSortedRestaurants();
+    	}
+    	else
+    		throw new NoPermissionException("Only Managers can perform this action");
+    }
+    
+    public void showCustomers() throws NoPermissionException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		((Manager)currentUser.get()).showCustomers();
+    	}
+    	else
+    		throw new NoPermissionException("Only Managers can perform this action");
+    }
+    
+    public void showMenuItem(String restaurantName) throws NoPermissionException{
+    	if (currentUserType.isPresent() && currentUserType.get() == UserType.MANAGER) {
+    		((Manager)currentUser.get()).showMenuItems(restaurantName);
+    	}
+    	else
+    		throw new NoPermissionException("Only Managers can perform this action");
+    }
+    
+    
+
     
     //============================================
     // Customer Tasks
@@ -372,7 +422,7 @@ public class AppSystem {
     }
     
     /*
-     * Courrier related tasks
+     * Courier related tasks
      */
     public void setOnDuty(String username, boolean isOnDuty) throws NoPermissionException {
     	if (currentUserType.isPresent() && currentUserType.get() == UserType.COURIER && currentUser.get().getUsername().equals(username)) {

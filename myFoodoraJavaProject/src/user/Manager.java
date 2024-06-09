@@ -1,15 +1,83 @@
 package user;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import Exceptions.unknownDeliveryPolicyException;
 import appSystem.AppSystem;
+import delivery.DeliveryPolicy;
+import delivery.DeliveryPolicyFactory;
+import food.MenuComponent;
+import user.Courier;
+import user.CourierSorter;
+import food.FoodItem;
+import food.Menu;
 
 public class Manager extends User {
 	
-	String surname;
+	private String surname;
+	private DeliveryPolicyFactory deliveryPolicyFactory ;
+	private AppSystem appSystem;
 	
     public Manager( String name, String username, String password, String surname) {
         super( name, username, password);
         this.surname = surname;
+        this.deliveryPolicyFactory = new DeliveryPolicyFactory();
+        this.appSystem = AppSystem.getInstance();
     }
     
-    
+	public void setDeliveryPolicy (String deliveryPolicyChoice) throws unknownDeliveryPolicyException{
+		DeliveryPolicy deliveryPolicy = deliveryPolicyFactory.chooseDeliveryPolicy(deliveryPolicyChoice);
+		appSystem.setDeliveryPolicy(deliveryPolicy);
+	}
+	
+	public void showSortedCouriers() {
+		
+		ArrayList<Courier> couriers = new ArrayList<Courier>(appSystem.getCouriers());
+	    CourierSorter sorter = new CourierSorter();
+	    ArrayList<Courier> sortedCouriers = sorter.sort(couriers);
+		System.out.println("Couriers:");
+		for (Courier courier : sortedCouriers) {
+			System.out.println(courier);
+	}
+
+	}
+	
+	public void showSortedRestaurants() {
+		
+		ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>(AppSystem.getRestaurants());
+	    RestaurantSorter sorter = new RestaurantSorter();
+	    ArrayList<Restaurant> sortedRestaurants = sorter.sort(restaurants);
+		System.out.println("Couriers:");
+		for (Restaurant restaurant : sortedRestaurants) {
+			System.out.println(restaurant);
+	}
+
+	}
+	
+	public void showCustomers() {
+		
+		List<Customer> customers = appSystem.getCustomers();
+
+		for (Customer customer : customers) {
+			System.out.println(customer);
+	}
+
+	}
+	
+    public void showMenuItems (String restaurantName) {
+    	Menu menu = null;
+    	
+    	for (Restaurant restaurant : AppSystem.getRestaurants()) {
+    		if (restaurant.getName().equalsIgnoreCase(restaurantName))
+    			menu = restaurant.getMenu();
+    			break;
+    	}
+    	
+    	for (FoodItem item: menu.getItems()) {
+    		System.out.println(item);
+    	}
+    	
+    }
 }

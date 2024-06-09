@@ -113,6 +113,10 @@ public class AppSystemCLI {
 				}
 				break;
 
+				/*
+				 * Manager related Tasks
+				 */
+
 			case "registerRestaurant":
 				if (parts.length == 4) {
 
@@ -151,6 +155,46 @@ public class AppSystemCLI {
 					}
 				} else {
 					System.out.println("Usage: registerRestaurant <name> <username> <password>");
+				}
+				break;
+				
+			case "showCourierDeliveries":
+				if (parts.length == 1) {
+					try {
+						appSystem.showSortedCouriers();
+
+					} catch (Exception e) {
+						System.out.println("Fail to display sorted Couriers !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : showCourierDeliveries <>");
+				}
+				break;
+				
+			case "showRestaurantsTop":
+				if (parts.length == 1) {
+					try {
+						appSystem.showSortedRestaurants();
+
+					} catch (Exception e) {
+						System.out.println("Fail to display sorted Restaurants !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : showRestaurantTop <>");
+				}
+				break;
+				
+			case "showMenuItem":
+				if (parts.length == 2) {
+					String RestaurantName = parts[1];
+					try {
+						appSystem.showMenuItem(RestaurantName);
+
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				} else {
+					System.out.println("Usage :  showMenuItem <restaurant-name>");
 				}
 				break;
 
@@ -412,7 +456,51 @@ public class AppSystemCLI {
 					System.out.println("Usage : setSpecialOffer <mealName>");
 				}
 				break;
-			
+				
+			case "showSortedHalfMeals":
+				if (parts.length == 1) {
+					try {
+						appSystem.showSortedHalfMeals();
+
+					} catch (Exception e) {
+						System.out.println("Fail to display sorted half meals !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : showSortedHalfMeals <>");
+				}
+				break;
+				
+			case "showSortedDishes":
+				if (parts.length == 1) {
+					try {
+						appSystem.showSortedDishes();
+
+					} catch (Exception e) {
+						System.out.println("Fail to display sorted dishes !" + e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : showSortedDishes <>");
+				}
+				break;
+				
+			case "setDeliveryPolicy":
+				if (parts.length == 2) {
+					String delPolicyName = parts[1];
+					try {
+						appSystem.setDeliveryPolicyName(delPolicyName);
+						System.out.println("Delivery policy changed successfully");
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				} else {
+					System.out.println("Usage : setDeliveryPolicy <delPolicyName>");
+				}
+				break;
+				
+				/*
+				 * Courier related Tasks
+				 */
+				
             case "onDuty":
             	if (parts.length==2) {
             		String username = parts[1];
@@ -446,32 +534,7 @@ public class AppSystemCLI {
             		System.out.println("Usage : onDuty <username>");
             	}
             	break;
-				
-			case "showSortedHalfMeals":
-				if (parts.length == 1) {
-					try {
-						appSystem.showSortedHalfMeals();
-
-					} catch (Exception e) {
-						System.out.println("Fail to display sorted half meals !" + e.getMessage());
-					}
-				} else {
-					System.out.println("Usage : showSortedHalfMeals <>");
-				}
-				break;
-				
-			case "showSortedDishes":
-				if (parts.length == 1) {
-					try {
-						appSystem.showSortedDishes();
-
-					} catch (Exception e) {
-						System.out.println("Fail to display sorted dishes !" + e.getMessage());
-					}
-				} else {
-					System.out.println("Usage : showSortedDishes <>");
-				}
-				break;
+					
 
 			default:
 				System.out.println("Unknown command: " + command);

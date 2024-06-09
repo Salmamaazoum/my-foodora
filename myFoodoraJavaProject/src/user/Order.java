@@ -21,6 +21,8 @@ public class Order {
     
     private Courier courier;
     
+	private Calendar dateOfOrder = Calendar.getInstance();
+    
     private Map<FoodItem,Integer> orderItems = new HashMap<FoodItem,Integer>(); //map food item into its corresponding quantity
 	
     private Map<Meal,Integer> orderMeals = new HashMap<Meal,Integer>();
@@ -31,7 +33,8 @@ public class Order {
     public Order (String restaurantName, Customer customer) {
     	for (Restaurant restaurant : AppSystem.getRestaurants()) {
     		if (restaurant.getName().equalsIgnoreCase(restaurantName))
-    			this.restaurant=restaurant;   		
+    			this.restaurant=restaurant;
+    			restaurant.incrementOrderCounter();
     	}
     	
     	this.id = ++idCounter;

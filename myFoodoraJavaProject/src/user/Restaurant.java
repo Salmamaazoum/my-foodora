@@ -3,6 +3,7 @@ package user;
 import food.*;
 import java.util.*;
 
+import Exceptions.NotFoundException;
 import NotificationService.NotificationService;
 import NotificationService.Offer;
 import appSystem.AppSystem;
@@ -19,6 +20,16 @@ public class Restaurant extends User {
 	
 	private double specialDiscount = 0.1;
 	
+	private int orderCounter = 0;
+	
+	public int getOrderCounter() {
+		return orderCounter;
+	}
+
+	public void incrementOrderCounter() {
+		this.orderCounter ++;
+	}
+
 	private MealPriceCalculationStrategy mealPriceStrategy = new MealPriceCalculationStrategyDiscount();
 	
 	private FoodFactory foodFactory = new FoodFactory();
@@ -314,6 +325,13 @@ public class Restaurant extends User {
 	    }
 
 	    System.out.println(output.toString());
+	}
+	
+	@Override
+	public String toString() {
+		return "Restaurant [address=" + address + ", genericDiscount=" + genericDiscount + ", specialDiscount="
+				+ specialDiscount + ", orderCounter=" + orderCounter + ", id=" + id + ", name=" + name + ", username="
+				+ username + "]";
 	}
 
 	

@@ -1,9 +1,14 @@
-package user;
+package Tests;
 
+import Exceptions.NotFoundException;
 import appSystem.AppSystem;
 import food.BadMealCompositionCreationException;
 import food.FoodItem;
 import food.Meal;
+import user.Coordinate;
+import user.Customer;
+import user.Order;
+import user.Restaurant;
 
 public class RestaurantTest {
 	public static void main(String[] args) throws NotFoundException, BadMealCompositionCreationException {
